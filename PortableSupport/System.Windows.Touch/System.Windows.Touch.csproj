@@ -10,7 +10,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>System.Windows.Touch</RootNamespace>
     <AssemblyName>System.Windows</AssemblyName>
-    <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -52,7 +51,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Forwarding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
