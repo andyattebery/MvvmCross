@@ -8,17 +8,16 @@
 using System;
 using System.Windows.Input;
 using Android.Views;
-using Cirrious.MvvmCross.Binding.Interfaces;
 
 namespace Cirrious.MvvmCross.Binding.Droid.Target
 {
-    public class MvxViewLongClickBinding : MvxBaseAndroidTargetBinding
+    public class MvxViewLongClickBinding : MvxAndroidTargetBinding
     {
         private ICommand _command;
 
         protected View View
         {
-            get { return (View)Target; }
+            get { return (View) Target; }
         }
 
         public MvxViewLongClickBinding(View view)
@@ -50,7 +49,7 @@ namespace Cirrious.MvvmCross.Binding.Droid.Target
 
         public override Type TargetType
         {
-            get { return typeof(ICommand); }
+            get { return typeof (ICommand); }
         }
 
         protected override void Dispose(bool isDisposing)

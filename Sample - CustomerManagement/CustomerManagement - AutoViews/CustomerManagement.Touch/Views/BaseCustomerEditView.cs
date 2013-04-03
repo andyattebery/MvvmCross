@@ -1,6 +1,5 @@
 using Cirrious.MvvmCross.Dialog.Touch;
 using Cirrious.MvvmCross.Views;
-using Cirrious.MvvmCross.Touch.Interfaces;
 using CustomerManagement.AutoViews.Core.Models;
 using CustomerManagement.AutoViews.Core.ViewModels;
 using MonoTouch.UIKit;
@@ -13,7 +12,7 @@ namespace CustomerManagement.Touch.Views
         , IMvxModalTouchView
         where TViewModel : BaseEditCustomerViewModel
     {
-        public BaseCustomerEditView(MvxShowViewModelRequest request)
+        public BaseCustomerEditView(MvxViewModelRequest request)
             : base(request, UITableViewStyle.Grouped, null, true)
         {
         }

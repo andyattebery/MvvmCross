@@ -5,22 +5,17 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Plugins;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Plugins;
 
 namespace Cirrious.MvvmCross.Plugins.Sqlite.Droid
 {
     public class Plugin
-        : IMvxPlugin
-          
+        : IMvxPlugin          
     {
-        #region Implementation of IMvxPlugin
-
         public void Load()
         {
             Mvx.RegisterSingleton<ISQLiteConnectionFactory>(new MvxDroidSQLiteConnectionFactory());
         }
-
-        #endregion
     }
 }

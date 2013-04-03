@@ -1,25 +1,15 @@
 using Android.App;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Droid.Views;
 using Cirrious.MvvmCross.Droid.Views;
+using Cirrious.MvvmCross.ViewModels;
 using TwitterSearch.Core.ViewModels;
 
 namespace TwitterSearch.UI.Droid.Views
 {
     [Activity(Label = "TwitterSearch")]
-    public class HomeView : MvxActivityView
+    public class HomeView : MvxActivity
     {
-        public new HomeViewModel ViewModel
-        {
-            get { return (HomeViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
-        }
-
-        public HomeView()
-        {
-            MvxTrace.Trace("Constructo called");
-        }
-
         protected override void OnCreate(Android.OS.Bundle bundle)        
         {
             MvxTrace.Trace("OnCreate called with {0}", bundle == null);

@@ -5,12 +5,9 @@ using System.Collections.Generic;
 using Cirrious.Conference.Core.Interfaces;
 using Cirrious.Conference.Core.Models.Raw;
 using Cirrious.CrossCore.Core;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform;
-using Cirrious.MvvmCross.Interfaces.Platform;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Plugins.File;
-using Cirrious.MvvmCross.Plugins.Json;
-using Cirrious.MvvmCross.Plugins.ResourceLoader;
 using Cirrious.MvvmCross.Plugins.Messenger;
 
 namespace Cirrious.Conference.Core.Models
@@ -62,7 +59,7 @@ namespace Cirrious.Conference.Core.Models
 			FireMessage(new FavoritesChangedMessage(this));
         }
 
-		private void FireMessage(MvxBaseMessage message)
+		private void FireMessage(MvxMessage message)
 		{
 			var messenger = Mvx.Resolve<IMvxMessenger>();
 			messenger.Publish(message);

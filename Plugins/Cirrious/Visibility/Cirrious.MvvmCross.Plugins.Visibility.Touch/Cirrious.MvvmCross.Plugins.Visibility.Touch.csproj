@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,13 +11,15 @@
     <RootNamespace>Cirrious.MvvmCross.Plugin.Visibility.Touch</RootNamespace>
     <AssemblyName>Cirrious.MvvmCross.Plugin.Visibility.Touch</AssemblyName>
     <TargetFrameworkProfile />
+    <RootNamespace>Cirrious.MvvmCross.Plugins.Visibility.Touch</RootNamespace>
+    <AssemblyName>Cirrious.MvvmCross.Plugins.Visibility.Touch</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <NoStdLib>True</NoStdLib>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\..\..\bin\Touch\Debug</OutputPath>
+    <OutputPath>..\..\..\..\bin\Debug\Mvx\Touch\</OutputPath>
     <DefineConstants>DEBUG;MONOTOUCH</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +32,7 @@
     <NoStdLib>True</NoStdLib>
     <DebugType>none</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\..\..\bin\Touch\Release</OutputPath>
+    <OutputPath>..\..\..\..\bin\Release\Mvx\Touch\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -67,9 +69,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="6c3da376-dc4a-4b8c-924d-070c19f72bb7" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

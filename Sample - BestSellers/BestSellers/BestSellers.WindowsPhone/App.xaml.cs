@@ -10,8 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.IoC;
+using Cirrious.MvvmCross.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
@@ -88,8 +88,8 @@ namespace BestSellers.WindowsPhone
 
                 navigatingArgs.Cancel = true;
                 _onceOnlyNavigation = true;
-                var applicationStart = Mvx.Resolve<IMvxStartNavigation>();
-                RootFrame.Dispatcher.BeginInvoke(applicationStart.Start);
+                var applicationStart = Mvx.Resolve<IMvxAppStart>();
+                RootFrame.Dispatcher.BeginInvoke(() => applicationStart.Start());
             };
         }
 

@@ -7,11 +7,11 @@
 
 using System;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding;
-using Cirrious.MvvmCross.Binding.Droid.Interfaces.BindingContext;
-using Cirrious.MvvmCross.Binding.Interfaces;
+using Cirrious.MvvmCross.Binding.Binders;
+using Cirrious.MvvmCross.Binding.Droid.BindingContext;
 using CrossUI.Core.Builder;
 
 namespace Cirrious.MvvmCross.AutoView.Droid.Builders
@@ -19,12 +19,12 @@ namespace Cirrious.MvvmCross.AutoView.Droid.Builders
     public class MvxBindingPropertySetter : IPropertySetter
 
     {
-        private readonly IMvxBindingContext _droidBindingContext;
+        private readonly IMvxAndroidBindingContext _androidBindingContext;
         private readonly object _source;
 
-        public MvxBindingPropertySetter(IMvxBindingContext droidBindingContext, object source)
+        public MvxBindingPropertySetter(IMvxAndroidBindingContext androidBindingContext, object source)
         {
-            _droidBindingContext = droidBindingContext;
+            _androidBindingContext = androidBindingContext;
             _source = source;
         }
 
@@ -34,7 +34,7 @@ namespace Cirrious.MvvmCross.AutoView.Droid.Builders
             {
                 var binding = Mvx.Resolve<IMvxBinder>()
                                  .BindSingle(_source, element, targetPropertyName, configuration);
-                _droidBindingContext.RegisterBinding(binding);
+                _androidBindingContext.RegisterBinding(binding);
             }
             catch (Exception exception)
             {

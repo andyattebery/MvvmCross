@@ -5,24 +5,18 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Plugins;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Plugins;
 
 namespace Cirrious.MvvmCross.Plugins.SoundEffects.WindowsPhone
 {
+#warning One day I would like to decouple this implementation from the ResourceLoader plugin
     public class Plugin
-        : IMvxPlugin
-          
+        : IMvxPlugin          
     {
-        #region Implementation of IMvxPlugin
-
         public void Load()
         {
-            ResourceLoader.PluginLoader.Instance.EnsureLoaded();
-
             Mvx.RegisterType<IMvxSoundEffectLoader, MvxSoundEffectObjectLoader>();
         }
-
-        #endregion
     }
 }

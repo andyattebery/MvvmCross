@@ -9,36 +9,32 @@
 
 using System;
 using System.Collections.Generic;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Interfaces.Views;
+using Cirrious.CrossCore.Core;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
 
 namespace TwitterSearch.Test.Mocks
 {
-    public class MockMvxViewDispatcher : IMvxViewDispatcher
+    public class MockMvxViewDispatcher : MvxMainThreadDispatcher, IMvxViewDispatcher
     {
         public List<IMvxViewModel> CloseRequests = new List<IMvxViewModel>();
-        public List<MvxShowViewModelRequest> NavigateRequests = new List<MvxShowViewModelRequest>();
+        public List<MvxViewModelRequest> NavigateRequests = new List<MvxViewModelRequest>();
 
-        #region IMvxViewDispatcher implementation
-
-        public bool RequestNavigate(MvxShowViewModelRequest request)
+        public bool ShowViewModel(MvxViewModelRequest request)
         {
             NavigateRequests.Add(request);
             return true;
         }
 
-        #endregion
-
-        #region IMvxMainThreadDispatcher implementation
+        public bool ChangePresentation(MvxPresentationHint hint)
+        {
+            throw new NotImplementedException();
+        }
 
         public bool RequestMainThreadAction(Action action)
         {
             action();
             return true;
         }
-
-        #endregion
     }
 }

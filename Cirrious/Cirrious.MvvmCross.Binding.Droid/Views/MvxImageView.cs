@@ -11,11 +11,9 @@ using Android.Graphics;
 using Android.Runtime;
 using Android.Util;
 using Android.Widget;
-using Cirrious.CrossCore.Interfaces.Core;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.Core;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 
 namespace Cirrious.MvvmCross.Binding.Droid.Views
 {
@@ -29,8 +27,8 @@ namespace Cirrious.MvvmCross.Binding.Droid.Views
         {
             if (!Mvx.TryResolve(out _imageHelper))
             {
-                MvxTrace.Trace(MvxTraceLevel.Error,
-                               "No IMvxImageHelper registered - you must provide an image helper before you can use a MvxImageView");
+                MvxTrace.Error(
+                    "No IMvxImageHelper registered - you must provide an image helper before you can use a MvxImageView");
             }
             else
             {
@@ -38,14 +36,14 @@ namespace Cirrious.MvvmCross.Binding.Droid.Views
             }
 
             var typedArray = context.ObtainStyledAttributes(attrs,
-                                                            MvxDroidBindingResource.Instance
-                                                                                   .ImageViewStylableGroupId);
+                                                            MvxAndroidBindingResource.Instance
+                                                                                     .ImageViewStylableGroupId);
 
             int numStyles = typedArray.IndexCount;
             for (var i = 0; i < numStyles; ++i)
             {
                 int attributeId = typedArray.GetIndex(i);
-                if (attributeId == MvxDroidBindingResource.Instance.SourceBindId)
+                if (attributeId == MvxAndroidBindingResource.Instance.SourceBindId)
                 {
                     ImageUrl = typedArray.GetString(attributeId);
                 }

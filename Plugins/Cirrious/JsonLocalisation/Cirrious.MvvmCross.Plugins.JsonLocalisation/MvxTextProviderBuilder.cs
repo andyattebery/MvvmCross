@@ -8,10 +8,8 @@
 using System;
 using System.Collections.Generic;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Localization.Interfaces;
+using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.Localization;
 
 namespace Cirrious.MvvmCross.Plugins.JsonLocalisation
 {
@@ -57,7 +55,7 @@ namespace Cirrious.MvvmCross.Plugins.JsonLocalisation
                 }
                 catch (Exception exception)
                 {
-                    MvxTrace.Trace(MvxTraceLevel.Warning, "Language file could not be loaded for {0}.{1} - {2}",
+                    MvxTrace.Warning( "Language file could not be loaded for {0}.{1} - {2}",
                                    whichLocalisationFolder, kvp.Key, exception.ToLongString());
                 }
             }

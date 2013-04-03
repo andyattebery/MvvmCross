@@ -6,18 +6,14 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using System.Linq;
 using Android.Content;
 using Android.OS;
-using Cirrious.CrossCore.Droid.Interfaces;
+using Cirrious.CrossCore.Core;
+using Cirrious.CrossCore.Droid.Platform;
 using Cirrious.CrossCore.Droid.Views;
-using Cirrious.CrossCore.Interfaces.Core;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Droid.Interfaces;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Interfaces.Views;
-using Cirrious.MvvmCross.ViewModels;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.Droid.Platform;
 using Cirrious.MvvmCross.Views;
 
 namespace Cirrious.MvvmCross.Droid.Views
@@ -53,7 +49,7 @@ namespace Cirrious.MvvmCross.Droid.Views
             switch (requestCode)
             {
                 case (int) MvxIntentRequestCode.PickFromFile:
-                    MvxTrace.Trace("Warning - activity request code may clash with Mvx code for {0}",
+                    MvxTrace.Warning("Warning - activity request code may clash with Mvx code for {0}",
                                    (MvxIntentRequestCode) requestCode);
                     break;
             }
@@ -91,11 +87,18 @@ namespace Cirrious.MvvmCross.Droid.Views
 
         protected override void EventSourceOnSaveInstanceStateCalled(object sender, MvxValueEventArgs<Bundle> bundleArgs)
         {
-            var converter = Mvx.Resolve<IMvxSavedStateConverter>();
             var mvxBundle = AndroidView.CreateSaveStateBundle();
             if (mvxBundle != null)
             {
-                converter.Write(bundleArgs.Value, mvxBundle);
+                IMvxSavedStateConverter converter;
+                if (!Mvx.TryResolve<IMvxSavedStateConverter>(out converter))
+                {
+                    MvxTrace.Warning("Saved state converter not available - saving state will be hard");
+                }
+                else
+                {
+                    converter.Write(bundleArgs.Value, mvxBundle);
+                }
             }
             var cache = Mvx.Resolve<IMvxSingleViewModelCache>();
             cache.Cache(AndroidView.ViewModel, bundleArgs.Value);
@@ -107,7 +110,8 @@ namespace Cirrious.MvvmCross.Droid.Views
         {
             var sink = Mvx.Resolve<IMvxIntentResultSink>();
             var resultParameters = args.Value;
-            var intentResult = new MvxIntentResultEventArgs(resultParameters.RequestCode, resultParameters.ResultCode, resultParameters.Data);
+            var intentResult = new MvxIntentResultEventArgs(resultParameters.RequestCode, resultParameters.ResultCode,
+                                                            resultParameters.Data);
             sink.OnResult(intentResult);
         }
     }

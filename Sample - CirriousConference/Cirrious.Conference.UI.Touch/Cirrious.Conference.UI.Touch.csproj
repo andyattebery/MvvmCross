@@ -114,7 +114,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Touch">
-      <HintPath>..\..\bin\Touch\Debug\System.Net.dll</HintPath>
+      <HintPath>..\..\bin\Debug\Mvx\Touch\System.Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -390,21 +390,33 @@
       <Project>{D518E8E6-3CE6-4706-A286-E8BC6A2F64DC}</Project>
       <Name>Cirrious.MvvmCross.Plugins.Json</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\plugins\Cirrious\Network\Cirrious.MvvmCross.Plugins.Network\Cirrious.MvvmCross.Plugins.Network.csproj">
+      <Project>{8507CAFE-6A92-4267-8EBF-6FC8365FB48D}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Cirrious\Network\Cirrious.MvvmCross.Plugins.Network.Touch\Cirrious.MvvmCross.Plugins.Network.Touch.csproj">
+      <Project>{02C04423-CC72-4745-920A-80B36EB67ADB}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.Network.Touch</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\Cirrious\File\Cirrious.MvvmCross.Plugins.File\Cirrious.MvvmCross.Plugins.File.csproj">
+      <Project>{19EE04D6-7EE0-4FE8-AB10-4623D93F165A}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.File</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
-  <ItemGroup>
-    <None Include="Cells\SponsorCell.xib" />
-    <None Include="Views\SessionsView.xib" />
-    <None Include="Views\WelcomeView.xib" />
-    <None Include="Views\MapView.xib" />
-    <None Include="Views\SessionView.xib" />
-    <None Include="Cells\SessionCell.xib" />
-    <None Include="Cells\TweetCell3.xib" />
-    <None Include="Cells\SessionCell2.xib" />
-    <None Include="Cells\SeparatorCell.xib" />
-  </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="Images\Icons\512_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="Views\WelcomeView.xib" />
+    <InterfaceDefinition Include="Views\SessionView.xib" />
+    <InterfaceDefinition Include="Views\SessionsView.xib" />
+    <InterfaceDefinition Include="Views\MapView.xib" />
+    <InterfaceDefinition Include="Cells\TweetCell3.xib" />
+    <InterfaceDefinition Include="Cells\SponsorCell.xib" />
+    <InterfaceDefinition Include="Cells\SessionCell2.xib" />
+    <InterfaceDefinition Include="Cells\SessionCell.xib" />
+    <InterfaceDefinition Include="Cells\SeparatorCell.xib" />
   </ItemGroup>
 </Project>

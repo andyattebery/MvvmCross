@@ -7,10 +7,10 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Cirrious.MvvmCross.Views;
 using Tutorial.Core.ViewModels.Lessons;
-using Cirrious.MvvmCross.Binding.Interfaces;
 using Cirrious.MvvmCross.Binding.Touch.Views;
 using Tutorial.UI.Touch.Controls;
 using Cirrious.MvvmCross.Touch.Views;
+using Cirrious.MvvmCross.Binding.BindingContext;
 
 namespace Tutorial.UI.Touch.Views
 {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Cirrious.MvvmCross.Binding.Interfaces;
 using Cirrious.MvvmCross.Binding.Touch;
 using Cirrious.MvvmCross.Binding.Touch.Views;
 using Cirrious.MvvmCross.Views;
@@ -8,6 +7,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Tutorial.Core.ViewModels;
 using Cirrious.MvvmCross.Touch.Views;
+using Cirrious.MvvmCross.Binding.BindingContext;
 
 namespace Tutorial.UI.Touch.Views
 {
@@ -44,7 +44,7 @@ namespace Tutorial.UI.Touch.Views
         #region Nested classes for the table
 
         public sealed class TableViewCell
-            : MvxTableViewCell
+            : MvxStandardTableViewCell
         {
 			public const string BindingText = @"TitleText Name;DetailText FullName";
 

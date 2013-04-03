@@ -9,8 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Binding.Interfaces.Parse;
+using Cirrious.MvvmCross.Binding.Parse.Binding;
 using Cirrious.MvvmCross.Binding.Parse.Binding.Lang;
 using NUnit.Framework;
 
@@ -18,7 +17,7 @@ namespace Cirrious.MvvmCross.Binding.Test.Parse.Binding.Lang
 {
     [TestFixture]
     public class MvxLangBindingTest
-        : MvxBaseBindingTest
+        : MvxBindingTest
     {
         [Test]
         public void TestAll()

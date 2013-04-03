@@ -1,4 +1,4 @@
-using Cirrious.MvvmCross.Binding.Interfaces;
+using Cirrious.MvvmCross.Binding.Binders;
 using Cirrious.MvvmCross.Binding.Touch.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -6,7 +6,7 @@ using MonoTouch.UIKit;
 namespace CustomerManagement.Touch.Views
 {
     public class CustomerListTableViewCell
-        : MvxTableViewCell
+        : MvxStandardTableViewCell
     {
 		public const string BindingText = @"TitleText Name;DetailText Website";
 

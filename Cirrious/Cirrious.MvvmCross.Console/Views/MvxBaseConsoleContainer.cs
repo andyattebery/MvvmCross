@@ -5,7 +5,7 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.MvvmCross.Console.Interfaces;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
 
@@ -15,9 +15,14 @@ namespace Cirrious.MvvmCross.Console.Views
         : MvxViewsContainer
           , IMvxConsoleNavigation
     {
-        public abstract void Navigate(MvxShowViewModelRequest request);
+        public abstract void Show(MvxViewModelRequest request);
         public abstract void GoBack();
         public abstract void RemoveBackEntry();
         public abstract bool CanGoBack();
+        
+        public virtual void ChangePresentation(MvxPresentationHint hint)
+        {
+            MvxTrace.Warning("Hint ignored {0}", hint.GetType().Name);
+        }
     }
 }

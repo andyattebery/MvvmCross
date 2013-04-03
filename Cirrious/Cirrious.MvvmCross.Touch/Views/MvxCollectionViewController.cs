@@ -5,11 +5,8 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Touch;
 using Cirrious.CrossCore.Touch.Views;
-using Cirrious.MvvmCross.Binding.Interfaces.BindingContext;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Touch.Interfaces;
+using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.ViewModels;
 using MonoTouch.UIKit;
 
@@ -17,7 +14,7 @@ namespace Cirrious.MvvmCross.Touch.Views
 {
     public class MvxCollectionViewController
         : MvxEventSourceCollectionViewController
-          , IMvxBindingTouchView
+          , IMvxTouchView
     {
         protected MvxCollectionViewController(UICollectionViewLayout layout)
             : base(layout)
@@ -37,8 +34,8 @@ namespace Cirrious.MvvmCross.Touch.Views
             set { DataContext = value; }
         }
 
-        public MvxShowViewModelRequest ShowRequest { get; set; }
+        public MvxViewModelRequest Request { get; set; }
 
-        public IMvxBaseBindingContext<UIView> BindingContext { get; set; }
+        public IMvxBindingContext BindingContext { get; set; }
     }
 }

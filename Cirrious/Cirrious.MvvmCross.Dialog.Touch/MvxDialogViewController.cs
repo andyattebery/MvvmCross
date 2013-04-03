@@ -6,11 +6,8 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System.Collections.Generic;
-using Cirrious.CrossCore.Touch;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Binding.Interfaces.BindingContext;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Touch.Interfaces;
+using Cirrious.MvvmCross.Binding.Binders;
+using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Touch.Views;
 using Cirrious.MvvmCross.ViewModels;
 using CrossUI.Touch.Dialog.Elements;
@@ -20,7 +17,7 @@ namespace Cirrious.MvvmCross.Dialog.Touch
 {
     public class MvxDialogViewController
         : EventSourceDialogViewController
-          , IMvxBindingTouchView
+          , IMvxTouchView
     {
         protected MvxDialogViewController(UITableViewStyle style = UITableViewStyle.Grouped,
                                           RootElement root = null,
@@ -42,9 +39,9 @@ namespace Cirrious.MvvmCross.Dialog.Touch
             set { DataContext = value; }
         }
 
-        public MvxShowViewModelRequest ShowRequest { get; set; }
+        public MvxViewModelRequest Request { get; set; }
 
-        public IMvxBaseBindingContext<UIView> BindingContext { get; set; }
+        public IMvxBindingContext BindingContext { get; set; }
 
         #region Extra Binding helpers just for Elements
 

@@ -11,7 +11,7 @@ using Cirrious.CrossCore.Exceptions;
 
 namespace Cirrious.MvvmCross.Plugins.Location.WindowsPhone
 {
-    public sealed class MvxWindowsPhoneGeoLocationWatcher : MvxBaseGeoLocationWatcher
+    public sealed class MvxWindowsPhoneGeoLocationWatcher : MvxGeoLocationWatcher
     {
         private GeoCoordinateWatcher _geoWatcher;
 
@@ -88,6 +88,8 @@ namespace Cirrious.MvvmCross.Plugins.Location.WindowsPhone
             coords.Speed = coordinate.Speed;
             coords.Accuracy = coordinate.HorizontalAccuracy;
             coords.AltitudeAccuracy = coordinate.VerticalAccuracy;
+		
+#warning Heading needed?
 
             return position;
         }

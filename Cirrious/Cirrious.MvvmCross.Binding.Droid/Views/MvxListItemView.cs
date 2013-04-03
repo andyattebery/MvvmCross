@@ -6,7 +6,6 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using Android.Content;
-using Cirrious.MvvmCross.Binding.Droid.Interfaces.Views;
 
 namespace Cirrious.MvvmCross.Binding.Droid.Views
 {
@@ -23,7 +22,7 @@ namespace Cirrious.MvvmCross.Binding.Droid.Views
             : base(context, layoutInflater, dataContext)
         {
             _templateId = templateId;
-            Content = BindingContext.BindingInflate(templateId, this);
+            Content = AndroidBindingContext.BindingInflate(templateId, this);
         }
 
         public int TemplateId

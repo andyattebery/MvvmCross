@@ -1,7 +1,7 @@
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Touch.Platform;
 using Cirrious.MvvmCross.Touch.Views.Presenters;
+using Cirrious.MvvmCross.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
@@ -25,7 +25,7 @@ namespace BestSellers.Touch
             setup.Initialize();
 
             // start the app
-            var start = Mvx.Resolve<IMvxStartNavigation>();
+            var start = Mvx.Resolve<IMvxAppStart>();
             start.Start();
 
             _window.MakeKeyAndVisible();

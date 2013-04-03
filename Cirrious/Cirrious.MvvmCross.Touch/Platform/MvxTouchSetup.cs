@@ -7,20 +7,17 @@
 
 using System;
 using System.Collections.Generic;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Interfaces.Plugins;
+using System.Reflection;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.CrossCore.Plugins;
 using Cirrious.MvvmCross.Binding;
 using Cirrious.MvvmCross.Binding.Binders;
-using Cirrious.MvvmCross.Binding.Interfaces.Binders;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Target.Construction;
+using Cirrious.MvvmCross.Binding.Bindings.Target.Construction;
 using Cirrious.MvvmCross.Binding.Touch;
-using Cirrious.MvvmCross.Interfaces.Platform;
-using Cirrious.MvvmCross.Interfaces.Platform.Lifetime;
 using Cirrious.MvvmCross.Platform;
-using Cirrious.MvvmCross.Touch.Interfaces;
 using Cirrious.MvvmCross.Touch.Views;
+using Cirrious.MvvmCross.Touch.Views.Presenters;
 using Cirrious.MvvmCross.Views;
 
 namespace Cirrious.MvvmCross.Touch.Platform
@@ -45,8 +42,8 @@ namespace Cirrious.MvvmCross.Touch.Platform
 
         protected override IMvxPluginManager CreatePluginManager()
         {
-            var toReturn = new MvxLoaderBasedPluginManager();
-            var registry = new MvxLoaderPluginRegistry(".Touch", toReturn.Loaders);
+            var toReturn = new MvxLoaderPluginManager();
+            var registry = new MvxLoaderPluginRegistry(".Touch", toReturn.Finders);
             AddPluginsLoaders(registry);
             return toReturn;
         }
@@ -69,9 +66,9 @@ namespace Cirrious.MvvmCross.Touch.Platform
             Mvx.RegisterSingleton<IMvxCurrentRequest>(container);
         }
 
-        protected override MvvmCross.Interfaces.Views.IMvxViewDispatcherProvider CreateViewDispatcherProvider()
+        protected override IMvxViewDispatcher CreateViewDispatcher()
         {
-            return new MvxTouchViewDispatcherProvider(_presenter);
+            return new MvxTouchViewDispatcher(_presenter);
         }
 
         protected override void InitializePlatformServices()
@@ -80,11 +77,6 @@ namespace Cirrious.MvvmCross.Touch.Platform
             Mvx.RegisterSingleton(_presenter);
 
             Mvx.RegisterSingleton<IMvxLifetime>(_applicationDelegate);
-        }
-
-        protected override IDictionary<Type, Type> GetViewModelViewLookup()
-        {
-            return GetViewModelViewLookup(GetType().Assembly, typeof (IMvxTouchView));
         }
 
         protected override void InitializeLastChance()
@@ -101,28 +93,35 @@ namespace Cirrious.MvvmCross.Touch.Platform
 
         protected virtual MvxBindingBuilder CreateBindingBuilder()
         {
-            var bindingBuilder = new MvxTouchBindingBuilder(FillTargetFactories, FillValueConverters);
+			var bindingBuilder = new MvxTouchBindingBuilder(FillTargetFactories, FillValueConverters, FillBindingNames);
             return bindingBuilder;
         }
 
+		protected virtual void FillBindingNames (Cirrious.MvvmCross.Binding.BindingContext.IMvxBindingNameRegistry obj)
+		{
+			// this base class does nothing
+		}
+
         protected virtual void FillValueConverters(IMvxValueConverterRegistry registry)
         {
-            var holders = ValueConverterHolders;
-            if (holders == null)
-                return;
-
-            var filler = new MvxInstanceBasedValueConverterRegistryFiller(registry);
-            var staticFiller = new MvxStaticBasedValueConverterRegistryFiller(registry);
-            foreach (var converterHolder in holders)
-            {
-                filler.AddFieldConverters(converterHolder);
-                staticFiller.AddStaticFieldConverters(converterHolder);
-            }
+            registry.Fill(ValueConverterAssemblies);
+            registry.Fill(ValueConverterHolders);
         }
 
-        protected virtual IEnumerable<Type> ValueConverterHolders
+        protected virtual List<Type> ValueConverterHolders
         {
-            get { return null; }
+            get { return new List<Type>(); }
+        }
+
+        protected virtual List<Assembly> ValueConverterAssemblies
+        {
+            get
+            {
+                var toReturn = new List<Assembly>();
+                toReturn.AddRange(GetViewModelAssemblies());
+                toReturn.AddRange(GetViewAssemblies());
+                return toReturn;
+            }
         }
 
         protected virtual void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)

@@ -20,7 +20,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\bin\Portable\Debug</OutputPath>
+    <OutputPath>..\..\bin\Debug\Mvx\Portable\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\bin\Portable\Release</OutputPath>
+    <OutputPath>..\..\bin\Release\Mvx\Portable\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,25 +39,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\MvxSetToNullAfterBindingAttribute.cs" />
-    <Compile Include="Binders\MvxInstanceBasedValueConverterRegistryFiller.cs" />
-    <Compile Include="BindingContext\MvxBaseBindingContext.cs" />
-    <Compile Include="BindingContext\MvxBindingContextOwnerExtensions.cs" />
+    <Compile Include="Binders\IMvxValueConverterRegistryFiller.cs" />
+    <Compile Include="Binders\MvxValueConverterRegistryFiller.cs" />
+    <Compile Include="Binders\MvxRegistryFillerExtensions.cs" />
+    <Compile Include="BindingContext\IMvxBindingNameRegistry.cs" />
+    <Compile Include="BindingContext\MvxBindingNameRegistry.cs" />
+    <Compile Include="BindingContext\MvxFluentBindingDescription.cs" />
+    <Compile Include="BindingContext\MvxFluentSelfBindingDescription.cs" />
+    <Compile Include="ExpressionParse\IMvxPropertyExpressionParser.cs" />
+    <Compile Include="ExpressionParse\IMvxParsedExpression.cs" />
+    <Compile Include="BindingContext\MvxBindingContext.cs" />
     <Compile Include="BindingContext\MvxBindingContextStack.cs" />
     <Compile Include="BindingContext\MvxBindingContextStackRegistration.cs" />
+    <Compile Include="ExpressionParse\MvxParsedExpression.cs" />
+    <Compile Include="ExpressionParse\MvxPropertyExpressionParser.cs" />
     <Compile Include="Bindings\Target\MvxWithEventPropertyInfoTargetBinding.cs" />
-    <Compile Include="Interfaces\BindingContext\IMvxBaseBindingContext.cs" />
-    <Compile Include="Interfaces\BindingContext\IMvxBaseBindingContextOwner.cs" />
-    <Compile Include="Interfaces\BindingContext\IMvxBindingContextStack.cs" />
-    <Compile Include="Interfaces\Parse\IMvxBindingParser.cs" />
+    <Compile Include="BindingContext\IMvxBindingContext.cs" />
+    <Compile Include="BindingContext\IMvxBindingContextOwner.cs" />
+    <Compile Include="BindingContext\IMvxBindingContextStack.cs" />
+    <Compile Include="IMvxBindingSingletonCache.cs" />
+    <Compile Include="Parse\Binding\IMvxBindingParser.cs" />
+    <Compile Include="MvxBindingSingletonCache.cs" />
     <Compile Include="Parse\Binding\Composite\MvxCompositeBindingParser.cs" />
-    <Compile Include="Interfaces\Parse\IMvxLanguageBindingParser.cs" />
-    <Compile Include="Parse\Binding\MvxBaseBindingParser.cs" />
+    <Compile Include="Parse\Binding\Lang\IMvxLanguageBindingParser.cs" />
+    <Compile Include="Parse\Binding\MvxBindingParser.cs" />
     <Compile Include="Parse\Binding\Lang\MvxLanguageBindingParser.cs" />
     <Compile Include="Parse\Binding\Swiss\MvxSwissBindingParser.cs" />
     <Compile Include="Bindings\MvxBindingModeExtensionMethods.cs" />
-    <Compile Include="Interfaces\Parse\IMvxSourcePropertyPathParser.cs" />
-    <Compile Include="Parse\MvxBaseParser.cs" />
-    <Compile Include="Parse\PropertyPath\PropertyTokens\MvxBasePropertyToken.cs" />
+    <Compile Include="Parse\PropertyPath\IMvxSourcePropertyPathParser.cs" />
+    <Compile Include="Parse\MvxParser.cs" />
+    <Compile Include="Parse\PropertyPath\PropertyTokens\MvxPropertyToken.cs" />
     <Compile Include="Parse\PropertyPath\PropertyTokens\MvxEmptyPropertyToken.cs" />
     <Compile Include="Parse\PropertyPath\PropertyTokens\MvxIndexerPropertyToken.cs" />
     <Compile Include="Parse\PropertyPath\PropertyTokens\MvxIntegerIndexerPropertyToken.cs" />
@@ -68,18 +79,17 @@
     <Compile Include="Bindings\Source\Leaf\MvxIndexerLeafPropertyInfoSourceBinding.cs" />
     <Compile Include="Bindings\Source\Chained\MvxSimpleChainedSourceBinding.cs" />
     <Compile Include="Bindings\Source\Leaf\MvxSimpleLeafPropertyInfoSourceBinding.cs" />
-    <Compile Include="Interfaces\Parse\MvxSerializableBindingDescription.cs" />
+    <Compile Include="Parse\Binding\MvxSerializableBindingDescription.cs" />
     <Compile Include="Parse\Binding\Json\MvxJsonBindingParser.cs" />
-    <Compile Include="Interfaces\Parse\MvxSerializableBindingSpecification.cs" />
+    <Compile Include="Parse\Binding\MvxSerializableBindingSpecification.cs" />
     <Compile Include="Binders\MvxFromTextBinder.cs" />
     <Compile Include="Bindings\MvxFullBinding.cs" />
-    <Compile Include="Binders\MvxStaticBasedValueConverterRegistryFiller.cs" />
     <Compile Include="Binders\MvxValueConverterRegistry.cs" />
-    <Compile Include="Bindings\MvxBaseBinding.cs" />
+    <Compile Include="Bindings\MvxBinding.cs" />
     <Compile Include="Bindings\MvxCompositeBinding.cs" />
     <Compile Include="Bindings\Source\Construction\MvxSourceBindingFactory.cs" />
-    <Compile Include="Bindings\Source\MvxBasePropertyInfoSourceBinding.cs" />
-    <Compile Include="Bindings\Source\MvxBaseSourceBinding.cs" />
+    <Compile Include="Bindings\Source\MvxPropertyInfoSourceBinding.cs" />
+    <Compile Include="Bindings\Source\MvxSourceBinding.cs" />
     <Compile Include="Bindings\Source\Chained\MvxChainedSourceBinding.cs" />
     <Compile Include="Bindings\Source\Leaf\MvxDirectToSourceBinding.cs" />
     <Compile Include="Bindings\Source\Leaf\MvxLeafPropertyInfoSourceBinding.cs" />
@@ -87,31 +97,31 @@
     <Compile Include="Bindings\Target\Construction\MvxPropertyInfoTargetBindingFactory.cs" />
     <Compile Include="Bindings\Target\Construction\MvxSimplePropertyInfoTargetBindingFactory.cs" />
     <Compile Include="Bindings\Target\Construction\MvxTargetBindingFactoryRegistry.cs" />
-    <Compile Include="Bindings\Target\MvxBaseTargetBinding.cs" />
+    <Compile Include="Bindings\Target\MvxTargetBinding.cs" />
     <Compile Include="Bindings\Target\MvxEventHandlerEventInfoTargetBinding.cs" />
     <Compile Include="Bindings\Target\MvxEventInfoTargetBinding.cs" />
     <Compile Include="Bindings\Target\MvxNullTargetBinding.cs" />
     <Compile Include="Bindings\Target\MvxPropertyInfoTargetBinding.cs" />
     <Compile Include="ExtensionMethods\MvxEnumerableExtensions.cs" />
     <Compile Include="ExtensionMethods\MvxTypeExtensions.cs" />
-    <Compile Include="Interfaces\Binders\IMvxBindingDescriptionParser.cs" />
-    <Compile Include="Interfaces\Binders\IMvxValueConverterProvider.cs" />
-    <Compile Include="Interfaces\Binders\IMvxValueConverterRegistry.cs" />
-    <Compile Include="Interfaces\Bindings\Source\Construction\IMvxSourceBindingFactory.cs" />
-    <Compile Include="Interfaces\Bindings\Source\IMvxSourceBinding.cs" />
-    <Compile Include="Interfaces\Bindings\Source\MvxSourcePropertyBindingEventArgs.cs" />
-    <Compile Include="Interfaces\Bindings\Target\Construction\IMvxPluginTargetBindingFactory.cs" />
-    <Compile Include="Interfaces\Bindings\Target\Construction\IMvxTargetBindingFactory.cs" />
-    <Compile Include="Interfaces\Bindings\Target\Construction\IMvxTargetBindingFactoryRegistry.cs" />
-    <Compile Include="Interfaces\Bindings\Target\Construction\MvxTypeAndNamePair.cs" />
-    <Compile Include="Interfaces\Bindings\Target\IMvxTargetBinding.cs" />
-    <Compile Include="Interfaces\Bindings\Target\MvxTargetChangedEventArgs.cs" />
-    <Compile Include="Interfaces\IMvxBinder.cs" />
-    <Compile Include="Interfaces\IMvxBinding.cs" />
-    <Compile Include="Interfaces\IMvxUpdateableBinding.cs" />
-    <Compile Include="Interfaces\MvxBindingDescription.cs" />
-    <Compile Include="Interfaces\MvxBindingMode.cs" />
-    <Compile Include="Interfaces\MvxBindingRequest.cs" />
+    <Compile Include="Binders\IMvxBindingDescriptionParser.cs" />
+    <Compile Include="Binders\IMvxValueConverterLookup.cs" />
+    <Compile Include="Binders\IMvxValueConverterRegistry.cs" />
+    <Compile Include="Bindings\Source\Construction\IMvxSourceBindingFactory.cs" />
+    <Compile Include="Bindings\Source\IMvxSourceBinding.cs" />
+    <Compile Include="Bindings\Source\MvxSourcePropertyBindingEventArgs.cs" />
+    <Compile Include="Bindings\Target\Construction\IMvxPluginTargetBindingFactory.cs" />
+    <Compile Include="Bindings\Target\Construction\IMvxTargetBindingFactory.cs" />
+    <Compile Include="Bindings\Target\Construction\IMvxTargetBindingFactoryRegistry.cs" />
+    <Compile Include="Bindings\Target\Construction\MvxTypeAndNamePair.cs" />
+    <Compile Include="Bindings\Target\IMvxTargetBinding.cs" />
+    <Compile Include="Bindings\Target\MvxTargetChangedEventArgs.cs" />
+    <Compile Include="Binders\IMvxBinder.cs" />
+    <Compile Include="Bindings\IMvxBinding.cs" />
+    <Compile Include="Bindings\IMvxUpdateableBinding.cs" />
+    <Compile Include="Binders\MvxBindingDescription.cs" />
+    <Compile Include="MvxBindingMode.cs" />
+    <Compile Include="MvxBindingRequest.cs" />
     <Compile Include="MvxBindingBuilder.cs" />
     <Compile Include="MvxBindingTrace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,6 +132,14 @@
     <Compile Include="WeakSubscription\MvxNotifyPropertyChangedEventSubscription.cs" />
     <Compile Include="WeakSubscription\MvxWeakEventSubscription.cs" />
     <Compile Include="ExtensionMethods\MvxWeakSubscriptionExtensionMethods.cs" />
+    <Compile Include="BindingContext\IMvxBindingNameLookup.cs" />
+    <Compile Include="BindingContext\MvxBindingContextOwnerExtensions.Fluent.cs" />
+    <Compile Include="BindingContext\MvxBindingContextOwnerExtensions.Statics.cs" />
+    <Compile Include="BindingContext\MvxBindingContextOwnerExtensions.Language.cs" />
+    <Compile Include="BindingContext\MvxBindingContextOwnerExtensions.cs" />
+    <Compile Include="BindingContext\MvxBindingContextOwnerExtensions.Clear.cs" />
+    <Compile Include="Views\MvxBaseImageViewLoader.cs" />
+    <Compile Include="WeakSubscription\MvxValueEventSubscription.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrossCore\Cirrious.CrossCore\Cirrious.CrossCore.csproj">
@@ -138,4 +156,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup />
 </Project>

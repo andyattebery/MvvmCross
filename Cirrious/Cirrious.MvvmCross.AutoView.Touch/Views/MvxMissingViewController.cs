@@ -9,12 +9,13 @@ using Cirrious.MvvmCross.AutoView.ExtensionMethods;
 using Cirrious.MvvmCross.AutoView.Touch.Interfaces;
 using Cirrious.MvvmCross.Dialog.Touch;
 using Cirrious.MvvmCross.ViewModels;
-using Cirrious.MvvmCross.Views.Attributes;
+using Cirrious.MvvmCross.Views;
 using CrossUI.Touch.Dialog.Elements;
+using Cirrious.CrossCore.IoC;
 
 namespace Cirrious.MvvmCross.AutoView.Touch.Views
 {
-    [MvxUnconventionalView]
+    [MvxUnconventional]
     public class MvxMissingViewController
         : MvxDialogViewController
           , IMvxTouchAutoView

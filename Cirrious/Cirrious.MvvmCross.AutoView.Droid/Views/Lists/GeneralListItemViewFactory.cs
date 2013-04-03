@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Android.Content;
 using Android.Views;
 using Cirrious.MvvmCross.AutoView.Droid.Interfaces.Lists;
-using Cirrious.MvvmCross.Binding.Droid.Interfaces.BindingContext;
+using Cirrious.MvvmCross.Binding.Droid.BindingContext;
 
 namespace Cirrious.MvvmCross.AutoView.Droid.Views.Lists
 {
@@ -17,11 +17,11 @@ namespace Cirrious.MvvmCross.AutoView.Droid.Views.Lists
         : IMvxLayoutListItemViewFactory
 
     {
-        public View BuildView(Context context, IMvxBindingContext droidBindingContext, object source)
+        public View BuildView(Context context, IMvxAndroidBindingContext androidBindingContext, object source)
         {
             var view = new GeneralListItemView(
                 context,
-                droidBindingContext.LayoutInflater,
+                androidBindingContext.LayoutInflater,
                 Bindings,
                 source,
                 LayoutName);

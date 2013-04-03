@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Touch.Platform;
+using Cirrious.MvvmCross.ViewModels;
 using CustomerManagement.Core.Models;
 using MonoTouch.UIKit;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
 using MonoTouch.Foundation;
 using Cirrious.MvvmCross.Touch.Views;
 
@@ -37,7 +37,7 @@ namespace CustomerManagement.Touch
 			setup.Initialize();
 			
 			// start the app
-			var start = Mvx.Resolve<IMvxStartNavigation>();
+			var start = Mvx.Resolve<IMvxAppStart>();
 			start.Start();
 
             window.MakeKeyAndVisible();

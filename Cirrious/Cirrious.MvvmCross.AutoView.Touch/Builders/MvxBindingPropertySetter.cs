@@ -7,11 +7,11 @@
 
 using System;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Touch.Interfaces;
+using Cirrious.MvvmCross.Binding.Binders;
+using Cirrious.MvvmCross.Touch.Views;
 using CrossUI.Core.Builder;
 
 namespace Cirrious.MvvmCross.AutoView.Touch.Builders
@@ -19,12 +19,12 @@ namespace Cirrious.MvvmCross.AutoView.Touch.Builders
     public class MvxBindingPropertySetter : IPropertySetter
 
     {
-        private readonly IMvxBindingTouchView _bindingActivity;
+        private readonly IMvxTouchView _touchView;
         private readonly object _source;
 
-        public MvxBindingPropertySetter(IMvxBindingTouchView bindingActivity, object source)
+        public MvxBindingPropertySetter(IMvxTouchView touchView, object source)
         {
-            _bindingActivity = bindingActivity;
+            _touchView = touchView;
             _source = source;
         }
 
@@ -34,7 +34,7 @@ namespace Cirrious.MvvmCross.AutoView.Touch.Builders
             {
                 var binding = Mvx.Resolve<IMvxBinder>()
                                  .BindSingle(_source, element, targetPropertyName, configuration);
-                _bindingActivity.BindingContext.RegisterBinding(binding);
+                _touchView.BindingContext.RegisterBinding(binding);
             }
             catch (Exception exception)
             {

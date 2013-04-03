@@ -6,11 +6,11 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
+using Cirrious.CrossCore.Platform;
 
 namespace Cirrious.MvvmCross.Binding.Bindings.Source.Leaf
 {
-    public class MvxDirectToSourceBinding : MvxBaseSourceBinding
+    public class MvxDirectToSourceBinding : MvxSourceBinding
     {
         public MvxDirectToSourceBinding(object source)
             : base(source)

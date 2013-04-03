@@ -5,23 +5,18 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Plugins;
-using Cirrious.CrossCore.Interfaces.UI;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Plugins;
+using Cirrious.CrossCore.UI;
 
 namespace Cirrious.MvvmCross.Plugins.Visibility.Console
 {
     public class Plugin
-        : IMvxPlugin
-          
+        : IMvxPlugin          
     {
-        #region Implementation of IMvxPlugin
-
         public void Load()
         {
             Mvx.RegisterSingleton<IMvxNativeVisibility>(new MvxConsoleVisibility());
         }
-
-        #endregion
     }
 }

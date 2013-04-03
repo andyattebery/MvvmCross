@@ -6,11 +6,10 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Interfaces.Views;
-using Cirrious.MvvmCross.Touch.Interfaces;
+using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.Touch.Views.Presenters;
 using Cirrious.MvvmCross.ViewModels;
+using Cirrious.MvvmCross.Views;
 
 namespace Cirrious.MvvmCross.Touch.Views
 {
@@ -25,9 +24,7 @@ namespace Cirrious.MvvmCross.Touch.Views
             _presenter = presenter;
         }
 
-        #region IMvxViewDispatcher Members
-
-        public bool RequestNavigate(MvxShowViewModelRequest request)
+        public bool ShowViewModel(MvxViewModelRequest request)
         {
             Action action = () =>
                 {
@@ -37,25 +34,9 @@ namespace Cirrious.MvvmCross.Touch.Views
             return RequestMainThreadAction(action);
         }
 
-        public bool RequestClose(IMvxViewModel toClose)
+        public bool ChangePresentation(MvxPresentationHint hint)
         {
-            Action action = () =>
-                {
-                    MvxTrace.TaggedTrace("TouchNavigation", "Navigate back requested");
-                    _presenter.Close(toClose);
-                };
-            return RequestMainThreadAction(action);
+            return RequestMainThreadAction(() => _presenter.ChangePresentation(hint));
         }
-
-        public bool RequestRemoveBackStep()
-        {
-            return RequestMainThreadAction(() =>
-                {
-                    MvxTrace.TaggedTrace("TouchNavigation", "Request back step removed");
-                    _presenter.RequestRemoveBackStep();
-                });
-        }
-
-        #endregion
     }
 }

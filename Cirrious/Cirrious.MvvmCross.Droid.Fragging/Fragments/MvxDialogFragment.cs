@@ -5,10 +5,10 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Android.Views;
-using Cirrious.MvvmCross.Binding.Interfaces.BindingContext;
+using Android.OS;
+using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Droid.Fragging.Fragments.EventSource;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.MvvmCross.ViewModels;
 
 namespace Cirrious.MvvmCross.Droid.Fragging.Fragments
 {
@@ -21,9 +21,10 @@ namespace Cirrious.MvvmCross.Droid.Fragging.Fragments
             this.AddEventListeners();
         }
 
-        public IMvxBaseBindingContext<View> BindingContext { get; set; }
+        public IMvxBindingContext BindingContext { get; set; }
 
         private object _dataContext;
+
         public object DataContext
         {
             get { return _dataContext; }
@@ -39,6 +40,11 @@ namespace Cirrious.MvvmCross.Droid.Fragging.Fragments
         {
             get { return DataContext as IMvxViewModel; }
             set { DataContext = value; }
+        }
+
+        protected void EnsureBindingContextSet(Bundle b0)
+        {
+            this.EnsureBindingContextIsSet(b0);
         }
     }
 }

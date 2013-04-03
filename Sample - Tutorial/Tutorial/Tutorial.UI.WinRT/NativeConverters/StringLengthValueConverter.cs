@@ -1,4 +1,4 @@
-using Cirrious.MvvmCross.WinRT.Platform.Converters;
+using Cirrious.CrossCore.WindowsStore.Converters;
 
 namespace Tutorial.UI.WinRT.NativeConverters
 {

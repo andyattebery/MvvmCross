@@ -9,22 +9,19 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Android.Content;
-using Cirrious.CrossCore.Droid.Interfaces;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Interfaces.Plugins;
+using Cirrious.CrossCore.Droid;
+using Cirrious.CrossCore.Droid.Platform;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.CrossCore.Plugins;
 using Cirrious.MvvmCross.Binding.Binders;
+using Cirrious.MvvmCross.Binding.BindingContext;
+using Cirrious.MvvmCross.Binding.Bindings.Target.Construction;
 using Cirrious.MvvmCross.Binding.Droid;
 using Cirrious.MvvmCross.Binding.Droid.Binders;
-using Cirrious.MvvmCross.Binding.Interfaces.Binders;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Target.Construction;
-using Cirrious.MvvmCross.Droid.Interfaces;
-using Cirrious.MvvmCross.Droid.Platform.Tasks;
 using Cirrious.MvvmCross.Droid.Views;
-using Cirrious.MvvmCross.Interfaces.Platform.Lifetime;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
 using Cirrious.MvvmCross.Platform;
+using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
 
 namespace Cirrious.MvvmCross.Droid.Platform
@@ -61,7 +58,7 @@ namespace Cirrious.MvvmCross.Droid.Platform
 
         protected override IMvxPluginManager CreatePluginManager()
         {
-            return new MvxFileBasedPluginManager("Droid");
+            return new MvxFilePluginManager(".Droid", ".dll");
         }
 
         protected override void InitializeDebugServices()
@@ -85,9 +82,6 @@ namespace Cirrious.MvvmCross.Droid.Platform
 
             var viewModelTemporaryCache = new MvxSingleViewModelCache();
             Mvx.RegisterSingleton<IMvxSingleViewModelCache>(viewModelTemporaryCache);
-
-            InitializeNavigationRequestSerializer();
-            InitializeSavedStateConverter();
         }
 
         protected virtual void InitializeSavedStateConverter()
@@ -114,14 +108,17 @@ namespace Cirrious.MvvmCross.Droid.Platform
             return new MvxAndroidViewPresenter();
         }
 
-        protected override MvvmCross.Interfaces.Views.IMvxViewDispatcherProvider CreateViewDispatcherProvider()
+        protected override IMvxViewDispatcher CreateViewDispatcher()
         {
             var presenter = CreateViewPresenter();
-            return new MvxAndroidViewDispatcherProvider(presenter);
+            return new MvxAndroidViewDispatcher(presenter);
         }
 
         protected override void InitializeLastChance()
         {
+            InitializeNavigationSerializer();
+            InitializeSavedStateConverter();
+
             Mvx.RegisterSingleton<IMvxChildViewModelCache>(new MvxChildViewModelCache());
             InitialiseBindingBuilder();
             base.InitializeLastChance();
@@ -132,17 +129,18 @@ namespace Cirrious.MvvmCross.Droid.Platform
             return new MvxAndroidViewsContainer(applicationContext);
         }
 
-        protected override IDictionary<System.Type, System.Type> GetViewModelViewLookup()
+        protected virtual void InitializeNavigationSerializer()
         {
-            return GetViewModelViewLookup(ExecutableAssembly, typeof (IMvxAndroidView));
+            var serializer = CreateNavigationSerializer();
+            if (serializer == null)
+            {
+                MvxTrace.Warning("No navigation serializer supplied - this application will not be able to navigate between ViewModels using Intents");
+                return;
+            }
+            Mvx.RegisterSingleton(serializer);
         }
 
-        protected virtual void InitializeNavigationRequestSerializer()
-        {
-            Mvx.RegisterSingleton(CreateNavigationRequestSerializer());
-        }
-
-        protected abstract IMvxNavigationRequestSerializer CreateNavigationRequestSerializer();
+        protected abstract IMvxNavigationSerializer CreateNavigationSerializer();
 
         protected virtual void InitialiseBindingBuilder()
         {
@@ -150,12 +148,17 @@ namespace Cirrious.MvvmCross.Droid.Platform
             bindingBuilder.DoRegistration();
         }
 
-        protected virtual MvxDroidBindingBuilder CreateBindingBuilder()
+        protected virtual MvxAndroidBindingBuilder CreateBindingBuilder()
         {
-            var bindingBuilder = new MvxDroidBindingBuilder(FillTargetFactories, FillValueConverters,
+			var bindingBuilder = new MvxAndroidBindingBuilder(FillTargetFactories, FillValueConverters, FillBindingNames,
                                                             SetupViewTypeResolver);
             return bindingBuilder;
         }
+
+		protected virtual void FillBindingNames (IMvxBindingNameRegistry obj)
+		{
+			// this base class does nothing
+		}
 
         protected virtual void SetupViewTypeResolver(MvxViewTypeResolver viewTypeResolver)
         {
@@ -164,22 +167,24 @@ namespace Cirrious.MvvmCross.Droid.Platform
 
         protected virtual void FillValueConverters(IMvxValueConverterRegistry registry)
         {
-            var holders = ValueConverterHolders;
-            if (holders == null)
-                return;
-
-            var filler = new MvxInstanceBasedValueConverterRegistryFiller(registry);
-            var staticFiller = new MvxStaticBasedValueConverterRegistryFiller(registry);
-            foreach (var converterHolder in holders)
-            {
-                filler.AddFieldConverters(converterHolder);
-                staticFiller.AddStaticFieldConverters(converterHolder);
-            }
+            registry.Fill(ValueConverterAssemblies);
+            registry.Fill(ValueConverterHolders);
         }
 
-        protected virtual IEnumerable<Type> ValueConverterHolders
+        protected virtual List<Type> ValueConverterHolders
         {
-            get { return null; }
+            get { return new List<Type>(); }
+        }
+
+        protected virtual List<Assembly> ValueConverterAssemblies
+        {
+            get
+            {
+                var toReturn = new List<Assembly>();
+                toReturn.AddRange(GetViewModelAssemblies());
+                toReturn.AddRange(GetViewAssemblies());
+                return toReturn;
+            }
         }
 
         protected virtual IDictionary<string, string> ViewNamespaceAbbreviations

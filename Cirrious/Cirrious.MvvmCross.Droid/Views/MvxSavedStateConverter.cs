@@ -8,11 +8,9 @@
 using System;
 using System.Collections.Generic;
 using Android.OS;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Droid.Interfaces;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.Droid.Platform;
 using Cirrious.MvvmCross.ViewModels;
 
 namespace Cirrious.MvvmCross.Droid.Views
@@ -32,13 +30,13 @@ namespace Cirrious.MvvmCross.Droid.Views
 
             try
             {
-                var converter = Mvx.Resolve<IMvxNavigationRequestSerializer>();
+                var converter = Mvx.Resolve<IMvxNavigationSerializer>();
                 var data = converter.Serializer.DeserializeObject<Dictionary<string, string>>(extras);
                 return new MvxBundle(data);
             }
             catch (Exception exception)
             {
-                MvxTrace.Trace(MvxTraceLevel.Error, "Problem getting the saved state - will return null - from {0}",
+                MvxTrace.Error( "Problem getting the saved state - will return null - from {0}",
                                extras);
                 return null;
             }
@@ -52,7 +50,7 @@ namespace Cirrious.MvvmCross.Droid.Views
             if (savedState.Data.Count == 0)
                 return;
 
-            var converter = Mvx.Resolve<IMvxNavigationRequestSerializer>();
+            var converter = Mvx.Resolve<IMvxNavigationSerializer>();
             var data = converter.Serializer.SerializeObject(savedState.Data);
             bundle.PutString(ExtrasKey, data);
         }

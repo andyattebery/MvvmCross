@@ -18,7 +18,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\bin\Droid\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\Mvx\Droid\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\bin\Droid\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\Mvx\Droid\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,18 +43,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IMvxAndroidCurrentTopActivity.cs" />
-    <Compile Include="Interfaces\IMvxAndroidGlobals.cs" />
+    <Compile Include="Platform\IMvxAndroidCurrentTopActivity.cs" />
+    <Compile Include="IMvxAndroidGlobals.cs" />
     <Compile Include="MvxJavaContainer.cs" />
     <Compile Include="MvxReplaceableJavaContainer.cs" />
+    <Compile Include="Platform\MvxAndroidTask.cs" />
     <Compile Include="Platform\MvxDateTimeExtensionMethods.cs" />
+    <Compile Include="Platform\MvxIntentResultSink.cs" />
+    <Compile Include="Platform\MvxJavaDateUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Platform\IMvxIntentResultSink.cs" />
+    <Compile Include="Platform\IMvxIntentResultSource.cs" />
+    <Compile Include="Views\IMvxStartActivityForResult.cs" />
     <Compile Include="Views\MvxActivityResultParameters.cs" />
     <Compile Include="Views\MvxBaseActivityAdapter.cs" />
     <Compile Include="Views\MvxEventSourceActivity.cs" />
     <Compile Include="Views\MvxEventSourceTabActivity.cs" />
-    <Compile Include="Interfaces\IMvxEventSourceActivity.cs" />
+    <Compile Include="Views\IMvxEventSourceActivity.cs" />
     <Compile Include="Views\MvxDelegateExtensionMethods.cs" />
+    <Compile Include="Views\MvxIntentRequestCode.cs" />
+    <Compile Include="Views\MvxIntentResultEventArgs.cs" />
     <Compile Include="Views\MvxStartActivityForResultParameters.cs" />
   </ItemGroup>
   <ItemGroup>

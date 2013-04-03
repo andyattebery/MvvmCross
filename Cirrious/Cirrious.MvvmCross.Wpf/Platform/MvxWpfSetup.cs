@@ -7,21 +7,17 @@
 
 using System.Collections.Generic;
 using System.Windows.Threading;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Interfaces.Plugins;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.CrossCore.Plugins;
-using Cirrious.MvvmCross.Interfaces.Views;
 using Cirrious.MvvmCross.Platform;
 using Cirrious.MvvmCross.Views;
-using Cirrious.MvvmCross.Wpf.Interfaces;
 using Cirrious.MvvmCross.Wpf.Views;
 
 namespace Cirrious.MvvmCross.Wpf.Platform
 {
     public abstract class MvxWpfSetup
         : MvxSetup
-
     {
         private readonly Dispatcher _uiThreadDispatcher;
         private readonly IMvxWpfViewPresenter _presenter;
@@ -50,19 +46,14 @@ namespace Cirrious.MvvmCross.Wpf.Platform
             return toReturn;
         }
 
-        protected override IMvxViewDispatcherProvider CreateViewDispatcherProvider()
+        protected override IMvxViewDispatcher CreateViewDispatcher()
         {
-            return new MvxWpfDispatcherProvider(_uiThreadDispatcher, _presenter);
+            return new MvxWpfViewDispatcher(_uiThreadDispatcher, _presenter);
         }
 
         protected override IMvxPluginManager CreatePluginManager()
         {
-            return new MvxFileBasedPluginManager("Wpf", string.Empty);
-        }
-
-        protected override IDictionary<System.Type, System.Type> GetViewModelViewLookup()
-        {
-            return GetViewModelViewLookup(GetType().Assembly, typeof (IMvxWpfView));
+            return new MvxFilePluginManager(".Wpf", string.Empty);
         }
     }
 }

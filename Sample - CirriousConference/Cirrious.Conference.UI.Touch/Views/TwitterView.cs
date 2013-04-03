@@ -6,6 +6,7 @@ using Cirrious.MvvmCross.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Cirrious.MvvmCross.Touch.Views;
+using Cirrious.MvvmCross.Binding.BindingContext;
 
 namespace Cirrious.Conference.UI.Touch.Views
 {
@@ -53,7 +54,7 @@ namespace Cirrious.Conference.UI.Touch.Views
 		public class TableSource : MvxSimpleTableViewSource
 		{
 			public TableSource (UITableView tableView)
-				: base(tableView, TweetCell3.Identifier)
+				: base(tableView, TweetCell3.Identifier, TweetCell3.Identifier)
 			{
 				tableView.RegisterNibForCellReuse(UINib.FromName(TweetCell3.Identifier, NSBundle.MainBundle), TweetCell3.Identifier);
 			}

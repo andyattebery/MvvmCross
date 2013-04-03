@@ -10,14 +10,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cirrious.CrossCore.Core;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 
 namespace Cirrious.MvvmCross.Plugins.DownloadCache
 {
     public class MvxImageCache<T>
         : MvxAllThreadDispatchingObject
         , IMvxImageCache<T>
-
     {
         private readonly Dictionary<string, List<CallbackPair>> _currentlyRequested =
             new Dictionary<string, List<CallbackPair>>();

@@ -1,11 +1,11 @@
 using Cirrious.MvvmCross.Binding.Droid.Views;
 using Cirrious.MvvmCross.Droid.Views;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.MvvmCross.ViewModels;
 
 namespace CustomerManagement.AutoViews.Droid.Views
 {
     public abstract class BaseView<TViewModel>
-        : MvxActivityView
+        : MvxActivity
         where TViewModel : class, IMvxViewModel
     {
         public new TViewModel ViewModel

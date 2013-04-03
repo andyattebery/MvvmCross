@@ -7,9 +7,6 @@
 
 using System;
 using System.Drawing;
-using Cirrious.CrossCore.Interfaces.Core;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
@@ -19,7 +16,7 @@ namespace Cirrious.MvvmCross.Binding.Touch.Views
     public class MvxImageView
         : UIImageView
     {
-        private IMvxImageHelper<UIImage> _imageHelper;
+        private MvxImageViewLoader _imageHelper;
 
         public string ImageUrl
         {
@@ -39,8 +36,6 @@ namespace Cirrious.MvvmCross.Binding.Touch.Views
             set { _imageHelper.ErrorImagePath = value; }
         }
 
-        #region constructors
-
         public MvxImageView()
         {
             InitialiseImageHelper();
@@ -58,17 +53,9 @@ namespace Cirrious.MvvmCross.Binding.Touch.Views
             InitialiseImageHelper();
         }
 
-        #endregion
-
         private void InitialiseImageHelper()
         {
-            _imageHelper = Mvx.Resolve<IMvxImageHelper<UIImage>>();
-            _imageHelper.ImageChanged += ImageHelperOnImageChanged;
-        }
-
-        private void ImageHelperOnImageChanged(object sender, MvxValueEventArgs<UIImage> mvxValueEventArgs)
-        {
-            Image = mvxValueEventArgs.Value;
+            _imageHelper = new MvxImageViewLoader(() => this);
         }
 
         protected override void Dispose(bool disposing)

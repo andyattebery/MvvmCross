@@ -1,7 +1,7 @@
-﻿using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Application;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+﻿using Cirrious.CrossCore.IoC;
+using Cirrious.MvvmCross.ViewModels;
 using CustomerManagement.Core.Models;
+using CustomerManagement.Core.ViewModels;
 
 namespace CustomerManagement.Core
 {
@@ -19,8 +19,7 @@ namespace CustomerManagement.Core
             Mvx.RegisterSingleton<IDataStore>(dataStore);
 
             // set the start object
-            var startApplicationObject = new StartApplicationObject();
-            Mvx.RegisterSingleton<IMvxStartNavigation>(startApplicationObject);
+            RegisterAppStart<CustomerListViewModel>();
         }
     }
 }

@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationObjects\ErrorApplicationObject.cs" />
-    <Compile Include="ApplicationObjects\StartApplicationObject.cs" />
+    <Compile Include="ApplicationObjects\AppStart.cs" />
     <Compile Include="ApplicationObjects\TextProviderBuilder.cs" />
     <Compile Include="ConferenceApp.cs" />
     <Compile Include="Constants.cs" />
@@ -85,6 +85,7 @@
     <Compile Include="ViewModels\HomeViewModels\TwitterViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModels\WelcomeViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
+    <Compile Include="ViewModels\SessionLists\BaseReloadingSessionListViewModel.cs" />
     <Compile Include="ViewModels\SessionLists\BaseSessionListViewModel.cs" />
     <Compile Include="ViewModels\SessionLists\FavoritesViewModel.cs" />
     <Compile Include="ViewModels\SessionLists\SessionListViewModel.cs" />

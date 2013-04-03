@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Application;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Plugins.Location;
-using Tutorial.Core.ApplicationObjects;
+using Cirrious.MvvmCross.ViewModels;
+using Tutorial.Core.ViewModels;
 
 
 namespace Tutorial.Core
 {
     public class App
-        : MvxApplication
-        
+        : MvxApplication        
     {
         public App()
         {
-            var startApplicationObject = new StartApplicationObject();
-            Mvx.RegisterSingleton<IMvxStartNavigation>(startApplicationObject);
+            RegisterAppStart<MainMenuViewModel>();
         }
     }
 }

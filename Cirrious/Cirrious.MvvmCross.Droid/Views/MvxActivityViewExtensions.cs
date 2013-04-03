@@ -8,16 +8,12 @@
 using System;
 using Android.App;
 using Android.OS;
-using Cirrious.CrossCore.Droid.Interfaces;
+using Cirrious.CrossCore.Droid.Views;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Binding.Droid.Interfaces.BindingContext;
-using Cirrious.MvvmCross.Droid.Interfaces;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Droid.Platform;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Interfaces.Views;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
 
@@ -56,7 +52,15 @@ namespace Cirrious.MvvmCross.Droid.Views
 
         private static IMvxBundle GetSavedStateFromBundle(Bundle bundle)
         {
-            var converter = Mvx.Resolve<IMvxSavedStateConverter>();
+            if (bundle == null)
+                return new MvxBundle();
+
+            IMvxSavedStateConverter converter; 
+            if (!Mvx.TryResolve<IMvxSavedStateConverter>(out converter))
+            {
+                MvxTrace.Trace("No saved state converter available - this is OK if seen during start");
+                return new MvxBundle();
+            }
             var savedState = converter.Read(bundle);
             return savedState;
         }
@@ -69,7 +73,7 @@ namespace Cirrious.MvvmCross.Droid.Views
             androidView.OnLifetimeEvent((listener, activity) => listener.OnViewNewIntent(activity));
             
             var view = androidView as IMvxView;
-            MvxTrace.Trace(MvxTraceLevel.Warning,
+            MvxTrace.Warning(
                            "OnViewNewIntent isn't well understood or tested inside MvvmCross - it's not really a cross-platform concept.");
             view.OnViewNewIntent(() => { return androidView.LoadViewModel(null); });
              */
@@ -126,14 +130,14 @@ namespace Cirrious.MvvmCross.Droid.Views
         {
             var activity = androidView.ToActivity();
 
-            var viewModelType = androidView.ReflectionGetViewModelType();
+            var viewModelType = androidView.FindAssociatedViewModelTypeOrNull();
             if (viewModelType == typeof(MvxNullViewModel))
                 return new MvxNullViewModel();
 
-            if (viewModelType == typeof(IMvxViewModel))
+            if (viewModelType == null
+                || viewModelType == typeof (IMvxViewModel))
             {
-                MvxTrace.Trace(MvxTraceLevel.Warning,
-                               "No ViewModel class specified for {0} - returning null from LoadViewModel",
+                MvxTrace.Warning("No ViewModel class specified for {0} - returning null from LoadViewModel",
                                androidView.GetType().Name);
                 return null;
             }

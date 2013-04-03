@@ -30,7 +30,7 @@ namespace Tutorial.UI.Touch.Views.Lessons
             this.NavigationItem.SetLeftBarButtonItem(new UIBarButtonItem("Cancel", UIBarButtonItemStyle.Bordered, null), false);
             this.NavigationItem.LeftBarButtonItem.Clicked += delegate
             {
-                ViewModel.DoClose();
+				this.NavigationController.PopViewControllerAnimated(true);
             };
 
             this.Root = new RootElement("Location Property")
@@ -47,7 +47,10 @@ namespace Tutorial.UI.Touch.Views.Lessons
                                     },
                                 new Section("Control")
                                     {
-                                        new StringElement("Start/Stop").Bind(this, "SelectedCommand StartStopCommand"),
+										new StringElement("Start/Stop") 
+										{ 
+											ShouldDeselectAfterTouch = true 
+										}.Bind(this, "SelectedCommand StartStopCommand"),
                                     },
                             };
         }

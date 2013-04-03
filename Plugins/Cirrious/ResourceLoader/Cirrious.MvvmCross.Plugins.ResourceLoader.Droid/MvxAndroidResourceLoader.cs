@@ -8,14 +8,13 @@
 using System;
 using System.IO;
 using Android.Content.Res;
-using Cirrious.CrossCore.Droid.Interfaces;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.Droid;
+using Cirrious.CrossCore.IoC;
 
 namespace Cirrious.MvvmCross.Plugins.ResourceLoader.Droid
 {
     public class MvxAndroidResourceLoader
-        : MvxBaseResourceLoader
-          
+        : MvxResourceLoader          
     {
         private AssetManager _assets;
 

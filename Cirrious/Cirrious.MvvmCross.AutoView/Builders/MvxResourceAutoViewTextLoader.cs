@@ -7,10 +7,8 @@
 
 using System;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.AutoView.Interfaces;
 
 namespace Cirrious.MvvmCross.AutoView.Builders
@@ -34,7 +32,7 @@ namespace Cirrious.MvvmCross.AutoView.Builders
             }
             catch (MvxException)
             {
-                MvxTrace.Trace(MvxTraceLevel.Warning, "Definition file not loaded {0}", path);
+                MvxTrace.Warning( "Definition file not loaded {0}", path);
                 return null;
             }
         }

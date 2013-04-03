@@ -12,14 +12,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.Platform;
 
 namespace Cirrious.MvvmCross.Plugins.File
 {
-    public abstract class MvxBaseFileStore
+    public abstract class MvxFileStore
         : IMvxFileStore
     {
-        #region IMvxSimpleFileStoreService Members
+        #region IMvxFileStore Members
 
         public bool Exists(string path)
         {
@@ -160,7 +160,7 @@ namespace Cirrious.MvvmCross.Plugins.File
                 //}
             catch (Exception exception)
             {
-                MvxTrace.Trace("Error during file move {0} : {1} : {2}", from, to, exception.ToLongString());
+                MvxTrace.Error("Error during file move {0} : {1} : {2}", from, to, exception.ToLongString());
                 return false;
             }
         }

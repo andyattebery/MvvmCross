@@ -7,13 +7,14 @@ using Cirrious.Conference.Core.Converters;
 using Cirrious.Conference.Core.Models;
 using Cirrious.Conference.Core.ViewModels.Helpers;
 using Cirrious.Conference.Core.ViewModels.SessionLists;
-using Cirrious.CrossCore.Interfaces.Converters;
+using Cirrious.CrossCore.Converters;
 using Cirrious.MvvmCross.Binding.Touch;
 using Cirrious.MvvmCross.Binding.Touch.Views;
 using Cirrious.MvvmCross.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Cirrious.MvvmCross.Touch.Views;
+using Cirrious.MvvmCross.Binding.BindingContext;
 
 namespace Cirrious.Conference.UI.Touch.Views.SessionLists
 {

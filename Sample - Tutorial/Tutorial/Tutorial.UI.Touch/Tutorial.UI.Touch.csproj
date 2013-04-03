@@ -24,7 +24,6 @@
     <MtouchProfiling>True</MtouchProfiling>
     <MtouchLink>None</MtouchLink>
     <MtouchI18n />
-    <NoStdLib>True</NoStdLib>
     <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -47,9 +46,9 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
-    <MtouchProfiling>True</MtouchProfiling>
     <MtouchI18n />
     <IpaPackageName />
+    <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -68,7 +67,7 @@
     <Reference Include="monotouch">
     </Reference>
     <Reference Include="System.Net.Touch">
-      <HintPath>..\..\..\bin\Touch\Debug\System.Net.dll</HintPath>
+      <HintPath>..\..\..\bin\Debug\Mvx\Touch\System.Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +95,7 @@
     <Compile Include="Views\Lessons\TipView.designer.cs">
       <DependentUpon>TipView.cs</DependentUpon>
     </Compile>
+    <Compile Include="LinkerIncludePlease.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -167,6 +167,10 @@
       <Project>{60A80EB8-2056-4771-8600-03A8DA417CFB}</Project>
       <Name>Cirrious.MvvmCross.Plugins.DownloadCache</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Cirrious\File\Cirrious.MvvmCross.Plugins.File\Cirrious.MvvmCross.Plugins.File.csproj">
+      <Project>{19EE04D6-7EE0-4FE8-AB10-4623D93F165A}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.File</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Tabs\speakers%402x.png" />
@@ -174,8 +178,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Views\Lessons\PullToRefreshView.xib" />
-    <None Include="Views\Lessons\PullToRefreshTableCellView.xib" />
-    <None Include="Views\Lessons\TipView.xib" />
+    <InterfaceDefinition Include="Views\Lessons\TipView.xib" />
+    <InterfaceDefinition Include="Views\Lessons\PullToRefreshTableCellView.xib" />
+    <InterfaceDefinition Include="Views\Lessons\PullToRefreshView.xib" />
   </ItemGroup>
 </Project>

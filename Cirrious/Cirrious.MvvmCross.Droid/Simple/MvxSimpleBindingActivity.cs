@@ -7,12 +7,12 @@
 
 using Cirrious.CrossCore.Exceptions;
 using Cirrious.MvvmCross.Droid.Views;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.MvvmCross.ViewModels;
 
 namespace Cirrious.MvvmCross.Droid.Simple
 {
     public class MvxSimpleBindingActivity
-        : MvxActivityView
+        : MvxActivity
     {
         public new IMvxViewModel ViewModel
         {

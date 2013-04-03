@@ -1,8 +1,6 @@
-﻿using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform;
+﻿using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.CrossCore.Plugins;
-using Cirrious.MvvmCross.Application;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
 using Cirrious.MvvmCross.Platform;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
@@ -13,7 +11,7 @@ using Microsoft.Phone.Controls;
 namespace CustomerManagement.WindowsPhone
 {
     public class Setup 
-        : MvxWindowsPhoneSetup
+        : MvxPhoneSetup
     {
         private readonly IViewModelCloser _closer;
 
@@ -23,26 +21,16 @@ namespace CustomerManagement.WindowsPhone
             _closer = new ViewModelCloser(rootFrame);
         }
 
-        protected override MvxApplication CreateApp()
+        protected override IMvxApplication CreateApp()
         {
             var app = new Core.App();
             return app;
         }
 
-        protected override IMvxNavigationRequestSerializer CreateNavigationRequestSerializer()
+        protected override IMvxNavigationSerializer CreateNavigationSerializer()
         {
             Cirrious.MvvmCross.Plugins.Json.PluginLoader.Instance.EnsureLoaded();
-            var json = Mvx.Resolve<IMvxJsonConverter>();
-            return new MvxNavigationRequestSerializer(json);
-        }
-
-        protected override void AddPluginsLoaders(MvxLoaderPluginRegistry registry)
-        {
-            registry.AddConventionalPlugin<Cirrious.MvvmCross.Plugins.File.WindowsPhone.Plugin>();
-            registry.AddConventionalPlugin<Cirrious.MvvmCross.Plugins.PhoneCall.WindowsPhone.Plugin>();
-            registry.AddConventionalPlugin<Cirrious.MvvmCross.Plugins.ResourceLoader.WindowsPhone.Plugin>();
-            registry.AddConventionalPlugin<Cirrious.MvvmCross.Plugins.WebBrowser.WindowsPhone.Plugin>();
-            base.AddPluginsLoaders(registry);
+            return new MvxJsonNavigationSerializer();
         }
 
         protected override void InitializeLastChance()

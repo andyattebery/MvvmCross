@@ -9,7 +9,7 @@ using System;
 using Android.Content;
 using Android.Util;
 using Android.Widget;
-using Cirrious.MvvmCross.Binding.Droid.Interfaces.Views;
+using Cirrious.CrossCore.Droid.Platform;
 
 namespace Cirrious.MvvmCross.Binding.Droid.Views
 {

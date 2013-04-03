@@ -8,37 +8,34 @@
 using System;
 using System.Linq;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
-using Cirrious.MvvmCross.WindowsPhone.Interfaces;
 using Cirrious.MvvmCross.WindowsPhone.Platform;
 
 namespace Cirrious.MvvmCross.WindowsPhone.Views
 {
     public class MvxPhoneViewsContainer
         : MvxViewsContainer
-          , IMvxWindowsPhoneViewModelRequestTranslator
+          , IMvxPhoneViewModelRequestTranslator
     {
         private const string QueryParameterKeyName = @"ApplicationUrl";
 
-        #region IMvxWindowsPhoneViewModelRequestTranslator Members
-
-        public virtual MvxShowViewModelRequest GetRequestFromXamlUri(Uri viewUri)
+        public virtual MvxViewModelRequest GetRequestFromXamlUri(Uri viewUri)
         {
             var parsed = viewUri.ParseQueryString();
 
             string queryString;
             if (!parsed.TryGetValue(QueryParameterKeyName, out queryString))
-                throw new MvxException("Unable to find incoming MvxShowViewModelRequest");
+                throw new MvxException("Unable to find incoming MvxViewModelRequest");
 
             var text = Uri.UnescapeDataString(queryString);
-            var converter = Mvx.Resolve<IMvxTextSerializer>();
-            return converter.DeserializeObject<MvxShowViewModelRequest>(text);
+            var converter = Mvx.Resolve<IMvxNavigationSerializer>();
+            return converter.Serializer.DeserializeObject<MvxViewModelRequest>(text);
         }
 
-        public virtual Uri GetXamlUriFor(MvxShowViewModelRequest request)
+        public virtual Uri GetXamlUriFor(MvxViewModelRequest request)
         {
             var viewType = GetViewType(request.ViewModelType);
             if (viewType == null)
@@ -46,14 +43,12 @@ namespace Cirrious.MvvmCross.WindowsPhone.Views
                 throw new MvxException("View Type not found for " + request.ViewModelType);
             }
 
-            var converter = Mvx.Resolve<IMvxTextSerializer>();
-            var requestText = converter.SerializeObject(request);
+            var converter = Mvx.Resolve<IMvxNavigationSerializer>();
+            var requestText = converter.Serializer.SerializeObject(request);
             var viewUrl = string.Format("{0}?{1}={2}", GetBaseXamlUrlForView(viewType), QueryParameterKeyName,
                                         Uri.EscapeDataString(requestText));
             return new Uri(viewUrl, UriKind.Relative);
         }
-
-        #endregion
 
         protected virtual string GetBaseXamlUrlForView(Type viewType)
         {

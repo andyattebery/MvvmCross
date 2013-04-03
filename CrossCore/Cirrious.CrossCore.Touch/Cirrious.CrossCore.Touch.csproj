@@ -16,7 +16,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\bin\Touch\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\Mvx\Touch\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\bin\Touch\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\Mvx\Touch\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -38,9 +38,11 @@
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Views\IMvxTouchModalHost.cs" />
     <Compile Include="MvxTouchColorExtensionMethods.cs" />
     <Compile Include="MvxTouchDateTimeExtensionMethods.cs" />
     <Compile Include="MvxTouchUIViewControllerExtensions.cs" />
+    <Compile Include="Platform\MvxTouchTask.cs" />
     <Compile Include="Views\MvxDelegateExtensionMethods.cs" />
     <Compile Include="Views\MvxBaseViewControllerAdapter.cs" />
     <Compile Include="Views\MvxEventSourceCollectionViewController.cs" />

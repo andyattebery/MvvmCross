@@ -5,8 +5,8 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Plugins;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Plugins;
 
 namespace Cirrious.MvvmCross.Plugins.ResourceLoader
 {
@@ -16,14 +16,10 @@ namespace Cirrious.MvvmCross.Plugins.ResourceLoader
     {
         public static readonly PluginLoader Instance = new PluginLoader();
 
-        #region Implementation of IMvxPluginLoader
-
         public void EnsureLoaded()
         {
             var manager = Mvx.Resolve<IMvxPluginManager>();
-            manager.EnsureLoaded<PluginLoader>();
+            manager.EnsurePlatformAdaptionLoaded<PluginLoader>();
         }
-
-        #endregion
     }
 }

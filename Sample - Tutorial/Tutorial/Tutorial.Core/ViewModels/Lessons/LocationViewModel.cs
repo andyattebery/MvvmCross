@@ -1,6 +1,6 @@
 using System;
 using System.Windows.Input;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Plugins.Location;
 using Cirrious.MvvmCross.ViewModels;
 
@@ -50,7 +50,7 @@ namespace Tutorial.Core.ViewModels.Lessons
         {
             get
             {
-                return new MvxRelayCommand(DoStartStop);
+                return new MvxCommand(DoStartStop);
             }
         }
 

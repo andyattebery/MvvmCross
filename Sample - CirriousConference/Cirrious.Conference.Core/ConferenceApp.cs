@@ -2,16 +2,14 @@
 using Cirrious.Conference.Core.Interfaces;
 using Cirrious.Conference.Core.Models;
 using Cirrious.Conference.Core.Models.Twitter;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Application;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Localization.Interfaces;
+using Cirrious.CrossCore.IoC;
+using Cirrious.MvvmCross.Localization;
+using Cirrious.MvvmCross.ViewModels;
 
 namespace Cirrious.Conference.Core
 {
     public abstract class BaseConferenceApp 
-        : MvxApplication
-        
+        : MvxApplication        
     {
         protected BaseConferenceApp()
         {
@@ -23,7 +21,7 @@ namespace Cirrious.Conference.Core
 
         private void InitialisePlugins()
         {
-			Cirrious.MvvmCross.Plugins.Json.PluginLoader.Instance.EnsureLoaded(true);
+			Cirrious.MvvmCross.Plugins.Json.PluginLoader.Instance.EnsureLoaded();
 
             Cirrious.MvvmCross.Plugins.File.PluginLoader.Instance.EnsureLoaded();
             Cirrious.MvvmCross.Plugins.JsonLocalisation.PluginLoader.Instance.EnsureLoaded();
@@ -73,8 +71,8 @@ namespace Cirrious.Conference.Core
 
         protected sealed override void InitialiseStartNavigation()
         {
-            var startApplicationObject = new StartApplicationObject(true);
-            Mvx.RegisterSingleton<IMvxStartNavigation>(startApplicationObject);
+            var startApplicationObject = new AppStart(true);
+            Mvx.RegisterSingleton<IMvxAppStart>(startApplicationObject);
         }
     }
 
@@ -88,8 +86,8 @@ namespace Cirrious.Conference.Core
 
         protected sealed override void InitialiseStartNavigation()
         {
-            var startApplicationObject = new StartApplicationObject(false);
-            Mvx.RegisterSingleton<IMvxStartNavigation>(startApplicationObject);
+            var startApplicationObject = new AppStart(false);
+            Mvx.RegisterSingleton<IMvxAppStart>(startApplicationObject);
         }
     }
 }

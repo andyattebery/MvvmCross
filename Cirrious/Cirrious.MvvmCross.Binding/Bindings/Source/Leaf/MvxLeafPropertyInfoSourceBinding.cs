@@ -7,13 +7,12 @@
 
 using System;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.ExtensionMethods;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Source;
 
 namespace Cirrious.MvvmCross.Binding.Bindings.Source.Leaf
 {
-    public abstract class MvxLeafPropertyInfoSourceBinding : MvxBasePropertyInfoSourceBinding
+    public abstract class MvxLeafPropertyInfoSourceBinding : MvxPropertyInfoSourceBinding
     {
         protected MvxLeafPropertyInfoSourceBinding(object source, string propertyName)
             : base(source, propertyName)

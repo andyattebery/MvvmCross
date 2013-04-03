@@ -7,16 +7,14 @@
 
 using System;
 using System.Collections.Generic;
-using Cirrious.MvvmCross.Binding.Interfaces;
+using Cirrious.MvvmCross.Binding.Binders;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
 namespace Cirrious.MvvmCross.Binding.Touch.Views
 {
-    public class MvxActionBasedTableViewSource : MvxSimpleTableViewSource
+    public class MvxActionBasedTableViewSource : MvxStandardTableViewSource
     {
-        private static readonly NSString DefaultCellIdentifier = new NSString("ActionBasedTableViewCell");
-
         protected MvxActionBasedTableViewSource(UITableView tableView)
             : base(tableView)
         {
@@ -49,8 +47,8 @@ namespace Cirrious.MvvmCross.Binding.Touch.Views
             CellModifier = (ignored) => { };
         }
 
-        public Func<UITableView, NSIndexPath, object, MvxTableViewCell> CellCreator { get; set; }
-        public Action<MvxTableViewCell> CellModifier { get; set; }
+        public Func<UITableView, NSIndexPath, object, MvxStandardTableViewCell> CellCreator { get; set; }
+        public Action<MvxStandardTableViewCell> CellModifier { get; set; }
         public Func<NSString> CellIdentifierOverride { get; set; }
 
         protected override NSString CellIdentifier

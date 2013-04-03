@@ -7,9 +7,8 @@
 
 using System.Collections.Generic;
 using Android.Content;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Droid.Interfaces;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.IoC;
+using Cirrious.MvvmCross.Platform;
 using Cirrious.MvvmCross.ViewModels;
 
 namespace Cirrious.MvvmCross.Droid.Views
@@ -26,13 +25,13 @@ namespace Cirrious.MvvmCross.Droid.Views
                                                                IDictionary<string, string> parameterValues = null)
             where TTargetViewModel : class, IMvxViewModel
         {
-            parameterValues = parameterValues ?? new Dictionary<string, string>();
-            var request = new MvxShowViewModelRequest<TTargetViewModel>(parameterValues, false,
+            var parameterBundle = new MvxBundle(parameterValues);
+            var request = new MvxViewModelRequest<TTargetViewModel>(parameterBundle, null,
                                                                         MvxRequestedBy.UserAction);
             return view.CreateIntentFor(request);
         }
 
-        public static Intent CreateIntentFor(this IMvxAndroidView view, MvxShowViewModelRequest request)
+        public static Intent CreateIntentFor(this IMvxAndroidView view, MvxViewModelRequest request)
         {
             return Mvx.Resolve<IMvxAndroidViewModelRequestTranslator>().GetIntentFor(request);
         }

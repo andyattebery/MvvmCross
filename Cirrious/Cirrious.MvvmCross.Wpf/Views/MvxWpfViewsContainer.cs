@@ -8,11 +8,9 @@
 using System;
 using System.Windows;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
-using Cirrious.MvvmCross.Wpf.Interfaces;
 
 namespace Cirrious.MvvmCross.Wpf.Views
 {
@@ -21,7 +19,7 @@ namespace Cirrious.MvvmCross.Wpf.Views
           , IMvxSimpleWpfViewLoader
 
     {
-        public FrameworkElement CreateView(MvxShowViewModelRequest request)
+        public FrameworkElement CreateView(MvxViewModelRequest request)
         {
             var viewType = GetViewType(request.ViewModelType);
             if (viewType == null)

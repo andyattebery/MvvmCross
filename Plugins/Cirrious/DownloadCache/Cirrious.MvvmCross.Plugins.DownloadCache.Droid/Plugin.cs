@@ -8,44 +8,45 @@
 using System;
 using Android.Graphics;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Interfaces.Plugins;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
+using Cirrious.CrossCore.Plugins;
 
 namespace Cirrious.MvvmCross.Plugins.DownloadCache.Droid
 {
     public class Plugin
-        : IMvxPlugin
-          
+        : IMvxConfigurablePlugin          
     {
-        #region Implementation of IMvxPlugin
+        private MvxDownloadCacheConfiguration _configuration;
 
-        public void Load()
+        public void Configure(IMvxPluginConfiguration configuration)
         {
-            File.PluginLoader.Instance.EnsureLoaded();
-
-            Mvx.RegisterSingleton<IMvxHttpFileDownloader>(new MvxHttpFileDownloader());
-
-#warning Huge Magic numbers here - what cache sizes should be used?
-            try
+            if (configuration != null && !(configuration is MvxDownloadCacheConfiguration))
             {
-                var fileDownloadCache = new MvxFileDownloadCache("_PicturesMvvmCross", "_Caches/Pictures.MvvmCross/",
-                                                                 500, TimeSpan.FromDays(3.0));
-                var fileCache = new MvxImageCache<Bitmap>(fileDownloadCache, 30, 4000000);
-                Mvx.RegisterSingleton<IMvxImageCache<Bitmap>>(fileCache);
-
-                Mvx.RegisterType<IMvxImageHelper<Bitmap>, MvxDynamicImageHelper<Bitmap>>();
-                Mvx.RegisterSingleton<IMvxLocalFileImageLoader<Bitmap>>(new MvxAndroidLocalFileImageLoader());
+                throw new MvxException("You must use a MvxDownloadCacheConfiguration object for configuring the DownloadCache, but you supplied {0}", configuration.GetType().Name);
             }
-            catch (Exception exception)
-            {
-                MvxTrace.Trace(MvxTraceLevel.Error, "Binding", "Exception {0}", exception.ToLongString());
-                throw;
-            }
+            _configuration = (MvxDownloadCacheConfiguration)configuration;
         }
 
-        #endregion
+#warning One day I would like to decouple this implementation from the FileStore plugin
+        public void Load()
+        {
+            Mvx.RegisterSingleton<IMvxHttpFileDownloader>(() => new MvxHttpFileDownloader());
+            Mvx.RegisterSingleton<IMvxImageCache<Bitmap>>(() => CreateCache());
+            Mvx.RegisterType<IMvxImageHelper<Bitmap>, MvxDynamicImageHelper<Bitmap>>();
+            Mvx.RegisterSingleton<IMvxLocalFileImageLoader<Bitmap>>(() => new MvxAndroidLocalFileImageLoader());
+        }
+
+        private MvxImageCache<Bitmap> CreateCache()
+        {
+            var configuration = _configuration ?? MvxDownloadCacheConfiguration.Default;
+
+            var fileDownloadCache = new MvxFileDownloadCache(configuration.CacheName,
+                                                             configuration.CacheFolderPath,
+                                                             configuration.MaxFiles,
+                                                             configuration.MaxFileAge);
+            var fileCache = new MvxImageCache<Bitmap>(fileDownloadCache, configuration.MaxInMemoryFiles, configuration.MaxInMemoryBytes);
+            return fileCache;
+        }
     }
 }

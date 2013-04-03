@@ -14,26 +14,26 @@ namespace CustomerManagement.Core.ViewModels
         {
             get
             {
-                return new MvxRelayCommand<Customer>(DoCustomerSelect);
+                return new MvxCommand<Customer>(DoCustomerSelect);
             }
         }
 
         public void DoCustomerSelect(Customer customer)
         {
-            RequestNavigate<DetailsCustomerViewModel>(new { customerId = customer.ID });
+            ShowViewModel<DetailsCustomerViewModel>(new { customerId = customer.ID });
         }
 
         public ICommand AddCommand
         {
             get
             {
-                return new MvxRelayCommand(DoAdd);
+                return new MvxCommand(DoAdd);
             }
         }
 
         public void DoAdd()
         {
-            RequestNavigate<NewCustomerViewModel>();
+            ShowViewModel<NewCustomerViewModel>();
         }
     }
 }

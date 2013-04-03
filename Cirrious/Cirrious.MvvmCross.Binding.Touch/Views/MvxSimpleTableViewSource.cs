@@ -5,10 +5,6 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using System.Collections.Generic;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Binding.Interfaces.Binders;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
@@ -16,93 +12,25 @@ namespace Cirrious.MvvmCross.Binding.Touch.Views
 {
     public class MvxSimpleTableViewSource : MvxTableViewSource
     {
-        private static readonly NSString DefaultCellIdentifier = new NSString("SimpleBindableTableViewCell");
-
-        private static readonly MvxBindingDescription[] DefaultBindingDescription = new[]
-            {
-                new MvxBindingDescription
-                    {
-                        TargetName = "TitleText",
-                        SourcePropertyPath = string.Empty
-                    },
-            };
-
-        private readonly IEnumerable<MvxBindingDescription> _bindingDescriptions;
         private readonly NSString _cellIdentifier;
-        private readonly UITableViewCellStyle _cellStyle;
-        private readonly UITableViewCellAccessory _tableViewCellAccessory = UITableViewCellAccessory.None;
 
         protected virtual NSString CellIdentifier
         {
             get { return _cellIdentifier; }
         }
 
-        public MvxSimpleTableViewSource(UITableView tableView)
-            : this(tableView, UITableViewCellStyle.Default, DefaultCellIdentifier, DefaultBindingDescription)
-        {
-        }
-
-        public MvxSimpleTableViewSource(UITableView tableView, NSString cellIdentifier)
-            : this(tableView, UITableViewCellStyle.Default, cellIdentifier, DefaultBindingDescription)
-        {
-        }
-
-        public MvxSimpleTableViewSource(UITableView tableView, string bindingText)
-            : this(tableView, UITableViewCellStyle.Default, DefaultCellIdentifier, bindingText)
-        {
-        }
-
-        public MvxSimpleTableViewSource(
-            UITableView tableView,
-            UITableViewCellStyle style,
-            NSString cellIdentifier,
-            string bindingText,
-            UITableViewCellAccessory tableViewCellAccessory = UITableViewCellAccessory.None)
-            : this(tableView, style, cellIdentifier, ParseBindingText(bindingText), tableViewCellAccessory)
-        {
-        }
-
-        public MvxSimpleTableViewSource(
-            UITableView tableView,
-            UITableViewCellStyle style,
-            NSString cellIdentifier,
-            IEnumerable<MvxBindingDescription> descriptions,
-            UITableViewCellAccessory tableViewCellAccessory = UITableViewCellAccessory.None)
+        public MvxSimpleTableViewSource(UITableView tableView, string nibName, string cellIdentifier = null,
+                                        NSBundle bundle = null)
             : base(tableView)
         {
-            _cellStyle = style;
-            _cellIdentifier = cellIdentifier;
-            _bindingDescriptions = descriptions;
-            _tableViewCellAccessory = tableViewCellAccessory;
-        }
-
-        protected IEnumerable<MvxBindingDescription> BindingDescriptions
-        {
-            get { return _bindingDescriptions; }
-        }
-
-        private static IEnumerable<MvxBindingDescription> ParseBindingText(string bindingText)
-        {
-            if (string.IsNullOrEmpty(bindingText))
-                return DefaultBindingDescription;
-
-            return Mvx.Resolve<IMvxBindingDescriptionParser>().Parse(bindingText);
+            cellIdentifier = cellIdentifier ?? "CellId" + nibName;
+            _cellIdentifier = new NSString(cellIdentifier);
+            tableView.RegisterNibForCellReuse(UINib.FromName(nibName, bundle ?? NSBundle.MainBundle), cellIdentifier);
         }
 
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
-            var reuse = tableView.DequeueReusableCell(CellIdentifier);
-            if (reuse != null)
-                return reuse;
-
-            return CreateDefaultBindableCell(tableView, indexPath, item);
-        }
-
-        protected virtual MvxTableViewCell CreateDefaultBindableCell(UITableView tableView,
-                                                                     NSIndexPath indexPath, object item)
-        {
-            return new MvxTableViewCell(_bindingDescriptions, _cellStyle, CellIdentifier,
-                                        _tableViewCellAccessory);
+            return tableView.DequeueReusableCell(CellIdentifier, indexPath);
         }
     }
 }

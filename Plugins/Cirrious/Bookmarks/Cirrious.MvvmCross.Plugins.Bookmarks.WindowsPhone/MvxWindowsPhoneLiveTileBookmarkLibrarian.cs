@@ -8,11 +8,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.ViewModels;
-using Cirrious.MvvmCross.WindowsPhone.Interfaces;
 using Cirrious.MvvmCross.WindowsPhone.Platform;
+using Cirrious.MvvmCross.WindowsPhone.Views;
 using Microsoft.Phone.Shell;
 
 namespace Cirrious.MvvmCross.Plugins.Bookmarks.WindowsPhone
@@ -39,8 +38,8 @@ namespace Cirrious.MvvmCross.Plugins.Bookmarks.WindowsPhone
             var liveTileData = ToTileData(metadata);
 
             var navigationUri =
-                Mvx.Resolve<IMvxWindowsPhoneViewModelRequestTranslator>()
-                    .GetXamlUriFor(new MvxShowViewModelRequest(viewModelType, navigationArgs, false,
+                Mvx.Resolve<IMvxPhoneViewModelRequestTranslator>()
+                    .GetXamlUriFor(new MvxViewModelRequest(viewModelType, new MvxBundle(navigationArgs), null,
                                                                MvxRequestedBy.Bookmark));
 
             // we sneak in an extra parameter here - our unique name

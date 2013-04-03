@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
 using Cirrious.CrossCore.Core;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Plugins.ThreadUtils;
 using Cirrious.MvvmCross.ViewModels;
 
@@ -40,7 +40,7 @@ namespace Tutorial.Core.ViewModels.Lessons
         {
             get
             {
-                return new MvxRelayCommand(DoRefreshHead);
+                return new MvxCommand(DoRefreshHead);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Tutorial.Core.ViewModels.Lessons
         {
             get
             {
-                return new MvxRelayCommand(DoRefreshTail);
+                return new MvxCommand(DoRefreshTail);
             }
         }
 

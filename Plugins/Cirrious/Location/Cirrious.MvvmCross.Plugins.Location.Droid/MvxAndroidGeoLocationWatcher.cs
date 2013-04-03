@@ -11,17 +11,16 @@ using System.Threading;
 using Android.Content;
 using Android.Locations;
 using Android.OS;
-using Cirrious.CrossCore.Droid.Interfaces;
+using Cirrious.CrossCore.Droid;
 using Cirrious.CrossCore.Droid.Platform;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 
 namespace Cirrious.MvvmCross.Plugins.Location.Droid
 {
     public sealed class MvxAndroidGeoLocationWatcher
-        : MvxBaseGeoLocationWatcher
+        : MvxGeoLocationWatcher
           
     {
         private Context _context;
@@ -54,7 +53,7 @@ namespace Cirrious.MvvmCross.Plugins.Location.Droid
             _locationManager = (LocationManager) Context.GetSystemService(Context.LocationService);
             if (_locationManager == null)
             {
-                MvxTrace.Trace(MvxTraceLevel.Warning, "Location Service Manager unavailable - returned null");
+                MvxTrace.Warning( "Location Service Manager unavailable - returned null");
                 SendError(MvxLocationErrorCode.ServiceUnavailable);
                 return;
             }
@@ -62,7 +61,7 @@ namespace Cirrious.MvvmCross.Plugins.Location.Droid
             var bestProvider = _locationManager.GetBestProvider(criteria, true);
             if (bestProvider == null)
             {
-                MvxTrace.Trace(MvxTraceLevel.Warning, "Location Service Provider unavailable - returned null");
+                MvxTrace.Warning( "Location Service Provider unavailable - returned null");
                 SendError(MvxLocationErrorCode.ServiceUnavailable);
                 return;
             }
@@ -92,15 +91,8 @@ namespace Cirrious.MvvmCross.Plugins.Location.Droid
             if (androidLocation.HasAltitude)
                 coords.Altitude = androidLocation.Altitude;
 
-            /*
-            // note that we use a HackReadValue method from a string here 
-            // - as MONODROID didn't seem to be correctly returning the Latitude and Longitude values
-            var testString = androidLocation.ToString();
-            coords.Latitude = HackReadValue(testString, "mLatitude=");
-            coords.Longitude = HackReadValue(testString, "mLongitude=");
-
-            return position;
-            */
+			if (androidLocation.HasBearing)
+				coords.Heading = androidLocation.Bearing;
 
             coords.Latitude = androidLocation.Latitude;
             coords.Longitude = androidLocation.Longitude;
@@ -110,9 +102,6 @@ namespace Cirrious.MvvmCross.Plugins.Location.Droid
             {
                 coords.Accuracy = androidLocation.Accuracy;
             }
-
-#warning what to do with coords.AltitudeAccuracy ?S
-            //coords.AltitudeAccuracy = androidLocation.Accuracy;
 
             return position;
         }

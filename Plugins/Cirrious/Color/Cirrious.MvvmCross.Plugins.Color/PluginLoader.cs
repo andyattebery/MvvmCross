@@ -5,25 +5,29 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Plugins;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Plugins;
+using Cirrious.MvvmCross.Binding.Binders;
 
 namespace Cirrious.MvvmCross.Plugins.Color
 {
     public class PluginLoader
         : IMvxPluginLoader
-          
     {
         public static readonly PluginLoader Instance = new PluginLoader();
-
-        #region Implementation of IMvxPluginLoader
 
         public void EnsureLoaded()
         {
             var manager = Mvx.Resolve<IMvxPluginManager>();
-            manager.EnsureLoaded<PluginLoader>();
+            manager.EnsurePlatformAdaptionLoaded<PluginLoader>();
+
+            Mvx.CallbackWhenRegistered<IMvxValueConverterRegistry>(RegisterValueConverters);
         }
 
-        #endregion
+        private void RegisterValueConverters()
+        {
+            var registry = Mvx.Resolve<IMvxValueConverterRegistry>();
+            registry.Fill(GetType().Assembly);
+        }
     }
 }

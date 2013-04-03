@@ -7,10 +7,8 @@
 
 using System;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Interfaces.Views;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.ViewModels;
 
 namespace Cirrious.MvvmCross.Views
@@ -30,7 +28,7 @@ namespace Cirrious.MvvmCross.Views
             var viewModel = viewModelLoader();
             if (viewModel == null)
             {
-                MvxTrace.Trace(MvxTraceLevel.Warning, "ViewModel not loaded for view {0}", view.GetType().Name);
+                MvxTrace.Warning("ViewModel not loaded for view {0}", view.GetType().Name);
                 return;
             }
 
@@ -40,8 +38,8 @@ namespace Cirrious.MvvmCross.Views
 
         public static void OnViewNewIntent(this IMvxView view, Func<IMvxViewModel> viewModelLoader)
         {
-            MvxTrace.Trace(MvxTraceLevel.Warning,
-                           "OnViewNewIntent isn't well understood or tested inside MvvmCross - it's not really a cross-platform concept.");
+            MvxTrace.Warning(
+                "OnViewNewIntent isn't well understood or tested inside MvvmCross - it's not really a cross-platform concept.");
             throw new MvxException("OnViewNewIntent is not implemented");
         }
 
@@ -50,17 +48,20 @@ namespace Cirrious.MvvmCross.Views
             // nothing needed currently
         }
 
-        public static Type ReflectionGetViewModelType(this IMvxView view)
+        public static Type FindAssociatedViewModelTypeOrNull(this IMvxView view)
         {
             if (view == null)
                 return null;
 
-            var propertyInfo = view.GetType().GetProperty("ViewModel");
+            IMvxViewModelTypeFinder associatedTypeFinder;
+            if (!Mvx.TryResolve(out associatedTypeFinder))
+            {
+                MvxTrace.Trace(
+                    "No view model type finder available - assuming we are looking for a splash screen - returning null");
+                return typeof (MvxNullViewModel);
+            }
 
-            if (propertyInfo == null)
-                return null;
-
-            return propertyInfo.PropertyType;
+            return associatedTypeFinder.FindTypeOrNull(view.GetType());
         }
 
         public static IMvxViewModel ReflectionGetViewModel(this IMvxView view)
@@ -78,15 +79,11 @@ namespace Cirrious.MvvmCross.Views
 
         public static IMvxBundle CreateSaveStateBundle(this IMvxView view)
         {
-            var toReturn = new MvxBundle();
-
             var viewModel = view.ViewModel;
-            if (viewModel != null)
-            {
-                viewModel.CallBundleMethods("SaveState", toReturn);
-            }
+            if (viewModel == null)
+                return new MvxBundle();
 
-            return toReturn;
+            return viewModel.SaveStateBundle();
         }
     }
 }

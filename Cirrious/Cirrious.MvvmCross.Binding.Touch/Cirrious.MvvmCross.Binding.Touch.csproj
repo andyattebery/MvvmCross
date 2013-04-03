@@ -16,7 +16,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\bin\Touch\Debug</OutputPath>
+    <OutputPath>..\..\bin\Debug\Mvx\Touch\</OutputPath>
     <DefineConstants>DEBUG;MONOTOUCH</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +29,7 @@
     <NoStdLib>True</NoStdLib>
     <DebugType>none</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\bin\Touch\Release</OutputPath>
+    <OutputPath>..\..\bin\Release\Mvx\Touch\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -44,29 +44,30 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="BindingContext\MvxBindingContext.cs" />
-    <Compile Include="Interfaces\BindingContext\IMvxBindingContext.cs" />
-    <Compile Include="Interfaces\BindingContext\IMvxBindingContextOwner.cs" />
     <Compile Include="MvxTouchBindingBuilder.cs" />
-    <Compile Include="Interfaces\IMvxBindableView.cs" />
+    <Compile Include="Target\MvxUIDatePickerDateTargetBinding.cs" />
+    <Compile Include="Target\MvxUITextViewTextTargetBinding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Target\MvxUISwitchOnTargetBinding.cs" />
+    <Compile Include="Target\MvxUIViewVisibilityTargetBinding.cs" />
     <Compile Include="Views\MvxImageView.cs" />
     <Compile Include="Views\MvxImageViewWrapper.cs" />
-    <Compile Include="Views\MvxSimpleTableViewSource.cs" />
     <Compile Include="Views\MvxBaseTableViewSource.cs" />
-    <Compile Include="Views\MvxTableViewCell.cs" />
     <Compile Include="Views\MvxTableViewDelegate.cs" />
-    <Compile Include="MvxBindingTouchExtensions.cs" />
     <Compile Include="Views\MvxTableViewSource.cs" />
     <Compile Include="Views\MvxActionBasedTableViewSource.cs" />
     <Compile Include="Target\MvxUITextFieldTextTargetBinding.cs" />
     <Compile Include="Target\MvxUISliderValueTargetBinding.cs" />
     <Compile Include="Target\MvxUIButtonTitleTargetBinding.cs" />
-    <Compile Include="Views\MvxBaseTableViewCell.cs" />
     <Compile Include="Views\MvxBaseCollectionViewSource.cs" />
-    <Compile Include="Views\MvxBaseCollectionViewCell.cs" />
     <Compile Include="Views\MvxCollectionViewSource.cs" />
+    <Compile Include="Views\MvxStandardTableViewCell.cs" />
+    <Compile Include="Views\MvxTableViewCell.cs" />
+    <Compile Include="Views\MvxCollectionViewCell.cs" />
+    <Compile Include="Views\MvxSimpleTableViewSource.cs" />
+    <Compile Include="Views\MvxImageViewLoader.cs" />
+    <Compile Include="Views\MvxStandardTableViewSource.cs" />
+    <Compile Include="Views\IMvxBindable.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrossCore\Cirrious.CrossCore\Cirrious.CrossCore.csproj">
@@ -77,10 +78,6 @@
       <Project>{64DCD397-9019-41E8-A928-E5F5C5DF185B}</Project>
       <Name>Cirrious.MvvmCross.Binding</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\PortableSupport\System.Windows.Touch\System.Windows.Touch.csproj">
-      <Project>{9499E72B-FD7C-4A9B-AB6C-0F9B7359257C}</Project>
-      <Name>System.Windows.Touch</Name>
-    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -89,5 +86,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup />
   <ItemGroup />
 </Project>

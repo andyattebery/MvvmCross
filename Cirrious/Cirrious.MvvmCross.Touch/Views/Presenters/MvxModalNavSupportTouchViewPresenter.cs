@@ -6,10 +6,8 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Touch.Interfaces;
+using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
 using MonoTouch.UIKit;
 
@@ -53,7 +51,7 @@ namespace Cirrious.MvvmCross.Touch.Views.Presenters
         {
             if (_currentModalViewController != null)
             {
-                MvxTrace.Trace(MvxTraceLevel.Error, "How did a modal disappear when we didn't have one showing?");
+                MvxTrace.Error( "How did a modal disappear when we didn't have one showing?");
                 return;
             }
 
@@ -84,7 +82,7 @@ namespace Cirrious.MvvmCross.Touch.Views.Presenters
                 var touchView = _currentModalViewController as IMvxTouchView;
                 if (touchView == null)
                 {
-                    MvxTrace.Trace(MvxTraceLevel.Error,
+                    MvxTrace.Error(
                                    "Unable to close view - modal is showing but not an IMvxTouchView");
                     return;
                 }
@@ -92,7 +90,7 @@ namespace Cirrious.MvvmCross.Touch.Views.Presenters
                 var viewModel = touchView.ReflectionGetViewModel();
                 if (viewModel != toClose)
                 {
-                    MvxTrace.Trace(MvxTraceLevel.Error,
+                    MvxTrace.Error(
                                    "Unable to close view - modal is showing but is not the requested viewmodel");
                     return;
                 }

@@ -5,21 +5,16 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.UI;
 using Cirrious.CrossCore.UI;
 
 namespace Cirrious.MvvmCross.Plugins.Color.Droid
 {
     public class MvxAndroidColor : IMvxNativeColor
     {
-        #region Implementation of IMvxNativeColor
-
         public object ToNative(MvxColor mvxColor)
         {
             return ToAndroidColor(mvxColor);
         }
-
-        #endregion
 
         public global::Android.Graphics.Color ToAndroidColor(MvxColor mvxColor)
         {

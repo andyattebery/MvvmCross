@@ -5,45 +5,45 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-#warning TODO - acknowledge the XPlatUtils parentage!
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Plugins.Messenger.Subscriptions;
 using Cirrious.MvvmCross.Plugins.Messenger.ThreadRunners;
 
 namespace Cirrious.MvvmCross.Plugins.Messenger
 {
+    // Note - the original inspiration for this code was XPlatUtils from JonathonPeppers
+    // - https://github.com/jonathanpeppers/XPlatUtils
+    // - inspiration consumed, ripped apart and loved under Ms-PL
     public class MvxMessengerHub : IMvxMessenger
     {
         private readonly Dictionary<Type, Dictionary<Guid, BaseSubscription>> _subscriptions =
             new Dictionary<Type, Dictionary<Guid, BaseSubscription>>();
 
-        public MvxSubscriptionToken Subscribe<TMessage>(Action<TMessage> deliveryAction, bool useStrong = false)
-            where TMessage : MvxBaseMessage
+        public MvxSubscriptionToken Subscribe<TMessage>(Action<TMessage> deliveryAction, MvxReference reference = MvxReference.Weak)
+            where TMessage : MvxMessage
         {
-            return SubscribeInternal(deliveryAction, new MvxSimpleActionRunner(), useStrong);
+            return SubscribeInternal(deliveryAction, new MvxSimpleActionRunner(), reference);
         }
 
         public MvxSubscriptionToken SubscribeOnMainThread<TMessage>(Action<TMessage> deliveryAction,
-                                                                    bool useStrongReference = false)
-            where TMessage : MvxBaseMessage
+                                                                    MvxReference reference = MvxReference.Weak)
+            where TMessage : MvxMessage
         {
-            return SubscribeInternal(deliveryAction, new MvxMainThreadActionRunner(), useStrongReference);
+            return SubscribeInternal(deliveryAction, new MvxMainThreadActionRunner(), reference);
         }
 
-        public MvxSubscriptionToken SubscribeAsync<TMessage>(Action<TMessage> deliveryAction, bool useStrong = false)
-            where TMessage : MvxBaseMessage
+        public MvxSubscriptionToken SubscribeOnThreadPoolThread<TMessage>(Action<TMessage> deliveryAction, MvxReference reference = MvxReference.Weak)
+            where TMessage : MvxMessage
         {
-            return SubscribeInternal(deliveryAction, new MvxAsyncActionRunner(), useStrong);
+            return SubscribeInternal(deliveryAction, new MvxThreadPoolActionRunner(), reference);
         }
 
-        private MvxSubscriptionToken SubscribeInternal<TMessage>(Action<TMessage> deliveryAction, IMvxActionRunner actionRunner, bool useStrong = false)
-            where TMessage : MvxBaseMessage
+        private MvxSubscriptionToken SubscribeInternal<TMessage>(Action<TMessage> deliveryAction, IMvxActionRunner actionRunner, MvxReference reference = MvxReference.Weak)
+            where TMessage : MvxMessage
         {
             if (deliveryAction == null)
             {
@@ -52,10 +52,17 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
 
             BaseSubscription subscription;
 
-            if (useStrong)
-                subscription = new StrongSubscription<TMessage>(actionRunner, deliveryAction);
-            else
-                subscription = new WeakSubscription<TMessage>(actionRunner, deliveryAction);
+            switch (reference)
+            {
+                case MvxReference.Strong:
+                    subscription = new StrongSubscription<TMessage>(actionRunner, deliveryAction);
+                    break;
+                case MvxReference.Weak:
+                    subscription = new WeakSubscription<TMessage>(actionRunner, deliveryAction);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("reference", "reference type unexpected " + reference);
+            }
 
             lock (this)
             {
@@ -72,7 +79,7 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
             return new MvxSubscriptionToken(subscription.Id, deliveryAction);
         }
 
-        public void Unsubscribe<TMessage>(MvxSubscriptionToken mvxSubscriptionId) where TMessage : MvxBaseMessage
+        public void Unsubscribe<TMessage>(MvxSubscriptionToken mvxSubscriptionId) where TMessage : MvxMessage
         {
             lock (this)
             {
@@ -90,24 +97,24 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
             }
         }
 
-        public void Publish<TMessage>(TMessage message) where TMessage : MvxBaseMessage
+        public void Publish<TMessage>(TMessage message) where TMessage : MvxMessage
         {
-            if (typeof (TMessage) == typeof (MvxBaseMessage))
+            if (typeof (TMessage) == typeof (MvxMessage))
             {
-                MvxTrace.Trace(MvxTraceLevel.Warning,
-                               "MvxBaseMessage publishing not allowed - this normally suggests non-specific generic used in calling code - switching to message.GetType()");
+                MvxTrace.Warning(
+                               "MvxMessage publishing not allowed - this normally suggests non-specific generic used in calling code - switching to message.GetType()");
                 Publish(message, message.GetType());
                 return;
             }
             Publish(message, typeof (TMessage));
         }
 
-        public void Publish(MvxBaseMessage message)
+        public void Publish(MvxMessage message)
         {
             Publish(message, message.GetType());
         }
 
-        public void Publish(MvxBaseMessage message, Type messageType)
+        public void Publish(MvxMessage message, Type messageType)
         {
             if (message == null)
             {

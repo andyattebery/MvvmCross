@@ -10,7 +10,6 @@ using System.Collections;
 using System.Drawing;
 using System.Globalization;
 using Cirrious.CrossCore.Converters;
-using Cirrious.CrossCore.Interfaces.Converters;
 using CrossUI.Touch.Dialog;
 using CrossUI.Touch.Dialog.Elements;
 using MonoTouch.Foundation;
@@ -28,7 +27,7 @@ namespace Cirrious.MvvmCross.Dialog.Touch.Elements
 
         public IMvxValueConverter DisplayValueConverter { get; set; }
 
-        private class ToStringDisplayValueConverter : MvxBaseValueConverter
+        private class ToStringDisplayValueConverter : MvxValueConverter
         {
             public override object Convert(object value, System.Type targetType, object parameter,
                                            System.Globalization.CultureInfo culture)

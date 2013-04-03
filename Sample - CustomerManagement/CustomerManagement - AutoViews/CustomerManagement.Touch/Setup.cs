@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.CrossCore.Plugins;
 using Cirrious.MvvmCross.AutoView.Touch;
 using Cirrious.MvvmCross.Dialog.Touch;
 using Cirrious.MvvmCross.Touch.Platform;
-using Cirrious.MvvmCross.Touch.Interfaces;
-using Cirrious.MvvmCross.Application;
 using Cirrious.MvvmCross.Platform;
+using Cirrious.MvvmCross.ViewModels;
 using CustomerManagement.AutoViews.Core;
 using CustomerManagement.AutoViews.Core.Interfaces;
 using CustomerManagement.Touch.Views;
@@ -27,7 +26,7 @@ namespace CustomerManagement.Touch
             _presenter = presenter;
         }
 
-        protected override MvxApplication CreateApp()
+        protected override IMvxApplication CreateApp()
         {
             var app = new App();
             return app;
@@ -46,8 +45,9 @@ namespace CustomerManagement.Touch
         protected override void InitializeLastChance()
         {
             base.InitializeLastChance();
-			Cirrious.MvvmCross.Plugins.DownloadCache.PluginLoader.Instance.EnsureLoaded();
-			Cirrious.MvvmCross.Plugins.Json.PluginLoader.Instance.EnsureLoaded();
+            Cirrious.MvvmCross.Plugins.File.PluginLoader.Instance.EnsureLoaded();
+            Cirrious.MvvmCross.Plugins.File.PluginLoader.Instance.EnsureLoaded();
+            Cirrious.MvvmCross.Plugins.Json.PluginLoader.Instance.EnsureLoaded();
            
             Mvx.RegisterSingleton<IViewModelCloser>(_presenter);
             SetupAutoViews();

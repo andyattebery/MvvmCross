@@ -5,25 +5,19 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform;
-using Cirrious.CrossCore.Interfaces.Plugins;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
+using Cirrious.CrossCore.Plugins;
 
 namespace Cirrious.MvvmCross.Plugins.ResourceLoader.Touch
 {
+#warning One day I would like to decouple this implementation from the FileStore plugin
     public class Plugin
-        : IMvxPlugin
-          
+        : IMvxPlugin        
     {
-        #region Implementation of IMvxPlugin
-
         public void Load()
         {
-            Plugins.File.PluginLoader.Instance.EnsureLoaded();
-
             Mvx.RegisterType<IMvxResourceLoader, MvxTouchResourceLoader>();
         }
-
-        #endregion
     }
 }

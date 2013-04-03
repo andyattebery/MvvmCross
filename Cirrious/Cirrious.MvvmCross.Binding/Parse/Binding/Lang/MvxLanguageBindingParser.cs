@@ -6,14 +6,12 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Binding.Interfaces.Parse;
 
 namespace Cirrious.MvvmCross.Binding.Parse.Binding.Lang
 {
     public class MvxLanguageBindingParser
-        : MvxBaseBindingParser
-        , IMvxLanguageBindingParser
+        : MvxBindingParser
+          , IMvxLanguageBindingParser
     {
         public MvxBindingMode DefaultBindingMode { get; set; }
 
@@ -84,14 +82,14 @@ namespace Cirrious.MvvmCross.Binding.Parse.Binding.Lang
 
             if ((block.StartsWith("\'") && block.EndsWith("\'"))
                 || (block.StartsWith("\"") && block.EndsWith("\"")))
-                return block.Substring(1, block.Length-2);
+                return block.Substring(1, block.Length - 2);
 
             return block;
         }
 
         protected override MvxSerializableBindingDescription ParseBindingDescription()
         {
-            var description = new MvxSerializableBindingDescription()
+            var description = new MvxSerializableBindingDescription
                 {
                     Converter = DefaultConverterName,
                     Path = DefaultTextSourceName,
@@ -124,6 +122,5 @@ namespace Cirrious.MvvmCross.Binding.Parse.Binding.Lang
                 }
             }
         }
-
     }
 }

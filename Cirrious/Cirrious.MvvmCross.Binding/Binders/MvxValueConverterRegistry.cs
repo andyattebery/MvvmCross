@@ -6,20 +6,17 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System.Collections.Generic;
-using Cirrious.CrossCore.Interfaces.Converters;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.MvvmCross.Binding.Interfaces.Binders;
+using Cirrious.CrossCore.Converters;
+using Cirrious.CrossCore.Platform;
 
 namespace Cirrious.MvvmCross.Binding.Binders
 {
     public class MvxValueConverterRegistry
-        : IMvxValueConverterProvider
+        : IMvxValueConverterLookup
           , IMvxValueConverterRegistry
     {
         private readonly Dictionary<string, IMvxValueConverter> _converters =
             new Dictionary<string, IMvxValueConverter>();
-
-        #region IMvxValueConverterProvider Members
 
         public IMvxValueConverter Find(string converterName)
         {
@@ -34,15 +31,9 @@ namespace Cirrious.MvvmCross.Binding.Binders
             return toReturn;
         }
 
-        #endregion
-
-        #region IMvxValueConverterRegistry Members
-
         public void AddOrOverwrite(string name, IMvxValueConverter converter)
         {
             _converters[name] = converter;
         }
-
-        #endregion
     }
 }

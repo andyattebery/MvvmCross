@@ -6,12 +6,12 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.AutoView.Builders;
 using Cirrious.MvvmCross.AutoView.Droid.Builders;
 using Cirrious.MvvmCross.AutoView.Droid.Views;
 using Cirrious.MvvmCross.AutoView.Interfaces;
-using Cirrious.MvvmCross.Interfaces.Views;
+using Cirrious.MvvmCross.Views;
 using CrossUI.Core.Builder;
 using CrossUI.Droid;
 
@@ -38,12 +38,12 @@ namespace Cirrious.MvvmCross.AutoView.Droid
 
         protected virtual IMvxUserInterfaceFactory CreateUserInterfaceFactory()
         {
-            return new MvxDroidUserInterfaceFactory();
+            return new MvxAndroidUserInterfaceFactory();
         }
 
-        protected virtual MvxDroidBuilderRegistry CreateBuilderRegistry()
+        protected virtual MvxAndroidBuilderRegistry CreateBuilderRegistry()
         {
-            var droidRegistry = new MvxDroidBuilderRegistry(true);
+            var droidRegistry = new MvxAndroidBuilderRegistry(true);
             return droidRegistry;
         }
 

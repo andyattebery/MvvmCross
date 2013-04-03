@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Cirrious.MvvmCross.Binding.Interfaces;
 using Cirrious.MvvmCross.Binding.Touch.Views;
 using Cirrious.MvvmCross.Views;
 using MonoTouch.UIKit;
@@ -11,7 +10,7 @@ namespace CustomerManagement.Touch.Views
     public class CustomerListView 
         : MvxBindingTouchTableViewController<CustomerListViewModel>
     {
-        public CustomerListView(MvxShowViewModelRequest request)
+        public CustomerListView(MvxViewModelRequest request)
             : base(request)
         {
         }

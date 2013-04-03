@@ -6,13 +6,13 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using Cirrious.CrossCore.Interfaces.Converters;
+using Cirrious.CrossCore.Converters;
+using Cirrious.MvvmCross.Binding.Binders;
 using Cirrious.MvvmCross.Binding.Bindings;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Source;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Source.Construction;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Target;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Target.Construction;
+using Cirrious.MvvmCross.Binding.Bindings.Source;
+using Cirrious.MvvmCross.Binding.Bindings.Source.Construction;
+using Cirrious.MvvmCross.Binding.Bindings.Target;
+using Cirrious.MvvmCross.Binding.Bindings.Target.Construction;
 using Cirrious.MvvmCross.Test.Core;
 using Moq;
 using NUnit.Framework;
@@ -20,7 +20,7 @@ using NUnit.Framework;
 namespace Cirrious.MvvmCross.Binding.Test.Bindings
 {
     [TestFixture]
-    public class MvxFullBindingTest : BaseIoCSupportingTest
+    public class MvxFullBindingTest : MvxIoCSupportingTest
     {
         public class MyBinding : MvxFullBinding
         {
@@ -82,6 +82,9 @@ namespace Cirrious.MvvmCross.Binding.Test.Bindings
 
         private void TestCommon(MvxBindingMode bindingMode, bool expectSourceBinding, bool expectTargetBinding)
         {
+            ClearAll();
+            MvxBindingSingletonCache.Initialise();
+
             var mockSourceBindingFactory = new Mock<IMvxSourceBindingFactory>();
             Ioc.RegisterSingleton(mockSourceBindingFactory.Object);
 

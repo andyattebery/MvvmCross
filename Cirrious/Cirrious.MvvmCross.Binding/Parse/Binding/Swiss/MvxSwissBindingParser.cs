@@ -5,20 +5,12 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Binding.Interfaces.Parse;
-using Cirrious.MvvmCross.Binding.Parse.Binding.Lang;
 
 namespace Cirrious.MvvmCross.Binding.Parse.Binding.Swiss
 {
     public class MvxSwissBindingParser
-        : MvxBaseBindingParser
+        : MvxBindingParser
     {
         private void ParseNextBindingDescriptionOptionInto(MvxSerializableBindingDescription description)
         {

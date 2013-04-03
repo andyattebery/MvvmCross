@@ -1,8 +1,8 @@
 using Cirrious.MvvmCross.Dialog.Touch;
+using Cirrious.MvvmCross.Touch.Views;
 using Cirrious.MvvmCross.Views;
 using CustomerManagement.Core.Models;
 using CustomerManagement.Core.ViewModels;
-using Cirrious.MvvmCross.Touch.Interfaces;
 using MonoTouch.UIKit;
 using CrossUI.Touch.Dialog.Elements;
 
@@ -33,7 +33,7 @@ namespace CustomerManagement.Touch.Views
             };
             this.NavigationItem.SetLeftBarButtonItem(new UIBarButtonItem("Cancel", UIBarButtonItemStyle.Bordered, null), false);
             this.NavigationItem.LeftBarButtonItem.Clicked += delegate {
-                                                                          ViewModel.DoClose();
+                ViewModel.CloseCommand.Execute(null);
             };
 
             if (ViewModel.Customer.PrimaryAddress == null)

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Windows.Input;
 using Cirrious.Conference.Core.Interfaces;
 using Cirrious.Conference.Core.Models.Twitter;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Interfaces.Platform;
+using Cirrious.CrossCore.IoC;
 using Cirrious.Conference.Core.ViewModels.Helpers;
 using Cirrious.MvvmCross.Plugins.Network;
 using Cirrious.MvvmCross.ViewModels;
@@ -49,7 +47,7 @@ namespace Cirrious.Conference.Core.ViewModels.HomeViewModels
         {
             get
             {
-                return new MvxRelayCommand(StartSearch);
+                return new MvxCommand(StartSearch);
             }
         }
 		
@@ -57,7 +55,7 @@ namespace Cirrious.Conference.Core.ViewModels.HomeViewModels
 		{
 			get
 			{
-                return new MvxRelayCommand(StartSearch);
+                return new MvxCommand(StartSearch);
 			}
 		}
 		
@@ -83,7 +81,7 @@ namespace Cirrious.Conference.Core.ViewModels.HomeViewModels
 			IMvxReachability reach;
 			if (Mvx.TryResolve<IMvxReachability>(out reach))
 			{
-				if (MvxReachabilityStatus.Not == reach.IsHostReachable("www.twitter.com"))
+				if (!reach.IsHostReachable("www.twitter.com"))
 				{
 				    ReportError(SharedTextSource.GetText("Error.NoNetwork"));
 					return;
@@ -114,7 +112,7 @@ namespace Cirrious.Conference.Core.ViewModels.HomeViewModels
         {
             IsSearching = false;
             Tweets = enumerable.ToList();
-			TweetsPlus = Tweets.Select(x => new WithCommand<Tweet>(x, new MvxRelayCommand(() => ShowTweet(x)))).ToList();
+			TweetsPlus = Tweets.Select(x => new WithCommand<Tweet>(x, new MvxCommand(() => ShowTweet(x)))).ToList();
 			WhenLastUpdatedUtc = DateTime.UtcNow;
         }
 			                           

@@ -7,8 +7,7 @@
 
 using System;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Localization.Interfaces;
+using Cirrious.CrossCore.IoC;
 
 namespace Cirrious.MvvmCross.Localization
 {
@@ -40,7 +39,7 @@ namespace Cirrious.MvvmCross.Localization
 
                 lock (this)
                 {
-                    Mvx.TryResolve<IMvxTextProvider>(out _cachedTextProvider);
+                    Mvx.TryResolve(out _cachedTextProvider);
                     if (_cachedTextProvider == null)
                     {
                         throw new MvxException(
@@ -50,8 +49,6 @@ namespace Cirrious.MvvmCross.Localization
                 }
             }
         }
-
-        #region Implementation of IMvxLanguageBinder
 
         public string GetText(string entryKey)
         {
@@ -68,7 +65,5 @@ namespace Cirrious.MvvmCross.Localization
         {
             return TextProvider.GetText(namespaceKey, typeKey, entryKey);
         }
-
-        #endregion
     }
 }

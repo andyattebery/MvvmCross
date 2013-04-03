@@ -8,18 +8,16 @@
 using System;
 using System.IO;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Plugins.File;
 using Cirrious.MvvmCross.Plugins.File.Touch;
 
 namespace Cirrious.MvvmCross.Plugins.ResourceLoader.Touch
 {
     public class MvxTouchResourceLoader
-        : MvxBaseResourceLoader
+        : MvxResourceLoader
           
     {
-        #region Implementation of IMvxResourceLoader
-
         public override void GetResourceStream(string resourcePath, Action<Stream> streamAction)
         {
             resourcePath = MvxTouchFileStore.ResScheme + resourcePath;
@@ -31,7 +29,5 @@ namespace Cirrious.MvvmCross.Plugins.ResourceLoader.Touch
                 }))
                 throw new MvxException("Failed to read file {0}", resourcePath);
         }
-
-        #endregion
     }
 }

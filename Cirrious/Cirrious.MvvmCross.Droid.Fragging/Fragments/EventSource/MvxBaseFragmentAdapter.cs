@@ -6,8 +6,9 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
+using Android.App;
 using Android.Support.V4.App;
-using Cirrious.CrossCore.Interfaces.Core;
+using Cirrious.CrossCore.Core;
 
 namespace Cirrious.MvvmCross.Droid.Fragging.Fragments.EventSource
 {
@@ -32,9 +33,14 @@ namespace Cirrious.MvvmCross.Droid.Fragging.Fragments.EventSource
             _eventSource.DisposeCalled += HandleDisposeCalled;
             _eventSource.OnCreateViewCalled += HandleCreateViewCalled;
             _eventSource.OnDestroyViewCalled += HandleDestroyViewCalled;
+            _eventSource.OnAttachCalled += HandleAttachCalled;
         }
 
-        public virtual void HandleDisposeCalled(object sender, EventArgs e)
+        protected virtual void HandleAttachCalled(object sender, MvxValueEventArgs<Activity> e)
+        {
+        }
+
+        protected virtual void HandleDisposeCalled(object sender, EventArgs e)
         {
         }
 

@@ -6,10 +6,9 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using Android.App;
-using Cirrious.CrossCore.Droid.Interfaces;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Droid.Interfaces;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.Droid.Platform;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.ViewModels;
 
 namespace Cirrious.MvvmCross.Droid.Views
@@ -22,11 +21,16 @@ namespace Cirrious.MvvmCross.Droid.Views
             get { return Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity; }
         }
 
-        public virtual void Show(MvxShowViewModelRequest request)
+        public virtual void Show(MvxViewModelRequest request)
         {
             var requestTranslator = Mvx.Resolve<IMvxAndroidViewModelRequestTranslator>();
             var intent = requestTranslator.GetIntentFor(request);
             Activity.StartActivity(intent);
+        }
+
+        public virtual void ChangePresentation(MvxPresentationHint hint)
+        {
+            MvxTrace.Warning("Hint ignored {0}", hint.GetType().Name);
         }
     }
 }

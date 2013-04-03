@@ -6,7 +6,6 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using Cirrious.MvvmCross.Touch.Interfaces;
 using MonoTouch.ObjCRuntime;
 using MonoTouch.UIKit;
 
@@ -23,7 +22,7 @@ namespace Cirrious.MvvmCross.Touch.Platform
                 switch (UIDevice.CurrentDevice.UserInterfaceIdiom)
                 {
                     case UIUserInterfaceIdiom.Phone:
-                        if (UIScreen.MainScreen.Bounds.Height * UIScreen.MainScreen.Scale >= 1136)
+                        if (UIScreen.MainScreen.Bounds.Height*UIScreen.MainScreen.Scale >= 1136)
                             return MvxTouchFormFactor.TallPhone;
 
                         return MvxTouchFormFactor.Phone;

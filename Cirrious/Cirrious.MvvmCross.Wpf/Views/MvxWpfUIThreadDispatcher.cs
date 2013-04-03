@@ -9,14 +9,14 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Threading;
+using Cirrious.CrossCore.Core;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.Core;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.Platform;
 
 namespace Cirrious.MvvmCross.Wpf.Views
 {
     public class MvxWpfUIThreadDispatcher
-        : IMvxMainThreadDispatcher
+        : MvxMainThreadDispatcher
     {
         private readonly Dispatcher _dispatcher;
 
@@ -57,7 +57,7 @@ namespace Cirrious.MvvmCross.Wpf.Views
             catch (Exception exception)
             {
                 // note - all exceptions masked
-                MvxTrace.Trace("Exception masked " + exception.ToLongString());
+                MvxTrace.Warning("Exception masked " + exception.ToLongString());
             }
         }
     }

@@ -5,9 +5,9 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Plugins;
-using Cirrious.CrossCore.Interfaces.UI;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Plugins;
+using Cirrious.CrossCore.UI;
 
 namespace Cirrious.MvvmCross.Plugins.Color.Touch
 {
@@ -15,13 +15,9 @@ namespace Cirrious.MvvmCross.Plugins.Color.Touch
         : IMvxPlugin
           
     {
-        #region Implementation of IMvxPlugin
-
         public void Load()
         {
             Mvx.RegisterSingleton<IMvxNativeColor>(new MvxTouchColor());
         }
-
-        #endregion
     }
 }

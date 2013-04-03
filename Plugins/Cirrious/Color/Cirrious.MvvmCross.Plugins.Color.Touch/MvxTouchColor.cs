@@ -5,7 +5,6 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.UI;
 using Cirrious.CrossCore.UI;
 using MonoTouch.UIKit;
 
@@ -13,18 +12,14 @@ namespace Cirrious.MvvmCross.Plugins.Color.Touch
 {
     public class MvxTouchColor : IMvxNativeColor
     {
-        #region Implementation of IMvxNativeColor
-
         public object ToNative(MvxColor mvxColor)
         {
             return ToUIColor(mvxColor);
         }
 
-        #endregion
-
         public static UIColor ToUIColor(MvxColor mvxColor)
         {
-            return new MonoTouch.UIKit.UIColor(mvxColor.R, mvxColor.G, mvxColor.B, mvxColor.A);
+			return new MonoTouch.UIKit.UIColor(mvxColor.R/255.0f, mvxColor.G/255.0f, mvxColor.B/255.0f, mvxColor.A/255.0f);
         }
     }
 }

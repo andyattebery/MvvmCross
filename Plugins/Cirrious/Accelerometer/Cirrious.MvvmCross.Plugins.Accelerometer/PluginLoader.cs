@@ -7,8 +7,8 @@
 //  
 // Project Lead - Stuart Lodge, Cirrious. http://www.cirrious.com - Hire me - I'm worth it!
 
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Plugins;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Plugins;
 
 namespace Cirrious.MvvmCross.Plugins.Accelerometer
 {
@@ -17,14 +17,10 @@ namespace Cirrious.MvvmCross.Plugins.Accelerometer
     {
         public static readonly PluginLoader Instance = new PluginLoader();
 
-        #region Implementation of IMvxPluginLoader
-
         public void EnsureLoaded()
         {
             var manager = Mvx.Resolve<IMvxPluginManager>();
-            manager.EnsureLoaded<PluginLoader>();
+            manager.EnsurePlatformAdaptionLoaded<PluginLoader>();
         }
-
-        #endregion
     }
 }

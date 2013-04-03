@@ -7,24 +7,22 @@
 
 using System;
 using System.Collections.Generic;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Source;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Source.Construction;
+using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.Binding.Bindings.Source.Construction;
 using Cirrious.MvvmCross.Binding.Parse.PropertyPath.PropertyTokens;
 
 namespace Cirrious.MvvmCross.Binding.Bindings.Source.Chained
 {
     public abstract class MvxChainedSourceBinding
-        : MvxBasePropertyInfoSourceBinding
+        : MvxPropertyInfoSourceBinding
     {
-        private readonly IList<MvxBasePropertyToken> _childTokens;
+        private readonly IList<MvxPropertyToken> _childTokens;
         private IMvxSourceBinding _currentChildBinding;
 
         protected MvxChainedSourceBinding(
             object source,
             string propertyName,
-            IList<MvxBasePropertyToken> childTokens)
+            IList<MvxPropertyToken> childTokens)
             : base(source, propertyName)
         {
             _childTokens = childTokens;
@@ -46,7 +44,7 @@ namespace Cirrious.MvvmCross.Binding.Bindings.Source.Chained
 
         private IMvxSourceBindingFactory SourceBindingFactory
         {
-            get { return Mvx.Resolve<IMvxSourceBindingFactory>(); }
+            get { return MvxBindingSingletonCache.Instance.SourceBindingFactory; }
         }
 
         public override Type SourceType

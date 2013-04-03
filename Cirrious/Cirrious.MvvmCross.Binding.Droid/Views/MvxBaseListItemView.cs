@@ -5,41 +5,45 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
+using System;
 using Android.Content;
+using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Binding.Droid.BindingContext;
-using Cirrious.MvvmCross.Binding.Droid.Interfaces.BindingContext;
-using Cirrious.MvvmCross.Binding.Droid.Interfaces.Views;
 
 namespace Cirrious.MvvmCross.Binding.Droid.Views
 {
     public abstract class MvxBaseListItemView
         : FrameLayout
+          , IMvxBindingContextOwner
     {
-        private readonly IMvxBindingContext _bindingContext;
+        private readonly IMvxAndroidBindingContext _bindingContext;
 
-        protected MvxBaseListItemView(Context context, IMvxLayoutInflater layoutInflater, object source)
+        protected MvxBaseListItemView(Context context, IMvxLayoutInflater layoutInflater, object dataContext)
             : base(context)
         {
-            _bindingContext = new MvxBindingContext(context, layoutInflater, source);
+            _bindingContext = new MvxAndroidBindingContext(context, layoutInflater, dataContext);
         }
 
-        public void ClearBindings()
-        {
-            _bindingContext.ClearBindings(this);
-        }
-
-        protected IMvxBindingContext BindingContext
+        protected IMvxAndroidBindingContext AndroidBindingContext
         {
             get { return _bindingContext; }
+        }
+
+        public IMvxBindingContext BindingContext
+        {
+            get { return _bindingContext; }
+            set { throw new NotImplementedException("BindingContext is readonly in the list item"); }
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                ClearBindings();
+                this.ClearAllBindings();
             }
 
             base.Dispose(disposing);

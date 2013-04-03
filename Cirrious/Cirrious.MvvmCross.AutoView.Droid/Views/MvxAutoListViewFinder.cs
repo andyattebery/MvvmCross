@@ -6,10 +6,10 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.AutoView.Droid.Views.Lists;
 using Cirrious.MvvmCross.AutoView.Interfaces;
-using Cirrious.MvvmCross.Interfaces.Views;
+using Cirrious.MvvmCross.Views;
 
 namespace Cirrious.MvvmCross.AutoView.Droid.Views
 {
@@ -19,7 +19,7 @@ namespace Cirrious.MvvmCross.AutoView.Droid.Views
 
         public MvxAutoListViewFinder()
         {
-            ListViewType = typeof (MvxAutoListActivityView);
+            ListViewType = typeof (MvxAutoListActivity);
         }
 
         public Type GetViewType(Type viewModelType)

@@ -8,21 +8,20 @@
 using System.Collections.Generic;
 using System.Text;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.MvvmCross.Binding.Interfaces.Parse;
 using Cirrious.MvvmCross.Binding.Parse.PropertyPath.PropertyTokens;
 
 namespace Cirrious.MvvmCross.Binding.Parse.PropertyPath
 {
     public class MvxSourcePropertyPathParser
-        : MvxBaseParser
+        : MvxParser
           , IMvxSourcePropertyPathParser
     {
-        protected List<MvxBasePropertyToken> CurrentTokens { get; private set; }
+        protected List<MvxPropertyToken> CurrentTokens { get; private set; }
 
         protected override void Reset(string textToParse)
         {
             textToParse = MakeSafe(textToParse);
-            CurrentTokens = new List<MvxBasePropertyToken>();
+            CurrentTokens = new List<MvxPropertyToken>();
             base.Reset(textToParse);
         }
 
@@ -35,7 +34,7 @@ namespace Cirrious.MvvmCross.Binding.Parse.PropertyPath
             return textToParse;
         }
 
-        public IList<MvxBasePropertyToken> Parse(string textToParse)
+        public IList<MvxPropertyToken> Parse(string textToParse)
         {
             Reset(textToParse);
 
@@ -71,7 +70,8 @@ namespace Cirrious.MvvmCross.Binding.Parse.PropertyPath
             }
             else
             {
-                throw new MvxException("Unexpected character {0} at position {1} in property text {2}", CurrentChar,
+                throw new MvxException("Unexpected character {0} at position {1} in targetProperty text {2}",
+                                       CurrentChar,
                                        CurrentIndex, FullText);
             }
         }
@@ -100,14 +100,14 @@ namespace Cirrious.MvvmCross.Binding.Parse.PropertyPath
             MoveNext();
             if (IsComplete)
             {
-                throw new MvxException("Invalid indexer property text {0}", FullText);
+                throw new MvxException("Invalid indexer targetProperty text {0}", FullText);
             }
 
             SkipWhitespaceAndPeriods();
 
             if (IsComplete)
             {
-                throw new MvxException("Invalid indexer property text {0}", FullText);
+                throw new MvxException("Invalid indexer targetProperty text {0}", FullText);
             }
 
             if (CurrentChar == '\'' || CurrentChar == '\"')
@@ -126,13 +126,14 @@ namespace Cirrious.MvvmCross.Binding.Parse.PropertyPath
             SkipWhitespaceAndPeriods();
             if (IsComplete)
             {
-                throw new MvxException("Invalid termination of indexer property text in {0}", FullText);
+                throw new MvxException("Invalid termination of indexer targetProperty text in {0}", FullText);
             }
 
             if (CurrentChar != ']')
             {
                 throw new MvxException(
-                    "Unexpected character {0} at position {1} in property text {2} - expected terminator", CurrentChar,
+                    "Unexpected character {0} at position {1} in targetProperty text {2} - expected terminator",
+                    CurrentChar,
                     CurrentIndex, FullText);
             }
 
@@ -141,7 +142,6 @@ namespace Cirrious.MvvmCross.Binding.Parse.PropertyPath
 
         private void ParseIntegerIndexer()
         {
-#warning Need to tidy this up so that it properly reads signed integers too
             var index = (int) ReadUnsignedInteger();
             CurrentTokens.Add(new MvxIntegerIndexerPropertyToken(index));
         }

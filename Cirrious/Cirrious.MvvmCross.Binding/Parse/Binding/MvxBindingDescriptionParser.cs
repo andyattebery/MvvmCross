@@ -7,12 +7,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Cirrious.CrossCore.Interfaces.Converters;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Binding.Interfaces.Binders;
-using Cirrious.MvvmCross.Binding.Interfaces.Parse;
+using Cirrious.CrossCore.Converters;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.Binding.Binders;
+using Cirrious.MvvmCross.Binding.Parse.Binding.Lang;
 
 namespace Cirrious.MvvmCross.Binding.Parse.Binding
 {
@@ -20,6 +19,8 @@ namespace Cirrious.MvvmCross.Binding.Parse.Binding
         : IMvxBindingDescriptionParser
     {
         private IMvxBindingParser _bindingParser;
+        private IMvxValueConverterLookup _valueConverterLookup;
+
         protected IMvxBindingParser BindingParser
         {
             get
@@ -30,6 +31,7 @@ namespace Cirrious.MvvmCross.Binding.Parse.Binding
         }
 
         private IMvxLanguageBindingParser _languageBindingParser;
+
         protected IMvxLanguageBindingParser LanguageBindingParser
         {
             get
@@ -38,11 +40,21 @@ namespace Cirrious.MvvmCross.Binding.Parse.Binding
                 return _languageBindingParser;
             }
         }
-       
+
+        protected IMvxValueConverterLookup ValueConverterLookup
+        {
+            get
+            {
+                _valueConverterLookup = _valueConverterLookup ?? Mvx.Resolve<IMvxValueConverterLookup>();
+                return _valueConverterLookup;
+            }
+        }
+
         protected IMvxValueConverter FindConverter(string converterName)
         {
-            return Mvx.Resolve<IMvxValueConverterProvider>().Find(converterName);
+            return ValueConverterLookup.Find(converterName);
         }
+
 
         public IEnumerable<MvxBindingDescription> Parse(string text)
         {

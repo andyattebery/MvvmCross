@@ -20,7 +20,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\..\..\bin\Portable\Debug</OutputPath>
+    <OutputPath>..\..\..\..\bin\Debug\Mvx\Portable\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\..\..\bin\Portable\Release</OutputPath>
+    <OutputPath>..\..\..\..\bin\Release\Mvx\Portable\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -46,11 +46,10 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMvxJsonFlattener.cs" />
     <Compile Include="MvxDateTimeJsonConverter.cs" />
     <Compile Include="MvxEnumJsonConverter.cs" />
+    <Compile Include="MvxJsonConfiguration.cs" />
     <Compile Include="MvxJsonConverter.cs" />
-    <Compile Include="MvxJsonFlattener.cs" />
     <Compile Include="PluginLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

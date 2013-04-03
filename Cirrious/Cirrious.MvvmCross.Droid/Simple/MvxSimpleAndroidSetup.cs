@@ -7,9 +7,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.Content;
-using Cirrious.MvvmCross.Application;
 using Cirrious.MvvmCross.Droid.Platform;
+using Cirrious.MvvmCross.ViewModels;
 
 namespace Cirrious.MvvmCross.Droid.Simple
 {
@@ -23,28 +24,28 @@ namespace Cirrious.MvvmCross.Droid.Simple
             _converterTypes = converterTypes;
         }
 
-        protected override IEnumerable<Type> ValueConverterHolders
+        protected override List<Type> ValueConverterHolders
         {
-            get { return _converterTypes; }
+            get { return _converterTypes.ToList(); }
         }
 
-        protected override IDictionary<Type, Type> GetViewModelViewLookup()
+        protected override void InitializeViewLookup()
         {
-            return new Dictionary<Type, Type>();
+            // do nothing
         }
 
-        protected override MvxApplication CreateApp()
+        protected override IMvxApplication CreateApp()
         {
             return new MvxSimpleEmptyAndroidApp();
         }
 
-        protected override void InitializeNavigationRequestSerializer()
+        protected override void InitializeNavigationSerializer()
         {
             // do nothing in simple apps - nothing to initialise
         }
 
-        protected override MvvmCross.Interfaces.ViewModels.IMvxNavigationRequestSerializer
-            CreateNavigationRequestSerializer()
+        protected override IMvxNavigationSerializer
+            CreateNavigationSerializer()
         {
             throw new NotImplementedException("Not used in Simple apps - no navigation needed");
         }

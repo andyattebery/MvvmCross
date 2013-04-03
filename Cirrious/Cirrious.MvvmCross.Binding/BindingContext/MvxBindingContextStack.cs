@@ -6,7 +6,6 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System.Collections.Generic;
-using Cirrious.MvvmCross.Binding.Interfaces.BindingContext;
 
 namespace Cirrious.MvvmCross.Binding.BindingContext
 {
@@ -16,7 +15,12 @@ namespace Cirrious.MvvmCross.Binding.BindingContext
     {
         public TContext Current
         {
-            get { return Peek(); }
+            get
+            {
+                if (Count == 0)
+                    return default(TContext);
+                return Peek();
+            }
         }
     }
 }

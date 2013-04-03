@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using Cirrious.CrossCore.Core;
-using Cirrious.CrossCore.Interfaces.Core;
 using Cirrious.MvvmCross.Binding.Touch;
 using Cirrious.MvvmCross.Plugins.DownloadCache;
 using Cirrious.MvvmCross.Touch.Views;
@@ -11,12 +10,13 @@ using Cirrious.MvvmCross.Binding.Touch.Views;
 using Cirrious.MvvmCross.Views;
 using BestSellers.ViewModels;
 using System.Collections.Generic;
+using Cirrious.MvvmCross.Binding.BindingContext;
 
 namespace BestSellers.Touch.Views
 {
 	public partial class BookView : MvxViewController
 	{
-        private MvxDynamicImageHelper<UIImage> _imageHelper;
+		private MvxImageViewLoader _imageHelper;
 
 		public new BookViewModel ViewModel {
 			get { return base.ViewModel as BookViewModel; }
@@ -25,18 +25,9 @@ namespace BestSellers.Touch.Views
 
 		public BookView () : base ("BookView", null)
 		{
-			_imageHelper = new MvxDynamicImageHelper<UIImage>();
-			_imageHelper.ImageChanged += HandleImageHelperImageChanged;
+			_imageHelper = new MvxImageViewLoader(() => BookImage);
 		}
-
-		void HandleImageHelperImageChanged (object sender, MvxValueEventArgs<UIImage> e)
-		{
-			if (BookImage != null)
-			{
-				BookImage.Image = e.Value;
-			}			
-		}
-				
+						
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -48,7 +39,7 @@ namespace BestSellers.Touch.Views
                         { AuthorLabel, "Text Book.Author" },
                         { DescriptionLabel, "Text Book.Description" },
                         { _imageHelper, "ImageUrl Book.AmazonImageUrl" },
-                        { ActivityIndicator, "Hidden IsLoading,Converter=InvertedVisibility" },
+                        { ActivityIndicator, "Visibility IsLoading,Converter=Visibility" },
                     });
 		}
 		
@@ -56,7 +47,6 @@ namespace BestSellers.Touch.Views
 		{
 			base.ViewDidUnload ();					
 			ReleaseDesignerOutlets ();
-			_imageHelper.ImageChanged -= HandleImageHelperImageChanged;
 		}
 		
 		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)

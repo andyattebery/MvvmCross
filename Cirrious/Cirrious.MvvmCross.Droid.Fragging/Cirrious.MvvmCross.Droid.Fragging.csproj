@@ -18,7 +18,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\bin\Droid\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\Mvx\Droid\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\bin\Droid\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\Mvx\Droid\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -49,6 +49,7 @@
     <Compile Include="Fragments\MvxFragmentExtensions.cs" />
     <Compile Include="Fragments\EventSource\MvxBaseFragmentAdapter.cs" />
     <Compile Include="Fragments\MvxBindingFragmentAdapter.cs" />
+    <Compile Include="Fragments\MvxSimpleLayoutInflater.cs" />
     <Compile Include="MvxCreateViewParameters.cs" />
     <Compile Include="Fragments\MvxDialogFragment.cs" />
     <Compile Include="Fragments\EventSource\MvxEventSourceDialogFragment.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Fragments\MvxFragment.cs" />
     <Compile Include="MvxFragmentActivity.cs" />
     <Compile Include="Fragments\MvxListFragment.cs" />
+    <Compile Include="MvxTabsFragmentActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

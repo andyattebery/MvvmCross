@@ -8,7 +8,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using Cirrious.CrossCore.Interfaces.Converters;
+using Cirrious.CrossCore.Converters;
 
 namespace Cirrious.CrossCore.WindowsPhone.Converters
 {
@@ -17,8 +17,6 @@ namespace Cirrious.CrossCore.WindowsPhone.Converters
         where T : IMvxValueConverter, new()
     {
         private readonly T _wrapped = new T();
-
-        #region Implementation of IValueConverter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -29,7 +27,5 @@ namespace Cirrious.CrossCore.WindowsPhone.Converters
         {
             return _wrapped.ConvertBack(value, targetType, parameter, culture);
         }
-
-        #endregion
     }
 }

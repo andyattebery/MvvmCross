@@ -6,17 +6,14 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using Cirrious.CrossCore.Interfaces.Core;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.Core;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 
 namespace Cirrious.MvvmCross.Plugins.DownloadCache
 {
     public class MvxDynamicImageHelper<T>
-        : IMvxImageHelper<T>
-          
+        : IMvxImageHelper<T>   
         where T : class
     {
         #region ImageState enum
@@ -77,13 +74,6 @@ namespace Cirrious.MvvmCross.Plugins.DownloadCache
                 _imageUrl = value;
                 RequestImage(_imageUrl);
             }
-        }
-
-        [Obsolete("Use ImageUrl instead")]
-        public string HttpImageUrl
-        {
-            get { return ImageUrl; }
-            set { ImageUrl = value; }
         }
 
         #region IDisposable Members
@@ -222,7 +212,7 @@ namespace Cirrious.MvvmCross.Plugins.DownloadCache
                 var localImage = ImageFromLocalFile(filePath);
                 if (localImage == null)
                 {
-                    MvxTrace.Trace(MvxTraceLevel.Warning, "Failed to load local image for filePath {0}", filePath);
+                    MvxTrace.Warning( "Failed to load local image for filePath {0}", filePath);
                 }
                 FireImageChanged(ImageFromLocalFile(filePath));
             }

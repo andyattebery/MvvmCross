@@ -1,4 +1,4 @@
-using Cirrious.MvvmCross.Localization.Converters;
+using Cirrious.MvvmCross.Localization;
 using Cirrious.MvvmCross.Plugins.Visibility;
 
 namespace Cirrious.Conference.Core.Converters
@@ -9,7 +9,7 @@ namespace Cirrious.Conference.Core.Converters
         public readonly SessionSmallDetailsValueConverter SessionSmallDetails = new SessionSmallDetailsValueConverter();
         public readonly SimpleDateValueConverter SimpleDate = new SimpleDateValueConverter();
         public readonly SponsorImageValueConverter SponsorImage = new SponsorImageValueConverter();
-        public readonly MvxVisibilityConverter Visibility = new MvxVisibilityConverter();
-        public readonly MvxLanguageBinderConverter Language = new MvxLanguageBinderConverter();
+        public readonly MvxVisibilityValueConverter Visibility = new MvxVisibilityValueConverter();
+        public readonly MvxLanguageConverter Language = new MvxLanguageConverter();
     }
 }

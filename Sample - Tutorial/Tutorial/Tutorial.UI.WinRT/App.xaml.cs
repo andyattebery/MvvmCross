@@ -1,9 +1,9 @@
-﻿using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+﻿using Cirrious.CrossCore.IoC;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cirrious.MvvmCross.ViewModels;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -24,8 +24,7 @@ namespace Tutorial.UI.WinRT
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
     sealed partial class App 
-        : Application
-        
+        : Application        
     {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -72,7 +71,7 @@ namespace Tutorial.UI.WinRT
                 var setup = new Setup(rootFrame);
                 setup.Initialize();
 
-                var start = Mvx.Resolve<IMvxStartNavigation>();
+                var start = Mvx.Resolve<IMvxAppStart>();
                 start.Start();
             }
 

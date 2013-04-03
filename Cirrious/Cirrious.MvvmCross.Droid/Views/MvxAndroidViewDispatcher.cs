@@ -5,31 +5,31 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Android.App;
-using Cirrious.MvvmCross.Droid.Interfaces;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Interfaces.Views;
+using Cirrious.CrossCore.Core;
 using Cirrious.MvvmCross.ViewModels;
+using Cirrious.MvvmCross.Views;
 
 namespace Cirrious.MvvmCross.Droid.Views
 {
     public class MvxAndroidViewDispatcher
-        : MvxMainThreadDispatcher
-          , IMvxViewDispatcher
+        : MvxAndroidMainThreadDispatcher
+        , IMvxViewDispatcher
     {
-        private readonly Activity _activity;
         private readonly IMvxAndroidViewPresenter _presenter;
 
-        public MvxAndroidViewDispatcher(Activity activity, IMvxAndroidViewPresenter presenter)
-            : base(activity)
+        public MvxAndroidViewDispatcher(IMvxAndroidViewPresenter presenter)
         {
-            _activity = activity;
             _presenter = presenter;
         }
 
-        public bool RequestNavigate(MvxShowViewModelRequest request)
+        public bool ShowViewModel(MvxViewModelRequest request)
         {
             return RequestMainThreadAction(() => _presenter.Show(request));
+        }
+
+        public bool ChangePresentation(MvxPresentationHint hint)
+        {
+            return RequestMainThreadAction(() => _presenter.ChangePresentation(hint));
         }
     }
 }

@@ -7,10 +7,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Binding.Bindings;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Binding.Interfaces.Binders;
 
 namespace Cirrious.MvvmCross.Binding.Binders
 {
@@ -18,15 +16,16 @@ namespace Cirrious.MvvmCross.Binding.Binders
         : IMvxBinder
     {
         private IMvxBindingDescriptionParser _bindingDescriptionParser;
+
         protected IMvxBindingDescriptionParser BindingDescriptionParser
         {
-            get 
+            get
             {
                 _bindingDescriptionParser = _bindingDescriptionParser ?? Mvx.Resolve<IMvxBindingDescriptionParser>();
                 return _bindingDescriptionParser;
             }
         }
-        
+
         public IEnumerable<IMvxUpdateableBinding> Bind(object source, object target, string bindingText)
         {
             var bindingDescriptions = BindingDescriptionParser.Parse(bindingText);

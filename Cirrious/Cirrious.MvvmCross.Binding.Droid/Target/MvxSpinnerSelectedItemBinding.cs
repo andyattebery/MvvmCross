@@ -7,13 +7,12 @@
 
 using System;
 using Android.Widget;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Droid.Views;
-using Cirrious.MvvmCross.Binding.Interfaces;
 
 namespace Cirrious.MvvmCross.Binding.Droid.Target
 {
-    public class MvxSpinnerSelectedItemBinding : MvxBaseAndroidTargetBinding
+    public class MvxSpinnerSelectedItemBinding : MvxAndroidTargetBinding
     {
         protected MvxSpinner Spinner
         {

@@ -13,11 +13,10 @@ using Android.Content.Res;
 using Android.Util;
 using Android.Views;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.MvvmCross.Binding.Droid.Interfaces.Binders;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Localization.Interfaces;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.Binding.Binders;
+using Cirrious.MvvmCross.Binding.Bindings;
 
 namespace Cirrious.MvvmCross.Binding.Droid.Binders
 {
@@ -83,19 +82,19 @@ namespace Cirrious.MvvmCross.Binding.Droid.Binders
         {
             using (
                 var typedArray = context.ObtainStyledAttributes(attrs,
-                                                                MvxDroidBindingResource.Instance
-                                                                                       .BindingStylableGroupId))
+                                                                MvxAndroidBindingResource.Instance
+                                                                                         .BindingStylableGroupId))
             {
                 int numStyles = typedArray.IndexCount;
                 for (var i = 0; i < numStyles; ++i)
                 {
                     var attributeId = typedArray.GetIndex(i);
 
-                    if (attributeId == MvxDroidBindingResource.Instance.BindingBindId)
+                    if (attributeId == MvxAndroidBindingResource.Instance.BindingBindId)
                     {
                         ApplyBindingsFromAttribute(view, typedArray, attributeId);
                     }
-                    else if (attributeId == MvxDroidBindingResource.Instance.BindingLangId)
+                    else if (attributeId == MvxAndroidBindingResource.Instance.BindingLangId)
                     {
                         ApplyLanguageBindingsFromAttribute(view, typedArray, attributeId);
                     }
@@ -140,7 +139,7 @@ namespace Cirrious.MvvmCross.Binding.Droid.Binders
                 throw;
             }
         }
-        
+
         private View CreateView(string name, Context context, IAttributeSet attrs)
         {
             // resolve the tag name to a type

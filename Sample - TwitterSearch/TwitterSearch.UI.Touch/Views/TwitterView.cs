@@ -6,6 +6,7 @@ using Cirrious.MvvmCross.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using TwitterSearch.Core.ViewModels;
+using Cirrious.MvvmCross.Binding.BindingContext;
 
 namespace TwitterSearch.UI.Touch.Views
 {
@@ -29,12 +30,10 @@ namespace TwitterSearch.UI.Touch.Views
 			
 			var source = new TableViewSource(TableView);
 
-            this.AddBindings(new Dictionary<object, string>()
-		                         {
-		                             {source, "ItemsSource Tweets"},
-									 {_activityView, "Hidden IsSearching, Converter=Visibility"},
-		                         });
-            TableView.Source = source;
+			this.CreateBinding(source).To((TwitterViewModel vm) => vm.Tweets).Apply();
+			this.CreateBinding(_activityView).For(v => v.Hidden).To((TwitterViewModel vm) => vm.IsSearching).WithConversion("Visibility").Apply();
+            
+			TableView.Source = source;
 			TableView.ReloadData();
         }
 

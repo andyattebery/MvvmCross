@@ -7,11 +7,9 @@
 
 using Android.Views;
 using Android.Widget;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Bindings.Target.Construction;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Target.Construction;
 
 namespace Cirrious.MvvmCross.Plugins.Color.Droid.BindingTargets
 {
@@ -22,7 +20,7 @@ namespace Cirrious.MvvmCross.Plugins.Color.Droid.BindingTargets
             IMvxTargetBindingFactoryRegistry registry;
             if (!Mvx.TryResolve(out registry))
             {
-                MvxTrace.Trace(MvxTraceLevel.Warning,
+                MvxTrace.Warning(
                                "No binding registry available - so color bindings will not be used");
                 return;
             }

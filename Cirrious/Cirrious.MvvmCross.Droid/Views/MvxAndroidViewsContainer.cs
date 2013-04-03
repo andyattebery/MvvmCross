@@ -8,11 +8,8 @@
 using System;
 using Android.Content;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Droid.Interfaces;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
 
@@ -44,19 +41,22 @@ namespace Cirrious.MvvmCross.Droid.Views
         {
             if (intent == null)
             {
-                MvxTrace.Trace(MvxTraceLevel.Error, "Null Intent seen when creating ViewModel");
+                MvxTrace.Error( "Null Intent seen when creating ViewModel");
                 return null;
             }
 
             if (intent.Action == Intent.ActionMain)
             {
                 MvxTrace.Trace("Creating ViewModel for ActionMain");
-                return Activator.CreateInstance(viewModelTypeHint) as IMvxViewModel;
+                var loaderService = Mvx.Resolve<IMvxViewModelLoader>();
+                var viewModelRequest = MvxViewModelRequest.GetDefaultRequest(viewModelTypeHint);
+                var viewModel = loaderService.LoadViewModel(viewModelRequest, savedState);
+                return viewModel;
             }
 
             if (intent.Extras == null)
             {
-                MvxTrace.Trace(MvxTraceLevel.Error,
+                MvxTrace.Error(
                                "Null Extras seen on Intent when creating ViewModel - this should not happen - have you tried to navigate to an MvvmCross View directly?");
                 return null;
             }
@@ -78,9 +78,14 @@ namespace Cirrious.MvvmCross.Droid.Views
             if (extraData == null)
                 return null;
 
-            var converter = Mvx.Resolve<IMvxNavigationRequestSerializer>();
-            var viewModelRequest = converter.Serializer.DeserializeObject<MvxShowViewModelRequest>(extraData);
+            var converter = Mvx.Resolve<IMvxNavigationSerializer>();
+            var viewModelRequest = converter.Serializer.DeserializeObject<MvxViewModelRequest>(extraData);
 
+            return ViewModelFromRequest(viewModelRequest, savedState);
+        }
+
+        private IMvxViewModel ViewModelFromRequest(MvxViewModelRequest viewModelRequest, IMvxBundle savedState)
+        {
             var loaderService = Mvx.Resolve<IMvxViewModelLoader>();
             var viewModel = loaderService.LoadViewModel(viewModelRequest, savedState);
             return viewModel;
@@ -100,7 +105,7 @@ namespace Cirrious.MvvmCross.Droid.Views
             return false;
         }
 
-        public virtual Intent GetIntentFor(MvxShowViewModelRequest request)
+        public virtual Intent GetIntentFor(MvxViewModelRequest request)
         {
             var viewType = GetViewType(request.ViewModelType);
             if (viewType == null)
@@ -108,21 +113,29 @@ namespace Cirrious.MvvmCross.Droid.Views
                 throw new MvxException("View Type not found for " + request.ViewModelType);
             }
 
-            var converter = Mvx.Resolve<IMvxNavigationRequestSerializer>();
+            var converter = Mvx.Resolve<IMvxNavigationSerializer>();
             var requestText = converter.Serializer.SerializeObject(request);
 
             var intent = new Intent(_applicationContext, viewType);
             intent.PutExtra(ExtrasKey, requestText);
-#warning ClearTop is not enough :/ Need to work on an Intent based scheme like http://stackoverflow.com/questions/3007998/on-logout-clear-activity-history-stack-preventing-back-button-from-opening-l
-            if (request.ClearTop)
-                intent.AddFlags(ActivityFlags.ClearTop);
+
+            AdjustIntentForPresentation(intent, request);
+
             intent.AddFlags(ActivityFlags.NewTask);
             return intent;
         }
 
+        protected virtual void AdjustIntentForPresentation(Intent intent, MvxViewModelRequest request)
+        {
+#warning we want to do things here... clear top, remove history item, etc
+//#warning ClearTop is not enough :/ Need to work on an Intent based scheme like http://stackoverflow.com/questions/3007998/on-logout-clear-activity-history-stack-preventing-back-button-from-opening-l
+//            if (request.ClearTop)
+//                intent.AddFlags(ActivityFlags.ClearTop);
+        }
+
         public virtual Tuple<Intent, int> GetIntentWithKeyFor(IMvxViewModel viewModel)
         {
-            var request = MvxShowViewModelRequest.GetDefaultRequest(viewModel.GetType());
+            var request = MvxViewModelRequest.GetDefaultRequest(viewModel.GetType());
             var intent = GetIntentFor(request);
 
             var key = Mvx.Resolve<IMvxChildViewModelCache>().Cache(viewModel);

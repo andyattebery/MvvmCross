@@ -17,13 +17,13 @@ namespace Tutorial.Core.ViewModels
         {
             get
             {
-                return new MvxRelayCommand<Type>((type) => DoShowItem(type));
+                return new MvxCommand<Type>((type) => DoShowItem(type));
             }
         }
 
         public void DoShowItem(Type itemType)
         {
-            this.RequestNavigate(itemType);
+            this.ShowViewModel(itemType);
         }
 
         public MainMenuViewModel()

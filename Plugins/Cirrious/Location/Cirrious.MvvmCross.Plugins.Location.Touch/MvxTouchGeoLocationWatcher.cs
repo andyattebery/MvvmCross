@@ -7,6 +7,7 @@
 
 using System;
 using Cirrious.CrossCore.Exceptions;
+using Cirrious.CrossCore.Platform;
 using Cirrious.CrossCore.Touch;
 using MonoTouch.CoreLocation;
 using MonoTouch.Foundation;
@@ -14,8 +15,11 @@ using MonoTouch.Foundation;
 namespace Cirrious.MvvmCross.Plugins.Location.Touch
 {
     public sealed class MvxTouchGeoLocationWatcher
-        : MvxBaseGeoLocationWatcher
+        : MvxGeoLocationWatcher
     {
+		private const double AccuracyFine = 10;
+		private const double AccuracyCoarse = 1000;
+
         private CLLocationManager _locationManager;
 
         public MvxTouchGeoLocationWatcher()
@@ -33,9 +37,16 @@ namespace Cirrious.MvvmCross.Plugins.Location.Touch
                 _locationManager = new CLLocationManager();
                 _locationManager.Delegate = new LocationDelegate(this);
 
-                //_locationManager.DesiredAccuracy = options.EnableHighAccuracy ? Accuracy.Fine : Accuracy.Coarse;
-                _locationManager.StartUpdatingLocation();
-            }
+				// more needed here for more filtering
+				// _locationManager.DistanceFilter = options. CLLocationDistance.FilterNone
+
+				_locationManager.DesiredAccuracy = options.EnableHighAccuracy ? CLLocation.AccuracyBest : CLLocation.AccuracyKilometer;
+         		
+				if (CLLocationManager.HeadingAvailable)
+					_locationManager.StartUpdatingHeading();
+
+				_locationManager.StartUpdatingLocation();
+			}
         }
 
         protected override void SendLocation(MvxGeoLocation location)
@@ -60,14 +71,15 @@ namespace Cirrious.MvvmCross.Plugins.Location.Touch
                 {
                     _locationManager.Delegate = null;
                     _locationManager.StopUpdatingLocation();
-#warning Why is _locationManager not disposed here? I seem to remember it was because of a crash problem!
-                    //_locationManager.Dispose();
+					if (CLLocationManager.HeadingAvailable)
+						_locationManager.StopUpdatingHeading();
+					_locationManager.Dispose();
                     _locationManager = null;
                 }
             }
         }
 
-        private static MvxGeoLocation CreateLocation(CLLocation location)
+        private static MvxGeoLocation CreateLocation(CLLocation location, CLHeading heading)
         {
             var position = new MvxGeoLocation {Timestamp = location.Timestamp.ToDateTimeUtc()};
             var coords = position.Coordinates;
@@ -78,6 +90,11 @@ namespace Cirrious.MvvmCross.Plugins.Location.Touch
             coords.Speed = location.Speed;
             coords.Accuracy = location.HorizontalAccuracy;
             coords.AltitudeAccuracy = location.VerticalAccuracy;
+			if (heading != null)
+			{
+				coords.Heading = heading.TrueHeading;
+				coords.HeadingAccuracy = heading.HeadingAccuracy;
+			}
 
             return position;
         }
@@ -94,13 +111,28 @@ namespace Cirrious.MvvmCross.Plugins.Location.Touch
             }
 
 
-#warning - see https://github.com/slodge/MvvmCross/issues/92 and http://stackoverflow.com/questions/13262385/monotouch-cllocationmanagerdelegate-updatedlocation
-            [Obsolete]
-            public override void UpdatedLocation(CLLocationManager manager, CLLocation newLocation,
-                                                 CLLocation oldLocation)
-            {
-                _owner.SendLocation(CreateLocation(newLocation));
-            }
+			CLHeading _lastSeenHeading;
+
+			public override void UpdatedHeading (CLLocationManager manager, CLHeading newHeading)
+			{
+				// note that we don't immediately send on the heading information.
+				// for user's wanting real-time heading info a different plugin/api will be needed
+				_lastSeenHeading = newHeading;
+			}
+
+			public override void LocationsUpdated (CLLocationManager manager, CLLocation[] locations)
+			{
+				// see https://github.com/slodge/MvvmCross/issues/92 and http://stackoverflow.com/questions/13262385/monotouch-cllocationmanagerdelegate-updatedlocation
+				if (locations.Length == 0)
+				{
+					MvxTrace.Error("iOS has passed LocationsUpdated an empty array - this should never happen");
+					return;
+				}
+
+				var mostRecent = locations[locations.Length - 1];
+				var converted = CreateLocation(mostRecent, _lastSeenHeading);
+				_owner.SendLocation(converted);
+			}
 
             public override void Failed(CLLocationManager manager, NSError error)
             {

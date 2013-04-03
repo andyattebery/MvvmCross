@@ -7,11 +7,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Cirrious.MvvmCross.Binding.Interfaces;
 
 namespace Cirrious.MvvmCross.Binding.Bindings
 {
-    public class MvxCompositeBinding : MvxBaseBinding
+    public class MvxCompositeBinding : MvxBinding
     {
         private readonly List<IMvxBinding> _bindings;
 

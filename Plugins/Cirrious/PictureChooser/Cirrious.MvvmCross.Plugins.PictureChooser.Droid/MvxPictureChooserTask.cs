@@ -11,12 +11,12 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Provider;
-using Cirrious.CrossCore.Droid.Interfaces;
+using Cirrious.CrossCore.Droid;
+using Cirrious.CrossCore.Droid.Platform;
+using Cirrious.CrossCore.Droid.Views;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Droid.Interfaces;
-using Cirrious.MvvmCross.Droid.Platform.Tasks;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Uri = Android.Net.Uri;
 
 namespace Cirrious.MvvmCross.Plugins.PictureChooser.Droid
@@ -107,7 +107,7 @@ namespace Cirrious.MvvmCross.Plugins.PictureChooser.Droid
         {
             if (_currentRequestParameters == null)
             {
-                MvxTrace.Trace("Internal error - response received but _currentRequestParameters is null");
+                MvxTrace.Error("Internal error - response received but _currentRequestParameters is null");
                 return; // we have not handled this - so we return null
             }
 

@@ -6,7 +6,8 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using Cirrious.CrossCore.Interfaces.Core;
+using Android.App;
+using Cirrious.CrossCore.Core;
 
 namespace Cirrious.MvvmCross.Droid.Fragging.Fragments.EventSource
 {
@@ -14,5 +15,6 @@ namespace Cirrious.MvvmCross.Droid.Fragging.Fragments.EventSource
     {
         event EventHandler<MvxValueEventArgs<MvxCreateViewParameters>> OnCreateViewCalled;
         event EventHandler OnDestroyViewCalled;
+        event EventHandler<MvxValueEventArgs<Activity>> OnAttachCalled;
     }
 }

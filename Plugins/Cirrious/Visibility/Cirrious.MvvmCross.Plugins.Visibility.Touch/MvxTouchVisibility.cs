@@ -5,7 +5,6 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.UI;
 using Cirrious.CrossCore.UI;
 
 namespace Cirrious.MvvmCross.Plugins.Visibility.Touch
@@ -16,7 +15,7 @@ namespace Cirrious.MvvmCross.Plugins.Visibility.Touch
 
         public object ToNative(MvxVisibility visibility)
         {
-            return visibility == MvxVisibility.Visible ? true : false;
+            return visibility;
         }
 
         #endregion

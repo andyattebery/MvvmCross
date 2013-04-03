@@ -5,11 +5,10 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
+using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Binding.Droid.BindingContext;
-using Cirrious.MvvmCross.Binding.Droid.Interfaces.BindingContext;
 using Cirrious.MvvmCross.Binding.Droid.Views;
-using Cirrious.MvvmCross.Binding.Interfaces.BindingContext;
 
 namespace Cirrious.Conference.UI.Droid.Controls.PullToRefresh
 {
@@ -31,8 +30,8 @@ namespace Cirrious.Conference.UI.Droid.Controls.PullToRefresh
         public PullToRefreshListView(Context context, IAttributeSet attrs, int whichResourceId)
             : base(context, attrs)
         {
-            var stack = Mvx.Resolve<IMvxBindingContextStack<IMvxBindingContext>>();
-            stack.Current.BindingInflate(whichResourceId, this);
+            var bindingContext = MvxAndroidBindingContextHelpers.Current();
+            bindingContext.BindingInflate(whichResourceId, this);
             _listView = FindViewById<ListView>(global::Android.Resource.Id.List);
             _uiThreadHandler = new Handler();
             InitializePullToRefreshList();

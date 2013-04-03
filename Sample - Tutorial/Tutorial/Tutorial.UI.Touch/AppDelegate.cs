@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Touch.Platform;
 using Cirrious.MvvmCross.Touch.Views;
 using Cirrious.MvvmCross.Touch.Views.Presenters;
+using Cirrious.MvvmCross.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
@@ -39,7 +39,7 @@ namespace Tutorial.UI.Touch
             setup.Initialize();
 
             // start the app
-            var start = Mvx.Resolve<IMvxStartNavigation>();
+            var start = Mvx.Resolve<IMvxAppStart>();
             start.Start();
 
             window.MakeKeyAndVisible();

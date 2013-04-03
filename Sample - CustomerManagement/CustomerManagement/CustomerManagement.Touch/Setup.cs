@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.CrossCore.Plugins;
 using Cirrious.MvvmCross.Dialog.Touch;
 using Cirrious.MvvmCross.Touch.Platform;
-using Cirrious.MvvmCross.Touch.Interfaces;
-using Cirrious.MvvmCross.Application;
 using Cirrious.MvvmCross.Platform;
+using Cirrious.MvvmCross.ViewModels;
 using CustomerManagement.Core;
 using CustomerManagement.Core.Interfaces;
 using CustomerManagement.Core.ViewModels;
@@ -27,7 +26,7 @@ namespace CustomerManagement.Touch
             _presenter = presenter;
         }
 
-        protected override MvxApplication CreateApp()
+        protected override IMvxApplication CreateApp()
         {
             var app = new App();
             return app;
@@ -48,7 +47,8 @@ namespace CustomerManagement.Touch
 			base.InitializeLastChance ();
 
             Mvx.RegisterSingleton<IViewModelCloser>(_presenter);
-			Cirrious.MvvmCross.Plugins.DownloadCache.PluginLoader.Instance.EnsureLoaded();
+            Cirrious.MvvmCross.Plugins.File.PluginLoader.Instance.EnsureLoaded();
+            Cirrious.MvvmCross.Plugins.DownloadCache.PluginLoader.Instance.EnsureLoaded();
 		}
     }
 }

@@ -8,19 +8,16 @@
 using System;
 using System.Windows;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.ViewModels;
-using Cirrious.MvvmCross.Wpf.Interfaces;
 
 namespace Cirrious.MvvmCross.Wpf.Views
 {
     public abstract class MvxWpfViewPresenter
         : IMvxWpfViewPresenter
-
     {
-        public void Show(MvxShowViewModelRequest request)
+        public void Show(MvxViewModelRequest request)
         {
             try
             {
@@ -30,16 +27,16 @@ namespace Cirrious.MvvmCross.Wpf.Views
             }
             catch (Exception exception)
             {
-                MvxTrace.Trace("Error seen during navigation request to {0} - error {1}", request.ViewModelType.Name,
+                MvxTrace.Error("Error seen during navigation request to {0} - error {1}", request.ViewModelType.Name,
                                exception.ToLongString());
             }
         }
 
         public abstract void Present(FrameworkElement frameworkElement);
 
-        public void Close(IMvxViewModel viewModel)
+        public virtual void ChangePresentation(MvxPresentationHint hint)
         {
-            throw new NotImplementedException("Need to consider what to do here");
+            MvxTrace.Warning("Hint ignored {0}", hint.GetType().Name);
         }
     }
 }

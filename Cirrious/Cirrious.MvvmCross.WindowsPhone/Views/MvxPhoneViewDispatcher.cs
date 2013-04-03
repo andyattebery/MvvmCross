@@ -5,20 +5,14 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-#region using
-
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Interfaces.Views;
 using Cirrious.MvvmCross.ViewModels;
-using Cirrious.MvvmCross.WindowsPhone.Interfaces;
+using Cirrious.MvvmCross.Views;
 using Microsoft.Phone.Controls;
-
-#endregion
 
 namespace Cirrious.MvvmCross.WindowsPhone.Views
 {
     public class MvxPhoneViewDispatcher
-        : MvxMainThreadDispatcher
+        : MvxPhoneMainThreadDispatcher
           , IMvxViewDispatcher
     {
         private readonly IMvxPhoneViewPresenter _presenter;
@@ -31,23 +25,14 @@ namespace Cirrious.MvvmCross.WindowsPhone.Views
             _rootFrame = rootFrame;
         }
 
-        #region IMvxViewDispatcher Members
-
-        public bool RequestNavigate(MvxShowViewModelRequest request)
+        public bool ShowViewModel(MvxViewModelRequest request)
         {
             return RequestMainThreadAction(() => _presenter.Show(request));
         }
 
-        public bool RequestClose(IMvxViewModel toClose)
+        public bool ChangePresentation(MvxPresentationHint hint)
         {
-            return RequestMainThreadAction(() => _presenter.Close(toClose));
+            return RequestMainThreadAction(() => _presenter.ChangePresentation(hint));
         }
-
-        public bool RequestRemoveBackStep()
-        {
-            return RequestMainThreadAction(() => _rootFrame.RemoveBackEntry());
-        }
-
-        #endregion
     }
 }

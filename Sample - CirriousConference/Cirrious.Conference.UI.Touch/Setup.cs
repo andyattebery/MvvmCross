@@ -2,15 +2,16 @@ using Cirrious.Conference.Core;
 using Cirrious.Conference.Core.Converters;
 using Cirrious.Conference.UI.Touch.Bindings;
 using Cirrious.CrossCore.Plugins;
-using Cirrious.MvvmCross.Application;
 using Cirrious.MvvmCross.Binding.Bindings.Target.Construction;
 using Cirrious.MvvmCross.Binding.Touch;
 using Cirrious.MvvmCross.Touch;
-using Cirrious.MvvmCross.Touch.Interfaces;
 using Cirrious.MvvmCross.Touch.Platform;
 using Cirrious.MvvmCross.Binding.Binders;
+using Cirrious.MvvmCross.Touch.Views.Presenters;
+using Cirrious.MvvmCross.ViewModels;
 using MonoTouch.UIKit;
 using Cirrious.MvvmCross.Platform;
+using Cirrious.MvvmCross.Localization;
 
 namespace Cirrious.Conference.UI.Touch
 {
@@ -22,9 +23,7 @@ namespace Cirrious.Conference.UI.Touch
         {
         }
 
-        #region Overrides of MvxBaseSetup
-
-        protected override MvxApplication CreateApp()
+        protected override IMvxApplication CreateApp()
         {
             var app = new NoSplashScreenConferenceApp();
             return app;
@@ -35,26 +34,30 @@ namespace Cirrious.Conference.UI.Touch
             // create an error displayer - it will sort its own event subscriptions out
             var errorDisplayer = new ErrorDisplayer();
 
-			Cirrious.MvvmCross.Plugins.DownloadCache.PluginLoader.Instance.EnsureLoaded();
+            Cirrious.MvvmCross.Plugins.File.PluginLoader.Instance.EnsureLoaded();
+            Cirrious.MvvmCross.Plugins.DownloadCache.PluginLoader.Instance.EnsureLoaded();
+            Cirrious.MvvmCross.Plugins.Network.PluginLoader.Instance.EnsureLoaded();
 
             base.InitializeLastChance();
         }
 
-        protected override void FillValueConverters(Cirrious.MvvmCross.Binding.Interfaces.Binders.IMvxValueConverterRegistry registry)
-        {
-            base.FillValueConverters(registry);
-
-            var filler = new MvxInstanceBasedValueConverterRegistryFiller(registry);
-            filler.AddFieldConverters(typeof(Converters));
-        }
-
-        protected override void FillTargetFactories(MvvmCross.Binding.Interfaces.Bindings.Target.Construction.IMvxTargetBindingFactoryRegistry registry)
+        protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
         {
             base.FillTargetFactories(registry);
 
             registry.RegisterFactory(new MvxCustomBindingFactory<UIButton>("IsFavorite", (button) => new FavoritesButtonBinding(button)));
             registry.RegisterFactory(new MvxCustomBindingFactory<SessionCell2>("IsFavorite", (cell) => new FavoritesSessionCellBinding(cell)));
         }
+
+		protected override System.Collections.Generic.List<System.Reflection.Assembly> ValueConverterAssemblies 
+		{
+			get 
+			{
+				var toReturn = base.ValueConverterAssemblies;
+				toReturn.Add(typeof(MvxLanguageConverter).Assembly);
+				return toReturn;
+			}
+		}
 
 		protected override void AddPluginsLoaders(MvxLoaderPluginRegistry registry)
 		{
@@ -66,11 +69,9 @@ namespace Cirrious.Conference.UI.Touch
 			registry.AddConventionalPlugin<Cirrious.MvvmCross.Plugins.ResourceLoader.Touch.Plugin>();
 			registry.AddConventionalPlugin<Cirrious.MvvmCross.Plugins.File.Touch.Plugin>();
 			registry.AddConventionalPlugin<Cirrious.MvvmCross.Plugins.DownloadCache.Touch.Plugin>();
+			registry.AddConventionalPlugin<Cirrious.MvvmCross.Plugins.Network.Touch.Plugin>();
 			base.AddPluginsLoaders(registry);
 		}
-
-        #endregion
     }
-
 }
 

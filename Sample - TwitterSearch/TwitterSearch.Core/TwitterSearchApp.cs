@@ -1,14 +1,11 @@
-﻿using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.MvvmCross.Application;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using TwitterSearch.Core.Interfaces;
-using TwitterSearch.Core.Models;
+﻿using Cirrious.CrossCore.IoC;
+using Cirrious.MvvmCross.ViewModels;
+using TwitterSearch.Core.ViewModels;
 
 namespace TwitterSearch.Core
 {
     public class TwitterSearchApp
-        : MvxApplication
-        
+        : MvxApplication        
     {
         public TwitterSearchApp()
         {
@@ -19,13 +16,15 @@ namespace TwitterSearch.Core
 
         private void InitaliseServices()
         {
-            Mvx.RegisterSingleton<ITwitterSearchProvider>(new TwitterSearchProvider());
+            CreatableTypes()
+                .EndingWith("SearchProvider")
+                .AsInterfaces()
+                .RegisterAsSingleton();
         }
 
         private void InitialiseStartNavigation()
         {
-            var startApplicationObject = new StartNavigation();
-            Mvx.RegisterSingleton<IMvxStartNavigation>(startApplicationObject);
+            RegisterAppStart<HomeViewModel>();
         }
 
         private void InitialisePlugIns()

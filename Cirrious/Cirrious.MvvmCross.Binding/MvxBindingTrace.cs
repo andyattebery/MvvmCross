@@ -5,8 +5,7 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
+using Cirrious.CrossCore.Platform;
 
 namespace Cirrious.MvvmCross.Binding
 {
@@ -22,6 +21,21 @@ namespace Cirrious.MvvmCross.Binding
                 return;
 
             MvxTrace.TaggedTrace(level, Tag, message, args);
+        }
+
+        public static void Trace(string message, params object[] args)
+        {
+            Trace(MvxTraceLevel.Diagnostic, Tag, message, args);
+        }
+
+        public static void Warning(string message, params object[] args)
+        {
+            Trace(MvxTraceLevel.Warning, Tag, message, args);
+        }
+
+        public static void Error(string message, params object[] args)
+        {
+            Trace(MvxTraceLevel.Error, Tag, message, args);
         }
     }
 }

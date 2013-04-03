@@ -5,10 +5,11 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
+using Cirrious.CrossCore.Touch.Platform;
+using MonoTouch.Foundation;
+
 #region using
 
-using Cirrious.MvvmCross.Touch.Platform.Tasks;
-using MonoTouch.Foundation;
 
 #endregion
 
@@ -16,14 +17,10 @@ namespace Cirrious.MvvmCross.Plugins.WebBrowser.Touch
 {
     public class MvxWebBrowserTask : MvxTouchTask, IMvxWebBrowserTask
     {
-        #region IMvxWebBrowserTask Members
-
         public void ShowWebPage(string url)
         {
             var nsurl = new NSUrl(url);
             DoUrlOpen(nsurl);
         }
-
-        #endregion
     }
 }

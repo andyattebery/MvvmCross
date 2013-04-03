@@ -72,7 +72,6 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <None Include="Entitlements.plist" />
-    <None Include="icon.png" />
     <None Include="Info.plist" />
     <None Include="app.config" />
   </ItemGroup>
@@ -141,8 +140,15 @@
       <Project>{4122B007-1BA3-43AC-B123-54C2595A5D24}</Project>
       <Name>BestSellers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Cirrious\Json\Cirrious.MvvmCross.Plugins.Json\Cirrious.MvvmCross.Plugins.Json.csproj">
+      <Project>{D518E8E6-3CE6-4706-A286-E8BC6A2F64DC}</Project>
+      <Name>Cirrious.MvvmCross.Plugins.Json</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Views\BookView.xib" />
+    <InterfaceDefinition Include="Views\BookView.xib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.png" />
   </ItemGroup>
 </Project>

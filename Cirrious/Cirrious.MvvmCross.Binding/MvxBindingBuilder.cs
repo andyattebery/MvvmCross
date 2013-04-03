@@ -5,16 +5,14 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
+using System;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Binders;
+using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Binding.Bindings.Source.Construction;
 using Cirrious.MvvmCross.Binding.Bindings.Target.Construction;
-using Cirrious.MvvmCross.Binding.Interfaces;
-using Cirrious.MvvmCross.Binding.Interfaces.Binders;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Source.Construction;
-using Cirrious.MvvmCross.Binding.Interfaces.Bindings.Target.Construction;
-using Cirrious.MvvmCross.Binding.Interfaces.Parse;
+using Cirrious.MvvmCross.Binding.ExpressionParse;
 using Cirrious.MvvmCross.Binding.Parse.Binding;
 using Cirrious.MvvmCross.Binding.Parse.Binding.Lang;
 using Cirrious.MvvmCross.Binding.Parse.Binding.Swiss;
@@ -26,15 +24,52 @@ namespace Cirrious.MvvmCross.Binding
     {
         public virtual void DoRegistration()
         {
+            CreateSingleton();
             RegisterCore();
             RegisterSourceFactory();
             RegisterTargetFactory();
+            RegisterValueConverterRegistryFiller();
             RegisterValueConverterProvider();
             RegisterBindingParser();
             RegisterLanguageBindingParser();
             RegisterBindingDescriptionParser();
+            RegisterExpressionParser();
             RegisterPlatformSpecificComponents();
             RegisterSourceBindingTokeniser();
+            RegisterBindingNameRegistry();
+        }
+
+        protected virtual void RegisterValueConverterRegistryFiller()
+        {
+            Mvx.RegisterSingleton(CreateValueConverterRegistryFiller());
+        }
+
+        protected virtual IMvxValueConverterRegistryFiller CreateValueConverterRegistryFiller()
+        {
+            return new MvxValueConverterRegistryFiller();
+        }
+
+        protected virtual void CreateSingleton()
+        {
+            MvxBindingSingletonCache.Initialise();
+        }
+
+        protected virtual void RegisterBindingNameRegistry()
+        {
+            var registry = new MvxBindingNameRegistry();
+            Mvx.RegisterSingleton<IMvxBindingNameLookup>(registry);
+            Mvx.RegisterSingleton<IMvxBindingNameRegistry>(registry);
+            FillDefaultBindingNames(registry);
+        }
+
+        protected virtual void FillDefaultBindingNames(IMvxBindingNameRegistry registry)
+        {
+            // base class has nothing to register
+        }
+
+        protected virtual void RegisterExpressionParser()
+        {
+            Mvx.RegisterSingleton<IMvxPropertyExpressionParser>(new MvxPropertyExpressionParser());
         }
 
         protected virtual void RegisterCore()
@@ -57,6 +92,12 @@ namespace Cirrious.MvvmCross.Binding
             FillTargetFactories(targetRegistry);
         }
 
+        protected virtual void RegisterPropertyInfoBindingFactory(IMvxTargetBindingFactoryRegistry registry,
+                                                                  Type bindingType, Type targetType, string targetName)
+        {
+            registry.RegisterFactory(new MvxSimplePropertyInfoTargetBindingFactory(bindingType, targetType, targetName));
+        }
+
         protected virtual void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
         {
             // base class has nothing to register
@@ -66,13 +107,13 @@ namespace Cirrious.MvvmCross.Binding
         {
             var registry = new MvxValueConverterRegistry();
             Mvx.RegisterSingleton<IMvxValueConverterRegistry>(registry);
-            Mvx.RegisterSingleton<IMvxValueConverterProvider>(registry);
+            Mvx.RegisterSingleton<IMvxValueConverterLookup>(registry);
             FillValueConverters(registry);
         }
 
         protected virtual void FillValueConverters(IMvxValueConverterRegistry registry)
         {
-            // nothing to do here            
+            // nothing to do here
         }
 
         protected virtual void RegisterBindingParser()
@@ -84,7 +125,7 @@ namespace Cirrious.MvvmCross.Binding
                 return;
             }
             MvxBindingTrace.Trace(MvxTraceLevel.Diagnostic, "Registering Swiss Binding Parser");
-            Mvx.RegisterSingleton<IMvxBindingParser>(CreateBindingParser());
+            Mvx.RegisterSingleton(CreateBindingParser());
         }
 
         protected virtual IMvxBindingParser CreateBindingParser()
@@ -101,7 +142,7 @@ namespace Cirrious.MvvmCross.Binding
                 return;
             }
             MvxBindingTrace.Trace(MvxTraceLevel.Diagnostic, "Registering Language Binding Parser");
-            Mvx.RegisterSingleton<IMvxLanguageBindingParser>(CreateLanguageBindingParser());
+            Mvx.RegisterSingleton(CreateLanguageBindingParser());
         }
 
         protected virtual IMvxLanguageBindingParser CreateLanguageBindingParser()

@@ -3,9 +3,8 @@ using System.Threading;
 using System.Windows.Input;
 using Cirrious.Conference.Core.Interfaces;
 using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Localization;
-using Cirrious.MvvmCross.Localization.Interfaces;
 using Cirrious.MvvmCross.Plugins.Email;
 using Cirrious.MvvmCross.Plugins.PhoneCall;
 using Cirrious.MvvmCross.Plugins.Share;
@@ -26,13 +25,13 @@ namespace Cirrious.Conference.Core.ViewModels
 		}
 
 		protected MvxSubscriptionToken Subscribe<TMessage> (Action<TMessage> action)
-			where TMessage : MvxBaseMessage
+			where TMessage : MvxMessage
 		{
-			return MvxMessenger.Subscribe<TMessage>(action, false /* weak reference */);
+		    return MvxMessenger.Subscribe<TMessage>(action, MvxReference.Weak);
 		}
 
 		protected void Unsubscribe<TMessage> (MvxSubscriptionToken id)
-			where TMessage : MvxBaseMessage
+			where TMessage : MvxMessage
 		{
 			MvxMessenger.Unsubscribe<TMessage>(id);
 		}
@@ -72,7 +71,7 @@ namespace Cirrious.Conference.Core.ViewModels
 	
 		public ICommand ShareGeneralCommand
 		{
-			get { return new MvxRelayCommand(DoShareGeneral); }
+			get { return new MvxCommand(DoShareGeneral); }
 		}
 		
 		public void DoShareGeneral()

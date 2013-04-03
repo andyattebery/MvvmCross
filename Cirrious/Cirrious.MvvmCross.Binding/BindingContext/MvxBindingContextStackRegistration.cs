@@ -6,10 +6,8 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
-using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Binding.Interfaces.BindingContext;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
 
 namespace Cirrious.MvvmCross.Binding.BindingContext
 {
@@ -28,7 +26,7 @@ namespace Cirrious.MvvmCross.Binding.BindingContext
 
         ~MvxBindingContextStackRegistration()
         {
-            MvxTrace.Trace(MvxTraceLevel.Error, "You should always Dispose of MvxBindingContextStackRegistration");
+            MvxTrace.Error("You should always Dispose of MvxBindingContextStackRegistration");
             Dispose(false);
         }
 

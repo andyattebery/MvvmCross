@@ -7,14 +7,13 @@
 
 using System;
 using System.Reflection;
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Attributes;
 using Cirrious.MvvmCross.Binding.ExtensionMethods;
-using Cirrious.MvvmCross.Binding.Interfaces;
 
 namespace Cirrious.MvvmCross.Binding.Bindings.Target
 {
-    public class MvxPropertyInfoTargetBinding : MvxBaseTargetBinding
+    public class MvxPropertyInfoTargetBinding : MvxTargetBinding
     {
         private readonly PropertyInfo _targetPropertyInfo;
 
@@ -69,11 +68,6 @@ namespace Cirrious.MvvmCross.Binding.Bindings.Target
 
         public override sealed void SetValue(object value)
         {
-            // to prevent feedback loops, we don't pass on 'same value' updates from the source while we are updating it
-            if (_isUpdatingSource
-                && value == _updatingSourceWith)
-                return;
-
             MvxBindingTrace.Trace(MvxTraceLevel.Diagnostic, "Receiving setValue to " + (value ?? ""));
             var target = Target;
             if (target == null)
@@ -82,16 +76,28 @@ namespace Cirrious.MvvmCross.Binding.Bindings.Target
                 return;
             }
 
+            var safeValue = MakeSafeValue(value);
+
+            // to prevent feedback loops, we don't pass on 'same value' updates from the source while we are updating it
+            if (_isUpdatingSource
+                && safeValue.Equals(_updatingSourceWith))
+                return;
+
             try
             {
                 _isUpdatingTarget = true;
-                var safeValue = _targetPropertyInfo.PropertyType.MakeSafeValue(value);
                 _targetPropertyInfo.SetValue(target, safeValue, null);
             }
             finally
             {
                 _isUpdatingTarget = false;
             }
+        }
+
+        protected virtual object MakeSafeValue(object value)
+        {
+            var safeValue = _targetPropertyInfo.PropertyType.MakeSafeValue(value);
+            return safeValue;
         }
 
         protected override sealed void FireValueChanged(object newValue)

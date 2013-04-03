@@ -8,20 +8,17 @@
 using System;
 using System.Linq;
 using System.Windows.Navigation;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Interfaces.Views;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
-using Cirrious.MvvmCross.WindowsPhone.Interfaces;
 using Microsoft.Phone.Controls;
 
 namespace Cirrious.MvvmCross.WindowsPhone.Views
 {
     public abstract class MvxPhonePage
         : PhoneApplicationPage
-          , IMvxWindowsPhoneView
+          , IMvxPhoneView
     {
-        #region IMvxWindowsPhoneView Members
+        #region IMvxPhoneView Members
 
         public IMvxViewModel ViewModel
         {
@@ -73,6 +70,7 @@ namespace Cirrious.MvvmCross.WindowsPhone.Views
         }
     }
 
+    [Obsolete("Switch to the non-generic style")]
     public class MvxPhonePage<TViewModel> 
         : MvxPhonePage
         where TViewModel : class, IMvxViewModel

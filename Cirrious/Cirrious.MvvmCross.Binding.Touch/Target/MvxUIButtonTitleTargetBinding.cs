@@ -5,14 +5,13 @@
 // 
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
-using Cirrious.CrossCore.Interfaces.Platform.Diagnostics;
+using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Bindings.Target;
-using Cirrious.MvvmCross.Binding.Interfaces;
 using MonoTouch.UIKit;
 
 namespace Cirrious.MvvmCross.Binding.Touch.Target
 {
-    public class MvxUIButtonTitleTargetBinding : MvxBaseTargetBinding
+    public class MvxUIButtonTitleTargetBinding : MvxTargetBinding
     {
         protected UIButton Button
         {

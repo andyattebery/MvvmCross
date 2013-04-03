@@ -1,6 +1,6 @@
-﻿using Cirrious.CrossCore.Platform.Diagnostics;
-using Cirrious.MvvmCross.Interfaces.ViewModels;
-using Cirrious.MvvmCross.Interfaces.Views;
+﻿using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.ViewModels;
+using Cirrious.MvvmCross.Views;
 using CustomerManagement.Core.Interfaces;
 using Microsoft.Phone.Controls;
 

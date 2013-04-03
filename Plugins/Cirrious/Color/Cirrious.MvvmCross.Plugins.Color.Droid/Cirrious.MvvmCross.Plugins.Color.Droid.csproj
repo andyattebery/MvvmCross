@@ -18,7 +18,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\..\..\bin\Droid\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\bin\Debug\Mvx\Droid\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\..\..\bin\Droid\Release\</OutputPath>
+    <OutputPath>..\..\..\..\bin\Release\Mvx\Droid\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="BindingTargets\MvxDefaultColorBindingSet.cs" />
     <Compile Include="MvxAndroidColor.cs" />
-    <Compile Include="BindingTargets\MvxBaseViewColorBinding.cs" />
+    <Compile Include="BindingTargets\MvxViewColorBinding.cs" />
     <Compile Include="MvxColorExtensions.cs" />
     <Compile Include="BindingTargets\MvxTextViewTextColorBinding.cs" />
     <Compile Include="BindingTargets\MvxViewBackgroundColorBinding.cs" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
-using Cirrious.CrossCore.Interfaces.IoC;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.AutoView;
 using Cirrious.MvvmCross.AutoView.Auto.Dialog;
 using Cirrious.MvvmCross.AutoView.Auto.Menu;
@@ -107,13 +107,13 @@ namespace CustomerManagement.AutoViews.Core.ViewModels
         {
             get
             {
-                return new MvxRelayCommand(DoEdit);
+                return new MvxCommand(DoEdit);
             }
         }
 
         public void DoEdit()
         {
-            RequestNavigate<EditCustomerViewModel>(new Dictionary<string, string>()
+            ShowViewModel<EditCustomerViewModel>(new Dictionary<string, string>()
                                                        {
                                                            {"customerId", Customer.ID}
                                                        });
@@ -123,7 +123,7 @@ namespace CustomerManagement.AutoViews.Core.ViewModels
         {
             get
             {
-                return new MvxRelayCommand(DoDelete);
+                return new MvxCommand(DoDelete);
             }
         }
 
@@ -144,7 +144,7 @@ namespace CustomerManagement.AutoViews.Core.ViewModels
         {
             get
             {
-                return new MvxRelayCommand(() =>
+                return new MvxCommand(() =>
                                                {
                                                    Cirrious.MvvmCross.Plugins.WebBrowser.PluginLoader.Instance.EnsureLoaded();
                                                    Mvx.Resolve<IMvxWebBrowserTask>().ShowWebPage(Customer.Website);
@@ -156,7 +156,7 @@ namespace CustomerManagement.AutoViews.Core.ViewModels
         {
             get
             {
-                return new MvxRelayCommand(() =>
+                return new MvxCommand(() =>
                                                {
                                                    Cirrious.MvvmCross.Plugins.PhoneCall.PluginLoader.Instance.EnsureLoaded();
                                                    Mvx.Resolve<IMvxPhoneCallTask>().MakePhoneCall(Customer.Name, Customer.PrimaryPhone);
@@ -168,7 +168,7 @@ namespace CustomerManagement.AutoViews.Core.ViewModels
         {
             get
             {
-                return new MvxRelayCommand(() =>
+                return new MvxCommand(() =>
                                                {
                                                    Cirrious.MvvmCross.Plugins.WebBrowser.PluginLoader.Instance.EnsureLoaded();
                                                    string googleAddress = string.Format("{0} {1}\n{2}, {3}  {4}",

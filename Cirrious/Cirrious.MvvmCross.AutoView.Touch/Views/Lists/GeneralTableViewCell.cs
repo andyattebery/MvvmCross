@@ -7,19 +7,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows.Input;
-using Cirrious.CrossCore.Interfaces.Core;
-using Cirrious.CrossCore.Interfaces.IoC;
-using Cirrious.CrossCore.Interfaces.Platform;
-using Cirrious.MvvmCross.Binding.Interfaces;
+using Cirrious.CrossCore.Core;
+using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Platform;
+using Cirrious.MvvmCross.Binding.Binders;
 using Cirrious.MvvmCross.Binding.Touch.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using System.Windows.Input;
 
 namespace Cirrious.MvvmCross.AutoView.Touch.Views.Lists
 {
     public class GeneralTableViewCell
-        : MvxBaseTableViewCell
+        : MvxTableViewCell
     {
         private IMvxImageHelper<UIImage> _imageHelper;
 

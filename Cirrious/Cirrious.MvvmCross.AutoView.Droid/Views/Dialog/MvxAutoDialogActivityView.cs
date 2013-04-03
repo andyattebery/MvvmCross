@@ -11,17 +11,18 @@ using Cirrious.MvvmCross.AutoView.Droid.ExtensionMethods;
 using Cirrious.MvvmCross.AutoView.Droid.Interfaces;
 using Cirrious.MvvmCross.AutoView.ExtensionMethods;
 using Cirrious.MvvmCross.Binding.BindingContext;
-using Cirrious.MvvmCross.Binding.Droid.Interfaces.BindingContext;
+using Cirrious.MvvmCross.Binding.Droid.BindingContext;
 using Cirrious.MvvmCross.Dialog.Droid.Views;
 using Cirrious.MvvmCross.ViewModels;
-using Cirrious.MvvmCross.Views.Attributes;
+using Cirrious.MvvmCross.Views;
 using CrossUI.Core.Elements.Menu;
 using CrossUI.Droid.Dialog.Elements;
+using Cirrious.CrossCore.IoC;
 
 namespace Cirrious.MvvmCross.AutoView.Droid.Views.Dialog
 {
     [Activity]
-    [MvxUnconventionalView]
+    [MvxUnconventional]
     public class MvxAutoDialogActivityView
         : MvxDialogActivityView
           , IMvxAndroidAutoView
@@ -37,7 +38,9 @@ namespace Cirrious.MvvmCross.AutoView.Droid.Views.Dialog
         protected override void OnViewModelSet()
         {
             base.OnViewModelSet();
-            using (new MvxBindingContextStackRegistration<IMvxBindingContext>((IMvxBindingContext) BindingContext))
+            using (
+                new MvxBindingContextStackRegistration<IMvxAndroidBindingContext>((IMvxAndroidBindingContext) BindingContext)
+                )
             {
                 Root = this.LoadDialogRoot<Element, RootElement>();
                 _parentMenu = this.LoadMenu();
